@@ -1,6 +1,6 @@
 {
   "name": "@iveri/contracts",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Wire contracts shared by every Iveri backend and frontend. Zero runtime dependencies.",
   "license": "MIT",
   "repository": {
@@ -42,9 +42,9 @@
   },
   "prettier": "@iveri/prettier-config",
   "devDependencies": {
-    "@iveri/eslint-config": "^0.0.1",
-    "@iveri/prettier-config": "^0.0.1",
-    "@iveri/tsconfig": "^0.0.1",
+    "@iveri/eslint-config": "^0.1.0",
+    "@iveri/prettier-config": "^0.1.0",
+    "@iveri/tsconfig": "^0.1.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
     "eslint": "^9.18.0",
