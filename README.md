@@ -44,6 +44,17 @@ Anything needing a dependency belongs in `@iveri/nest-sdk` (backend) or `@iveri/
 `ErrorCode` — the stable, machine-readable error classification carried in every error
 response. Clients branch on `code`; `message` is for humans and may change at any time.
 
+`UserPermission` + `ALL_USER_PERMISSIONS` — **one catalogue of permissions for the whole
+platform**, not one per service. `iveri-identity-api` stores members on role rows, resolves
+them into access tokens and validates custom-role input against `ALL_USER_PERMISSIONS`; every
+other service reads them back out of the token to authorize a request; the frontend's
+`<RequirePermission>` branches on the same values. A service defining its own enum locally
+would find its permissions unassignable, because identity would reject them as unknown.
+
+Values are `<resource>:<action>`, or `<service>:<resource>:<action>` where a resource name
+would otherwise collide — identity's members are unprefixed because they predate the shared
+catalogue and are already embedded in issued tokens and stored role rows.
+
 ## What is deliberately **not** here yet
 
 `event/` (domain event envelope, topics) and `api/` (per-service request/response shapes) are
@@ -52,8 +63,9 @@ needs them, per the second-consumer rule — not in anticipation.
 
 ## Adding to the contract
 
-- A new `ErrorCode` member is a **minor** version. Changing what an existing member means, or
-  removing one, is **major** — clients branch on these.
+- A new `ErrorCode` or `UserPermission` member is a **minor** version. Changing what an
+  existing member means, or removing one, is **major** — clients branch on these, and a
+  removed permission silently downgrades every live session whose token still carries it.
 - Widening a type is minor; narrowing it is major.
 - Breaking changes get a migration note in `CHANGELOG.md`. Services upgrade deliberately.
 
