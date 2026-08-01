@@ -1,6 +1,6 @@
 {
   "name": "@iveri/contracts",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Wire contracts shared by every Iveri backend and frontend. Zero runtime dependencies.",
   "license": "MIT",
   "repository": {
@@ -24,7 +24,27 @@
       "import": "./dist/esm/index.js",
       "require": "./dist/cjs/index.js"
     },
+    "./conduit": {
+      "types": "./dist/cjs/api/conduit/index.d.ts",
+      "import": "./dist/esm/api/conduit/index.js",
+      "require": "./dist/cjs/api/conduit/index.js"
+    },
+    "./identity": {
+      "types": "./dist/cjs/api/identity/index.d.ts",
+      "import": "./dist/esm/api/identity/index.js",
+      "require": "./dist/cjs/api/identity/index.js"
+    },
     "./package.json": "./package.json"
+  },
+  "typesVersions": {
+    "*": {
+      "conduit": [
+        "./dist/cjs/api/conduit/index.d.ts"
+      ],
+      "identity": [
+        "./dist/cjs/api/identity/index.d.ts"
+      ]
+    }
   },
   "sideEffects": false,
   "files": [
@@ -33,7 +53,7 @@
   ],
   "scripts": {
     "clean": "rimraf dist tsconfig.*.tsbuildinfo",
-    "build": "pnpm clean && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && node ./scripts/write-dist-package-json.mjs && node ./scripts/verify-zero-runtime-deps.mjs",
+    "build": "pnpm clean && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && node ./scripts/write-dist-package-json.mjs && node ./scripts/verify-zero-runtime-deps.mjs && node ./scripts/verify-entry-points.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "jest",
     "lint": "eslint .",

@@ -3,20 +3,6 @@ import type { ErrorCode } from '../enum/error-code.enum.js';
 import type { Maybe } from './nil.type.js';
 
 /**
- * Envelope for a successful HTTP response.
- *
- * Every service wraps its payload in this shape, so a client can branch on
- * `success` before touching anything else and never has to guess whether a
- * 200 body is data or an error report.
- *
- * @typeParam T - the response payload type.
- */
-export interface ApiSuccessResponse<T> {
-    success: true;
-    data: T;
-}
-
-/**
  * The error half of {@link ApiErrorResponse}.
  *
  * `message` is for humans and may change at any time — clients branch on
@@ -43,8 +29,30 @@ export interface ApiErrorBody {
 }
 
 /**
- * Envelope for a failed HTTP response, emitted by the SDK's global exception
- * filter for every non-2xx status.
+ * Envelope for a failed response, emitted by the SDK's `GlobalExceptionFilter` for every
+ * non-2xx status.
+ *
+ * **Only errors are enveloped.** A success is the bare payload — a tenant response *is* a
+ * tenant, not a `{ success, data }` wrapper around one. So `success: false` discriminates a
+ * shape the client receives *instead of* its payload, never alongside it:
+ *
+ * ```ts
+ * const body: unknown = await response.json();
+ *
+ * if (!response.ok) {
+ *     throw new ApiError(body as ApiErrorResponse);
+ * }
+ *
+ * return body as Tenant;
+ * ```
+ *
+ * This file also declared `ApiSuccessResponse<T>` and a union over the two until 0.3.0.
+ * Nothing ever sent it: both `iveri-identity-api` and `conduit-api` register the exception
+ * filter and no success interceptor. A type describing a response no service produces is worse
+ * than no type at all — reading it, the natural thing to write is `body.data`, which is
+ * `undefined` for every call in the application. It was removed rather than made true, because
+ * bare payloads were already shipped across two services and a frontend and the envelope added
+ * nothing to the HTTP status a client must check regardless.
  */
 export interface ApiErrorResponse {
     success: false;
@@ -56,17 +64,3 @@ export interface ApiErrorResponse {
     /** Request path that produced the error, without the query string. */
     path: string;
 }
-
-/**
- * Discriminated union of both envelopes. Narrow on `success`:
- *
- * ```ts
- * if (!response.success) {
- *     return handle(response.error.code);
- * }
- * use(response.data);
- * ```
- *
- * @typeParam T - the payload type on the success branch.
- */
-export type ApiResponse<T> = ApiSuccessResponse<T> | ApiErrorResponse;

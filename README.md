@@ -8,10 +8,20 @@ pnpm add @iveri/contracts
 ```
 
 ```ts
-import { ApiResponse, CursorPage, ErrorCode, Maybe, Paginated, UUID } from '@iveri/contracts';
+// Cross-service primitives.
+import { CursorPage, ErrorCode, Maybe, Paginated, UUID, UserPermission } from '@iveri/contracts';
+
+// One service's wire surface.
+import type { CaptureSummary, Endpoint } from '@iveri/contracts/conduit';
+import type { AuthSession, Principal } from '@iveri/contracts/identity';
 ```
 
-Import from the root barrel only — never `@iveri/contracts/dist/...`.
+Three entry points, and no others — never `@iveri/contracts/dist/...`.
+
+The per-service surfaces are **not** re-exported from the root, deliberately. Conduit owns a
+`Provider` and an `Endpoint`; Unibox will want both names for entirely different things. Keeping
+each service behind its own entry point means that collision never has to be resolved by
+renaming a type in a shipped API.
 
 ## Zero runtime dependencies — the rule that defines this package
 
@@ -31,13 +41,14 @@ Anything needing a dependency belongs in `@iveri/nest-sdk` (backend) or `@iveri/
 
 ### `type/`
 
-| Type                                                                          | Use                                                                                           |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| `Nil`, `Maybe<T>`, `Nullable<T>`                                              | absent values. `Nullable` for anything crossing the wire — `JSON.stringify` drops `undefined` |
-| `UUID`                                                                        | template-literal shape hint; validation stays at the edge with `@IsUUID()`                    |
-| `Paginated<T>`                                                                | offset paging, where the client needs a total or arbitrary page jumps                         |
-| `CursorPage<T>`                                                               | cursor paging — the default for lists that grow while being read                              |
-| `ApiSuccessResponse<T>`, `ApiErrorResponse`, `ApiErrorBody`, `ApiResponse<T>` | the response envelope                                                                         |
+| Type                               | Use                                                                                           |
+| ---------------------------------- | --------------------------------------------------------------------------------------------- |
+| `Nil`, `Maybe<T>`, `Nullable<T>`   | absent values. `Nullable` for anything crossing the wire — `JSON.stringify` drops `undefined` |
+| `UUID`                             | template-literal shape hint; validation stays at the edge with `@IsUUID()`                    |
+| `Paginated<T>`                     | offset paging, where the client needs a total or arbitrary page jumps                         |
+| `CursorPage<T>`                    | cursor paging — the default for lists that grow while being read                              |
+| `IsoDateTime`                      | a timestamp as it appears on the wire. JSON has no date type — this is a `string`             |
+| `ApiErrorResponse`, `ApiErrorBody` | the error envelope. **Only errors are enveloped**; a success is the bare payload              |
 
 ### `enum/`
 
@@ -55,11 +66,38 @@ Values are `<resource>:<action>`, or `<service>:<resource>:<action>` where a res
 would otherwise collide — identity's members are unprefixed because they predate the shared
 catalogue and are already embedded in issued tokens and stored role rows.
 
+### `api/identity/` → `@iveri/contracts/identity`
+
+`iveri-identity-api`'s authentication surface: `SignupBody`, `LoginBody`, `RefreshTokenBody`,
+`AcceptInvitationBody`, `AuthTokens`, `Principal`, `AuthSession`, plus `TenantStatus` and
+`MembershipStatus`.
+
+Auth only. Identity also exposes tenant, user, membership, role and API-key routes; those have
+one consumer each and stay in the service until a second one appears.
+
+### `api/conduit/` → `@iveri/contracts/conduit`
+
+`conduit-api`'s full admin surface: `Endpoint`, `CaptureSummary`/`CaptureDetail`, `Provider`
+with its `SignatureManifest`/`HandshakeManifest`, `Replay`, `SignatureDiagnostic`, the request
+bodies for each, and the five enums they are built from — `SignatureVerdict`,
+`SignatureAlgorithm`, `SignatureEncoding`, `SignatureHeaderScheme`, `HandshakeKind`.
+
+### Why the wire shapes moved here
+
+`conduit-admin-web` hand-transcribed all of it, carefully and with comments. It still drifted:
+`TenantStatus` was written `'active' | 'suspended' | 'cancelled'` where identity sends
+`'ACTIVE' | 'SUSPENDED' | 'PENDING_DELETION'` — wrong casing, and a member that has never
+existed — and `bodySha256` was missing from two shapes. Nothing caught any of it, because a
+hand-written mirror is checked by nobody.
+
+Both sides now compile against these types: each service's response DTO `implements` the
+interface it fulfils, so a field renamed in `conduit-api` fails `tsc` in `conduit-api` rather
+than surfacing as `undefined` in a panel weeks later.
+
 ## What is deliberately **not** here yet
 
-`event/` (domain event envelope, topics) and `api/` (per-service request/response shapes) are
-in the plan but unwritten: no service defines them yet. They get added when a real consumer
-needs them, per the second-consumer rule — not in anticipation.
+`event/` — the domain event envelope and topic map. No service publishes one yet; it lands with
+Conduit's outbox.
 
 ## Adding to the contract
 
@@ -67,9 +105,17 @@ needs them, per the second-consumer rule — not in anticipation.
   existing member means, or removing one, is **major** — clients branch on these, and a
   removed permission silently downgrades every live session whose token still carries it.
 - Widening a type is minor; narrowing it is major.
+- Under `api/`, the contract follows the service: add the field to the service's DTO and to the
+  interface in the same release, and let `implements` prove they agree.
 - Breaking changes get a migration note in `CHANGELOG.md`. Services upgrade deliberately.
 
 ## Build output
 
 Dual ESM + CJS (`dist/esm`, `dist/cjs`) behind an `exports` map, so NestJS `require`s it and
 Vite tree-shakes it. `sideEffects: false`.
+
+The subpath entry points also need a `typesVersions` block, because **TypeScript only reads
+`exports` under `moduleResolution` `node16`/`nodenext`/`bundler`** and every Nest service in the
+fleet compiles with `"node"`. Without it `@iveri/contracts/conduit` resolves at runtime and is
+untyped at compile time — in one repo but not another, which is a confusing thing to debug.
+`scripts/verify-entry-points.mjs` runs in `build` and fails if either half is missing.
