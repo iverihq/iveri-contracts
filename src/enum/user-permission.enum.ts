@@ -82,6 +82,41 @@ export enum UserPermission {
     CONDUIT_PROVIDER_READ = 'conduit:provider:read',
     /** Define or amend a custom provider manifest — signature scheme, headers, handshake. */
     CONDUIT_PROVIDER_MANAGE = 'conduit:provider:manage',
+
+    // ── Destination (gateway mode) ──────────────────────────────────────────
+    /** Read destinations. Never exposes their stored header values. */
+    CONDUIT_DESTINATION_READ = 'conduit:destination:read',
+    /**
+     * Create, amend or delete a destination — **a URL Conduit will then post to on its own**,
+     * repeatedly, from inside our network, carrying whatever a provider sent.
+     *
+     * Deliberately a single manage permission rather than create/update/delete: the dangerous
+     * act is naming the URL at all, and splitting it would imply the three carry different
+     * risk. They do not.
+     */
+    CONDUIT_DESTINATION_MANAGE = 'conduit:destination:manage',
+
+    // ── Route (gateway mode) ────────────────────────────────────────────────
+    CONDUIT_ROUTE_READ = 'conduit:route:read',
+    /** Define which captures fan out to which destinations. */
+    CONDUIT_ROUTE_MANAGE = 'conduit:route:manage',
+
+    // ── Delivery (gateway mode) ─────────────────────────────────────────────
+    /**
+     * Read the delivery log and the dead-letter queue, including each attempt's response.
+     *
+     * Grouped with reading rather than with operating the queue: a delivery record holds a
+     * target's response body, which can echo back the payload that was sent.
+     */
+    CONDUIT_DELIVERY_READ = 'conduit:delivery:read',
+    /**
+     * Redrive a dead-lettered delivery, or cancel one still pending.
+     *
+     * Separate from `CONDUIT_DELIVERY_READ` for the same reason replay is separate from capture
+     * read: it causes an outbound request rather than returning a row, and redriving a large
+     * dead-letter backlog is a way to flood a customer's own service.
+     */
+    CONDUIT_DELIVERY_OPERATE = 'conduit:delivery:operate',
 }
 
 /**
