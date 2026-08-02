@@ -77,10 +77,17 @@ one consumer each and stay in the service until a second one appears.
 
 ### `api/conduit/` → `@iveri/contracts/conduit`
 
-`conduit-api`'s full admin surface: `Endpoint`, `CaptureSummary`/`CaptureDetail`, `Provider`
-with its `SignatureManifest`/`HandshakeManifest`, `Replay`, `SignatureDiagnostic`, the request
-bodies for each, and the five enums they are built from — `SignatureVerdict`,
-`SignatureAlgorithm`, `SignatureEncoding`, `SignatureHeaderScheme`, `HandshakeKind`.
+`conduit-api`'s full admin surface.
+
+Inspect mode: `Endpoint`, `CaptureSummary`/`CaptureDetail`, `Provider` with its
+`SignatureManifest`/`HandshakeManifest`, `Replay`, `SignatureDiagnostic`.
+
+Gateway mode: `Destination`, `Route` with its `HeaderMatcher`/`BodyMatcher`, `Delivery` and
+`DeliveryAttempt`.
+
+Plus the request bodies for each, and the seven enums they are built from — `SignatureVerdict`,
+`SignatureAlgorithm`, `SignatureEncoding`, `SignatureHeaderScheme`, `HandshakeKind`,
+`MatchOperator`, `DeliveryStatus`.
 
 ### Why the wire shapes moved here
 
