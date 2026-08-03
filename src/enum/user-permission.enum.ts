@@ -117,6 +117,51 @@ export enum UserPermission {
      * dead-letter backlog is a way to flood a customer's own service.
      */
     CONDUIT_DELIVERY_OPERATE = 'conduit:delivery:operate',
+
+    // ── Connector (outbound) ────────────────────────────────────────────────
+    /** Read connector manifests. They hold no credential, so this is configuration only. */
+    CONDUIT_CONNECTOR_READ = 'conduit:connector:read',
+    /**
+     * Define or amend a connector manifest — **the list of hosts and paths Conduit may be asked
+     * to call**, and the token endpoint it will send a customer's client secret to.
+     *
+     * The most powerful permission in the outbound half. A dispatch cannot name a URL; it can
+     * only name an operation somebody with this permission wrote down, which is what keeps
+     * outbound from being an authenticated open proxy. Whoever holds this decides where the
+     * proxy may point.
+     */
+    CONDUIT_CONNECTOR_MANAGE = 'conduit:connector:manage',
+
+    // ── Connection (outbound) ───────────────────────────────────────────────
+    /** Read connections. Never exposes their stored credential values. */
+    CONDUIT_CONNECTION_READ = 'conduit:connection:read',
+    /**
+     * Create, amend or delete a connection — the customer's own third-party credentials.
+     *
+     * Single manage permission rather than create/update/delete: the dangerous act is holding
+     * the credential at all, and the three carry the same risk.
+     */
+    CONDUIT_CONNECTION_MANAGE = 'conduit:connection:manage',
+
+    // ── Dispatch (outbound) ─────────────────────────────────────────────────
+    /**
+     * Read the outbound log and its dead-letter queue, including each attempt's response.
+     *
+     * A dispatch record holds the payload a vertical asked to send — a customer's message text,
+     * an order — so this is a data-read permission, not a config one.
+     */
+    CONDUIT_DISPATCH_READ = 'conduit:dispatch:read',
+    /**
+     * Submit an outbound request. **This is the permission a vertical holds**, and the only one
+     * it needs: `unibox-api` sending a reply presents this and nothing else.
+     *
+     * Separate from `CONDUIT_DISPATCH_OPERATE` because sending is the routine act and operating
+     * the queue is the exceptional one — a service principal that can send should not also be
+     * able to redrive a backlog.
+     */
+    CONDUIT_DISPATCH_SEND = 'conduit:dispatch:send',
+    /** Redrive a dead-lettered dispatch, or cancel one still pending. */
+    CONDUIT_DISPATCH_OPERATE = 'conduit:dispatch:operate',
 }
 
 /**
