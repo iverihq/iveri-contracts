@@ -64,6 +64,29 @@ export interface AuthTokens {
 }
 
 /**
+ * Returned by `POST /auth/token` — the API-key-for-JWT exchange a service makes so that other
+ * Iveri services can authorize it **without calling identity**.
+ *
+ * **There is deliberately no refresh token.** The API key already is the long-lived credential,
+ * and it is revocable by a row. A refresh token here would be a second long-lived credential
+ * with its own independent lifetime, rotation rule and leak story, obtained from the first —
+ * so revoking the key would no longer be enough to stop the caller. A service re-exchanges
+ * instead, which costs one call per {@link expiresInSeconds}.
+ *
+ * The key travels as `x-api-key`, so this call has no request body.
+ */
+export interface ServiceToken {
+    /** Send as `Authorization: Bearer <accessToken>`. Carries `pt: 'service'`. */
+    accessToken: string;
+
+    /**
+     * Lifetime in seconds. Shorter than a human session's: a service re-exchanges with nobody
+     * waiting, so the revocation window is cheap to shrink.
+     */
+    expiresInSeconds: number;
+}
+
+/**
  * Who the caller is. Returned by `GET /auth/me` and nested inside {@link AuthSession}.
  *
  * The user fields are nullable because a machine principal — an API key — has permissions and

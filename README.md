@@ -69,8 +69,14 @@ catalogue and are already embedded in issued tokens and stored role rows.
 ### `api/identity/` → `@iveri/contracts/identity`
 
 `iveri-identity-api`'s authentication surface: `SignupBody`, `LoginBody`, `RefreshTokenBody`,
-`AcceptInvitationBody`, `AuthTokens`, `Principal`, `AuthSession`, plus `TenantStatus` and
-`MembershipStatus`.
+`AcceptInvitationBody`, `AuthTokens`, `ServiceToken`, `Principal`, `AuthSession`, plus
+`TenantStatus`, `MembershipStatus` and `PrincipalType`.
+
+It also holds **`AccessTokenPayload`** — the claims inside the JWT itself, rather than a request
+or response body. It belongs here for a stronger reason than the rest: identity is the only
+service that _issues_ a token and every other service _verifies_ one, so both sides must agree
+claim for claim. `conduit-api` kept a hand-copied duplicate until the `pt` claim had to be added
+to both at once — the drift a copy invites, arriving exactly when it is most expensive.
 
 Auth only. Identity also exposes tenant, user, membership, role and API-key routes; those have
 one consumer each and stay in the service until a second one appears.
