@@ -14,14 +14,16 @@ import { CursorPage, ErrorCode, Maybe, Paginated, UUID, UserPermission } from '@
 // One service's wire surface.
 import type { CaptureSummary, Endpoint } from '@iveri/contracts/conduit';
 import type { AuthSession, Principal } from '@iveri/contracts/identity';
+import type { Conversation, Message } from '@iveri/contracts/unibox';
 ```
 
-Three entry points, and no others — never `@iveri/contracts/dist/...`.
+Four entry points, and no others — never `@iveri/contracts/dist/...`.
 
 The per-service surfaces are **not** re-exported from the root, deliberately. Conduit owns a
-`Provider` and an `Endpoint`; Unibox will want both names for entirely different things. Keeping
-each service behind its own entry point means that collision never has to be resolved by
-renaming a type in a shipped API.
+`Provider`, a `Connection` and an `Endpoint`; Unibox owns a `Channel` and a `Contact` and would
+have wanted two of those names for entirely different things. Keeping each service behind its own
+entry point means that collision never has to be resolved by renaming a type in a shipped API —
+and it stopped being hypothetical the moment `unibox` was added.
 
 ## Zero runtime dependencies — the rule that defines this package
 
@@ -94,6 +96,22 @@ Gateway mode: `Destination`, `Route` with its `HeaderMatcher`/`BodyMatcher`, `De
 Plus the request bodies for each, and the seven enums they are built from — `SignatureVerdict`,
 `SignatureAlgorithm`, `SignatureEncoding`, `SignatureHeaderScheme`, `HandshakeKind`,
 `MatchOperator`, `DeliveryStatus`.
+
+### `api/unibox/` → `@iveri/contracts/unibox`
+
+`unibox-api`'s surface: `Channel` and its `ChannelIngestSecretResponse`, `Contact` with its
+`ContactIdentity`, `Conversation`/`ConversationWithMessages`, `Message` with `MessageAttachment`,
+`Team`, `CannedReply`, plus the request bodies and six enums — `ChannelPlatform`,
+`ConversationStatus`, `MessageDirection`, `MessageAuthorType`, `MessageStatus`,
+`MessageContentType`.
+
+Two of those enums carry members nothing writes yet, and both are deliberate rather than
+speculative. `MessageAuthorType.AI` exists before `unibox-ai` does, because it is what an agent
+taking over reads to know what the customer was already told — adding it later would leave every
+message written before then indistinguishable from a human's, retroactively. `ChannelPlatform.ECHO`
+is a first-class member for the same reason Conduit's `local-echo` connector is: the whole pipeline
+is provable without a Meta app, and a test double would put a branch in the normalizer registry
+that only exists under Jest.
 
 ### Why the wire shapes moved here
 

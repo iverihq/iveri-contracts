@@ -34,6 +34,11 @@
       "import": "./dist/esm/api/identity/index.js",
       "require": "./dist/cjs/api/identity/index.js"
     },
+    "./unibox": {
+      "types": "./dist/cjs/api/unibox/index.d.ts",
+      "import": "./dist/esm/api/unibox/index.js",
+      "require": "./dist/cjs/api/unibox/index.js"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -43,6 +48,9 @@
       ],
       "identity": [
         "./dist/cjs/api/identity/index.d.ts"
+      ],
+      "unibox": [
+        "./dist/cjs/api/unibox/index.d.ts"
       ]
     }
   },

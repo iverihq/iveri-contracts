@@ -35,15 +35,20 @@ describe('UserPermission', () => {
         expect(Object.isFrozen(ALL_USER_PERMISSIONS)).toBe(true);
     });
 
-    it('namespaces every conduit permission and leaves identity permissions unprefixed', () => {
+    it.each([
+        ['CONDUIT_', 'conduit:'],
+        ['UNIBOX_', 'unibox:'],
+    ])('namespaces every %s permission as %s', (keyPrefix, valuePrefix) => {
         // Identity's members predate the shared catalogue and are embedded in issued tokens
-        // and stored role rows — prefixing them now would invalidate both.
-        const conduit = Object.entries(UserPermission).filter(([key]) => key.startsWith('CONDUIT_'));
+        // and stored role rows — prefixing them now would invalidate both. Every service added
+        // since is namespaced, so two services can each own a `contact` or an `endpoint`
+        // without one of them having to rename a permission that is already in issued tokens.
+        const namespaced = Object.entries(UserPermission).filter(([key]) => key.startsWith(keyPrefix));
 
-        expect(conduit.length).toBeGreaterThan(0);
+        expect(namespaced.length).toBeGreaterThan(0);
 
-        for (const [, value] of conduit) {
-            expect(value.startsWith('conduit:')).toBe(true);
+        for (const [, value] of namespaced) {
+            expect(value.startsWith(valuePrefix)).toBe(true);
         }
     });
 });

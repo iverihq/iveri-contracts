@@ -28,6 +28,7 @@ const ENTRY_POINTS = [
     ['.', 'UserPermission'],
     ['./conduit', 'SignatureVerdict'],
     ['./identity', 'TenantStatus'],
+    ['./unibox', 'ChannelPlatform'],
 ];
 
 for (const [subpath, member] of ENTRY_POINTS) {

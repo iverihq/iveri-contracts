@@ -162,6 +162,67 @@ export enum UserPermission {
     CONDUIT_DISPATCH_SEND = 'conduit:dispatch:send',
     /** Redrive a dead-lettered dispatch, or cancel one still pending. */
     CONDUIT_DISPATCH_OPERATE = 'conduit:dispatch:operate',
+
+    // ══ unibox-api ═══════════════════════════════════════════════════════════
+
+    // ── Channel ─────────────────────────────────────────────────────────────
+    /** Read connected messaging accounts. Never exposes a channel's ingest secret. */
+    UNIBOX_CHANNEL_READ = 'unibox:channel:read',
+    /**
+     * Connect, amend or disconnect a messaging account, and rotate its ingest secret.
+     *
+     * A single manage permission for the same reason as `CONDUIT_CONNECTION_MANAGE`: the
+     * dangerous act is holding the credential that lets anything post messages into a tenant's
+     * inbox, and create/update/delete carry that identically.
+     */
+    UNIBOX_CHANNEL_MANAGE = 'unibox:channel:manage',
+
+    // ── Contact ─────────────────────────────────────────────────────────────
+    /** Read contacts. Personal data — closer to a data-export permission than a config one. */
+    UNIBOX_CONTACT_READ = 'unibox:contact:read',
+    /** Create, amend or delete a contact record. */
+    UNIBOX_CONTACT_MANAGE = 'unibox:contact:manage',
+
+    // ── Conversation ────────────────────────────────────────────────────────
+    /**
+     * Read the inbox and every message in it.
+     *
+     * **There is deliberately no separate `unibox:message:read`.** A conversation with its
+     * messages hidden is an empty row, so a permission that granted one without the other would
+     * describe a screen nobody can use — and the reverse would be a way to read a customer's
+     * messages while appearing to have no access to the inbox.
+     */
+    UNIBOX_CONVERSATION_READ = 'unibox:conversation:read',
+    /** Change a conversation's status — close, snooze, reopen — and write internal notes. */
+    UNIBOX_CONVERSATION_MANAGE = 'unibox:conversation:manage',
+    /**
+     * Assign a conversation to an agent or a team, and take over from the AI.
+     *
+     * Separate from `UNIBOX_CONVERSATION_MANAGE` because assignment decides whose work this is.
+     * A supervisor routing a queue and an agent closing their own conversations are different
+     * jobs, and a tenant that wants only the first to reassign should be able to say so.
+     */
+    UNIBOX_CONVERSATION_ASSIGN = 'unibox:conversation:assign',
+
+    // ── Message ─────────────────────────────────────────────────────────────
+    /**
+     * Send a message to a contact.
+     *
+     * The sharpest permission in this service, and the reason there is no `unibox:message:*`
+     * read counterpart. Everything else here moves rows around inside our own database; this one
+     * reaches a real person on their phone, through a paid channel, and cannot be taken back.
+     */
+    UNIBOX_MESSAGE_SEND = 'unibox:message:send',
+
+    // ── Team ────────────────────────────────────────────────────────────────
+    UNIBOX_TEAM_READ = 'unibox:team:read',
+    /** Create teams and change who is in them. Routing, not permissions — identity owns those. */
+    UNIBOX_TEAM_MANAGE = 'unibox:team:manage',
+
+    // ── Canned reply ────────────────────────────────────────────────────────
+    UNIBOX_CANNED_REPLY_READ = 'unibox:canned-reply:read',
+    /** Author the saved replies every agent in the tenant will send. */
+    UNIBOX_CANNED_REPLY_MANAGE = 'unibox:canned-reply:manage',
 }
 
 /**
