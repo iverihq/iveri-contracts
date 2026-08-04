@@ -235,6 +235,12 @@ export enum UserPermission {
     // ── AI runtime ──────────────────────────────────────────────────────────
     /** Allows a trusted service principal to submit bounded conversation context for generation. */
     UNIBOX_AI_RUN = 'unibox:ai:run',
+
+    // ── MCP registry ────────────────────────────────────────────────────────
+    /** Read tenant MCP server metadata; credential values are never returned. */
+    UNIBOX_MCP_READ = 'unibox:mcp:read',
+    /** Create, update or disconnect a tenant MCP server. */
+    UNIBOX_MCP_MANAGE = 'unibox:mcp:manage',
 }
 
 /**
