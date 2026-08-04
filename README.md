@@ -108,7 +108,8 @@ Plus the request bodies for each, and the seven enums they are built from — `S
 ### `api/unibox-ai/` → `@iveri/contracts/unibox-ai`
 
 The authenticated agent-runtime boundary: bounded conversation context, the handoff-aware agent
-run request, and its acceptance statuses and response.
+run request, its acceptance statuses and response, and safe tenant MCP server metadata and
+registration request bodies. Credential values are request-only and never appear in responses.
 
 Two of those enums carry members nothing writes yet, and both are deliberate rather than
 speculative. `MessageAuthorType.AI` exists before `unibox-ai` does, because it is what an agent
@@ -143,6 +144,8 @@ Conduit's outbox.
 - Version `0.9.0` adds the first Commerce permissions: `commerce:catalog:read` and
   `commerce:catalog:manage`.
 - Version `0.10.0` adds the Unibox AI agent-run entry point and `unibox:ai:run` permission.
+- Version `0.11.0` adds safe MCP server metadata, registration request bodies, and the
+  `unibox:mcp:read` / `unibox:mcp:manage` permissions.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
   interface in the same release, and let `implements` prove they agree.
