@@ -146,6 +146,7 @@ Conduit's outbox.
 - Version `0.10.0` adds the Unibox AI agent-run entry point and `unibox:ai:run` permission.
 - Version `0.11.0` adds safe MCP server metadata, registration request bodies, and the
   `unibox:mcp:read` / `unibox:mcp:manage` permissions.
+- Version `0.12.0` adds the billing plan, subscription, usage and payment permissions.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
   interface in the same release, and let `implements` prove they agree.
