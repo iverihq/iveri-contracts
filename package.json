@@ -1,6 +1,6 @@
 {
   "name": "@iveri/contracts",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Wire contracts shared by every Iveri backend and frontend. Zero runtime dependencies.",
   "license": "MIT",
   "repository": {
@@ -39,6 +39,11 @@
       "import": "./dist/esm/api/unibox/index.js",
       "require": "./dist/cjs/api/unibox/index.js"
     },
+    "./unibox-ai": {
+      "types": "./dist/cjs/api/unibox-ai/index.d.ts",
+      "import": "./dist/esm/api/unibox-ai/index.js",
+      "require": "./dist/cjs/api/unibox-ai/index.js"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -51,6 +56,9 @@
       ],
       "unibox": [
         "./dist/cjs/api/unibox/index.d.ts"
+      ],
+      "unibox-ai": [
+        "./dist/cjs/api/unibox-ai/index.d.ts"
       ]
     }
   },

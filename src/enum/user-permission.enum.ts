@@ -231,6 +231,10 @@ export enum UserPermission {
     UNIBOX_CANNED_REPLY_READ = 'unibox:canned-reply:read',
     /** Author the saved replies every agent in the tenant will send. */
     UNIBOX_CANNED_REPLY_MANAGE = 'unibox:canned-reply:manage',
+
+    // ── AI runtime ──────────────────────────────────────────────────────────
+    /** Allows a trusted service principal to submit bounded conversation context for generation. */
+    UNIBOX_AI_RUN = 'unibox:ai:run',
 }
 
 /**
