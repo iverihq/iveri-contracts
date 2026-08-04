@@ -241,6 +241,32 @@ export enum UserPermission {
     UNIBOX_MCP_READ = 'unibox:mcp:read',
     /** Create, update or disconnect a tenant MCP server. */
     UNIBOX_MCP_MANAGE = 'unibox:mcp:manage',
+
+    // ══ iveri-billing-api ═══════════════════════════════════════════════════
+
+    // ── Plan ───────────────────────────────────────────────────────────────
+    /** Read the plans available to the tenant. */
+    BILLING_PLAN_READ = 'billing:plan:read',
+    /** Create, update or archive tenant billing plans. */
+    BILLING_PLAN_MANAGE = 'billing:plan:manage',
+
+    // ── Subscription ──────────────────────────────────────────────────────
+    /** Read the tenant's current subscription and its period. */
+    BILLING_SUBSCRIPTION_READ = 'billing:subscription:read',
+    /** Start, change or cancel a tenant subscription. */
+    BILLING_SUBSCRIPTION_MANAGE = 'billing:subscription:manage',
+
+    // ── Usage ──────────────────────────────────────────────────────────────
+    /** Read metered usage for the tenant. */
+    BILLING_USAGE_READ = 'billing:usage:read',
+    /** Record billable usage on behalf of a tenant service. */
+    BILLING_USAGE_RECORD = 'billing:usage:record',
+
+    // ── Payment ────────────────────────────────────────────────────────────
+    /** Read payment sessions and their provider-neutral status. */
+    BILLING_PAYMENT_READ = 'billing:payment:read',
+    /** Create payment sessions and operate refunds or recurring authorizations. */
+    BILLING_PAYMENT_MANAGE = 'billing:payment:manage',
 }
 
 /**

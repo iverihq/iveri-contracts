@@ -39,6 +39,7 @@ describe('UserPermission', () => {
         ['CONDUIT_', 'conduit:'],
         ['COMMERCE_', 'commerce:'],
         ['UNIBOX_', 'unibox:'],
+        ['BILLING_', 'billing:'],
     ])('namespaces every %s permission as %s', (keyPrefix, valuePrefix) => {
         // Identity's members predate the shared catalogue and are embedded in issued tokens
         // and stored role rows — prefixing them now would invalidate both. Every service added
