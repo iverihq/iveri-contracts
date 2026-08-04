@@ -30,6 +30,9 @@ export interface Dispatch {
     /** The operation named at submit time. */
     operation: string;
 
+    /** Optional FIFO lane. Dispatches in the same tenant and lane are claimed in creation order. */
+    orderingKey: Nullable<string>;
+
     /**
      * Resolved when the dispatch was accepted, not read from the manifest now.
      *
@@ -138,6 +141,9 @@ export interface SubmitDispatchBody {
 
     /** Which of the connector's operations to invoke, by key. */
     operation: string;
+
+    /** Optional FIFO lane. Dispatches in the same tenant and lane wait for their predecessor. */
+    orderingKey?: Nullable<string>;
 
     /** The request body, sent to the provider as-is. */
     payload: Record<string, unknown>;
