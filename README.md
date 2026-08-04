@@ -148,6 +148,7 @@ Conduit's outbox.
   `unibox:mcp:read` / `unibox:mcp:manage` permissions.
 - Version `0.12.0` adds the billing plan, subscription, usage and payment permissions.
 - Version `0.13.0` adds the billing invoice read and manage permissions.
+- Version `0.14.0` adds messaging message, OTP and credit permissions.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
   interface in the same release, and let `implements` prove they agree.
