@@ -267,6 +267,12 @@ export enum UserPermission {
     BILLING_PAYMENT_READ = 'billing:payment:read',
     /** Create payment sessions and operate refunds or recurring authorizations. */
     BILLING_PAYMENT_MANAGE = 'billing:payment:manage',
+
+    // ── Invoice ────────────────────────────────────────────────────────────
+    /** Read tenant invoices and their immutable line items. */
+    BILLING_INVOICE_READ = 'billing:invoice:read',
+    /** Create, finalize or void tenant invoices. */
+    BILLING_INVOICE_MANAGE = 'billing:invoice:manage',
 }
 
 /**
