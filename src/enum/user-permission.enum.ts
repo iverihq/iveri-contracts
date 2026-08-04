@@ -171,6 +171,19 @@ export enum UserPermission {
     /** Create, edit, archive or restore products in the tenant's catalog. */
     COMMERCE_CATALOG_MANAGE = 'commerce:catalog:manage',
 
+    // ══ iveri-messaging-api ═════════════════════════════════════════════════
+
+    /** Read tenant message and provider-neutral delivery records. */
+    MESSAGING_MESSAGE_READ = 'messaging:message:read',
+    /** Submit a paid customer message for delivery. */
+    MESSAGING_MESSAGE_SEND = 'messaging:message:send',
+    /** Submit an OTP challenge message under the stricter OTP policy. */
+    MESSAGING_OTP_SEND = 'messaging:otp:send',
+    /** Read the tenant's available and reserved message-credit balance. */
+    MESSAGING_CREDIT_READ = 'messaging:credit:read',
+    /** Adjust or grant message credits; normally reserved for billing/platform workflows. */
+    MESSAGING_CREDIT_MANAGE = 'messaging:credit:manage',
+
     // ══ unibox-api ═══════════════════════════════════════════════════════════
 
     // ── Channel ─────────────────────────────────────────────────────────────
