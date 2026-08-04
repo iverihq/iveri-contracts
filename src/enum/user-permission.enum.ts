@@ -163,6 +163,14 @@ export enum UserPermission {
     /** Redrive a dead-lettered dispatch, or cancel one still pending. */
     CONDUIT_DISPATCH_OPERATE = 'conduit:dispatch:operate',
 
+    // ══ commerce-api ═════════════════════════════════════════════════════════
+
+    // ── Catalog ─────────────────────────────────────────────────────────────
+    /** Read the tenant's product catalog, including prices and availability. */
+    COMMERCE_CATALOG_READ = 'commerce:catalog:read',
+    /** Create, edit, archive or restore products in the tenant's catalog. */
+    COMMERCE_CATALOG_MANAGE = 'commerce:catalog:manage',
+
     // ══ unibox-api ═══════════════════════════════════════════════════════════
 
     // ── Channel ─────────────────────────────────────────────────────────────

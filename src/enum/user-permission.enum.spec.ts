@@ -37,6 +37,7 @@ describe('UserPermission', () => {
 
     it.each([
         ['CONDUIT_', 'conduit:'],
+        ['COMMERCE_', 'commerce:'],
         ['UNIBOX_', 'unibox:'],
     ])('namespaces every %s permission as %s', (keyPrefix, valuePrefix) => {
         // Identity's members predate the shared catalogue and are embedded in issued tokens

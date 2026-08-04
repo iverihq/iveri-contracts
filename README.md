@@ -135,6 +135,8 @@ Conduit's outbox.
 - A new `ErrorCode` or `UserPermission` member is a **minor** version. Changing what an
   existing member means, or removing one, is **major** — clients branch on these, and a
   removed permission silently downgrades every live session whose token still carries it.
+- Version `0.9.0` adds the first Commerce permissions: `commerce:catalog:read` and
+  `commerce:catalog:manage`.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
   interface in the same release, and let `implements` prove they agree.
