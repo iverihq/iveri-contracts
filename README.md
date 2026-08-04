@@ -17,7 +17,7 @@ import type { AuthSession, Principal } from '@iveri/contracts/identity';
 import type { Conversation, Message } from '@iveri/contracts/unibox';
 ```
 
-Four entry points, and no others — never `@iveri/contracts/dist/...`.
+Five entry points, and no others — never `@iveri/contracts/dist/...`.
 
 The per-service surfaces are **not** re-exported from the root, deliberately. Conduit owns a
 `Provider`, a `Connection` and an `Endpoint`; Unibox owns a `Channel` and a `Contact` and would
@@ -105,6 +105,11 @@ Plus the request bodies for each, and the seven enums they are built from — `S
 `ConversationStatus`, `MessageDirection`, `MessageAuthorType`, `MessageStatus`,
 `MessageContentType`.
 
+### `api/unibox-ai/` → `@iveri/contracts/unibox-ai`
+
+The authenticated agent-runtime boundary: bounded conversation context, the handoff-aware agent
+run request, and its acceptance statuses and response.
+
 Two of those enums carry members nothing writes yet, and both are deliberate rather than
 speculative. `MessageAuthorType.AI` exists before `unibox-ai` does, because it is what an agent
 taking over reads to know what the customer was already told — adding it later would leave every
@@ -137,6 +142,7 @@ Conduit's outbox.
   removed permission silently downgrades every live session whose token still carries it.
 - Version `0.9.0` adds the first Commerce permissions: `commerce:catalog:read` and
   `commerce:catalog:manage`.
+- Version `0.10.0` adds the Unibox AI agent-run entry point and `unibox:ai:run` permission.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
   interface in the same release, and let `implements` prove they agree.
