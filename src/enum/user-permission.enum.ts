@@ -301,6 +301,62 @@ export enum UserPermission {
     BILLING_INVOICE_READ = 'billing:invoice:read',
     /** Create, finalize or void tenant invoices. */
     BILLING_INVOICE_MANAGE = 'billing:invoice:manage',
+
+    // ══ iveri-localization-api ══════════════════════════════════════════════
+    //
+    // Four permissions for what looks like one job, because translation has four distinct
+    // audiences and the whole point of the service is that they are not the same person. An
+    // engineer defines keys, a translator writes values, a reviewer decides a language is ready,
+    // and a service reads the result. Collapsing them means a contractor hired to translate a
+    // panel into Georgian can delete the keys the panel is built from.
+
+    /**
+     * Read locales, namespaces, keys, translations and release history — and pull a published
+     * bundle, which is how a build gets its strings.
+     *
+     * One read permission over all of it rather than one per aggregate: none of it is secret. It
+     * is text written to be shown to users, and a key list with the values hidden is unusable
+     * for the review this permission exists to enable.
+     */
+    LOCALIZATION_READ = 'localization:read',
+
+    /**
+     * Define the structure — locales, namespaces, message keys and their declared variables.
+     *
+     * The engineer's half, and the sharper one despite sounding like configuration. A message key
+     * is compiled into an app (`t('inbox.title')`), so archiving one breaks a screen that already
+     * shipped; and editing a message's declared variables invalidates every translation of it in
+     * every language at once. A translator must not be able to do either by accident.
+     */
+    LOCALIZATION_MESSAGE_MANAGE = 'localization:message:manage',
+
+    /**
+     * Write translation values.
+     *
+     * The translator's whole job, and deliberately the *only* thing it grants. This is the
+     * permission handed to an outside contractor or an agency, so it must be safe to hand to
+     * someone with no stake in the codebase: they can rewrite every string in the product and
+     * cannot add a key, remove one, or put a word of it in front of a customer.
+     */
+    LOCALIZATION_TRANSLATE = 'localization:translate',
+
+    /**
+     * Cut a release — the act that actually changes what users read.
+     *
+     * Separate from `LOCALIZATION_TRANSLATE` for the reason the release aggregate exists at all:
+     * editing has to be free so a translator can work in the tool instead of in a spreadsheet,
+     * which is only tolerable if editing is not shipping. This is the gate between the two.
+     */
+    LOCALIZATION_PUBLISH = 'localization:publish',
+
+    /**
+     * Resolve and format messages at runtime through `POST /render`.
+     *
+     * A service permission. `iveri-messaging-api` rendering an OTP body and `iveri-billing-api`
+     * rendering an invoice line hold this and nothing else here — they have no reason to read the
+     * key catalogue, and separating it keeps a compromised worker from enumerating it.
+     */
+    LOCALIZATION_RENDER = 'localization:render',
 }
 
 /**

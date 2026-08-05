@@ -3,6 +3,13 @@
 The wire contract every Iveri service and frontend compiles against: shared types and plain
 enums, and nothing else.
 
+Release `0.18.0` adds the localization contract under `@iveri/contracts/localization` —
+`Locale`, `Namespace`, `Message` with its declared `MessageVariable` list, `Translation`,
+`Release`, the build-time `TranslationBundle` and the runtime render shapes — plus five
+`localization:*` permissions. Two consumers exist from day one and they read it differently: a
+frontend pulls a bundle at build time and compiles it in, a backend renders a message at runtime
+for a locale that belongs to the recipient rather than the caller.
+
 Release `0.17.0` adds `realtime.unsubscribe`. Subscribing is additive and capped per socket, so
 without it a long-lived inbox that pages through conversations reaches the cap and then silently
 stops receiving anything.
@@ -25,9 +32,10 @@ import { CursorPage, ErrorCode, Maybe, Paginated, UUID, UserPermission } from '@
 import type { CaptureSummary, Endpoint } from '@iveri/contracts/conduit';
 import type { AuthSession, Principal } from '@iveri/contracts/identity';
 import type { Conversation, Message } from '@iveri/contracts/unibox';
+import type { Namespace, TranslationBundle } from '@iveri/contracts/localization';
 ```
 
-Five entry points, and no others — never `@iveri/contracts/dist/...`.
+Six entry points, and no others — never `@iveri/contracts/dist/...`.
 
 The per-service surfaces are **not** re-exported from the root, deliberately. Conduit owns a
 `Provider`, a `Connection` and an `Endpoint`; Unibox owns a `Channel` and a `Contact` and would
@@ -129,6 +137,19 @@ is a first-class member for the same reason Conduit's `local-echo` connector is:
 is provable without a Meta app, and a test double would put a branch in the normalizer registry
 that only exists under Jest.
 
+### `api/localization/` → `@iveri/contracts/localization`
+
+`iveri-localization-api`'s surface, and the clearest case yet for a shared entry point: the two
+halves are consumed by different kinds of client and must not drift. `TranslationBundle` is what a
+frontend build pulls and commits; `RenderBody`/`RenderedMessage` is what a backend posts when it
+needs a string in the _recipient's_ language. `Locale`, `Namespace`, `Message` with its
+`MessageVariable` declarations, `Translation`, `Release` and `ReleaseDiff` carry the authoring
+surface the translator panel is written against, with `TranslationStatus` and `VariableType`.
+
+`Locale` is a row rather than an enum on purpose — see the type's own note. Nothing in the
+platform branches on _which_ language a string is in, so encoding the set in a type would make
+adding one a release of this package and a redeploy of every consumer, for a value no code reads.
+
 ### Why the wire shapes moved here
 
 `conduit-admin-web` hand-transcribed all of it, carefully and with comments. It still drifted:
@@ -160,6 +181,9 @@ Conduit's outbox.
 - Version `0.13.0` adds the billing invoice read and manage permissions.
 - Version `0.14.0` adds messaging message, OTP and credit permissions.
 - Version `0.15.0` adds optional per-key FIFO ordering to outbound dispatches.
+- Version `0.18.0` adds the localization entry point and the `localization:read`,
+  `localization:message:manage`, `localization:translate`, `localization:publish` and
+  `localization:render` permissions.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
   interface in the same release, and let `implements` prove they agree.

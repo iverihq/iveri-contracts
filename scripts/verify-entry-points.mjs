@@ -30,6 +30,7 @@ const ENTRY_POINTS = [
     ['./identity', 'TenantStatus'],
     ['./unibox', 'ChannelPlatform'],
     ['./unibox-ai', 'AgentRunStatus'],
+    ['./localization', 'TranslationStatus'],
 ];
 
 for (const [subpath, member] of ENTRY_POINTS) {
