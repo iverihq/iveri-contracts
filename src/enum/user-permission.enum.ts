@@ -245,6 +245,21 @@ export enum UserPermission {
     /** Author the saved replies every agent in the tenant will send. */
     UNIBOX_CANNED_REPLY_MANAGE = 'unibox:canned-reply:manage',
 
+    // ── Realtime ────────────────────────────────────────────────────────────
+    /**
+     * Publish a conversation event into the live inbox.
+     *
+     * **A service permission, not a human one**, and deliberately absent from the seeded `ADMIN`
+     * role — unlike `CONDUIT_DISPATCH_SEND`, which an admin holds so they can prove a connection
+     * works. There is no equivalent thing to prove here: publishing means putting a message in
+     * front of every agent watching a conversation, so the only legitimate holder is the service
+     * that owns what actually happened to that conversation.
+     *
+     * Reading the live stream is `UNIBOX_CONVERSATION_READ` — the same permission that guards
+     * reading the inbox over HTTP, because it is the same data arriving by another route.
+     */
+    UNIBOX_REALTIME_PUBLISH = 'unibox:realtime:publish',
+
     // ── AI runtime ──────────────────────────────────────────────────────────
     /** Allows a trusted service principal to submit bounded conversation context for generation. */
     UNIBOX_AI_RUN = 'unibox:ai:run',

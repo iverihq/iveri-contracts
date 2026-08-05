@@ -9,4 +9,6 @@ export * from './message-content-type.enum.js';
 export * from './message-direction.enum.js';
 export * from './message-status.enum.js';
 export * from './message.type.js';
+export * from './realtime-event.enum.js';
+export * from './realtime.type.js';
 export * from './team.type.js';

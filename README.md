@@ -3,6 +3,12 @@
 The wire contract every Iveri service and frontend compiles against: shared types and plain
 enums, and nothing else.
 
+Release `0.16.0` adds the Unibox realtime contract under `@iveri/contracts/unibox` —
+`RealtimeConversationEvent`, the publish body, the socket message shapes and the event-name
+constants — plus the `unibox:realtime:publish` permission. It is shared by three repos at once
+(`unibox-api` publishes, `unibox-realtime` fans out, `unibox-web` subscribes), which is exactly
+the case a hand-copied interface drifts on.
+
 ```bash
 pnpm add @iveri/contracts
 ```
