@@ -3,6 +3,11 @@
 The wire contract every Iveri service and frontend compiles against: shared types and plain
 enums, and nothing else.
 
+Release `0.19.0` adds `MessageVariableInput` — a declaration as a client sends it, where the
+optional halves may be absent. A separate type rather than `MessageVariable` with everything
+optional, because omitting a field on the way in and receiving `null` on the way out are
+different statements.
+
 Release `0.18.0` adds the localization contract under `@iveri/contracts/localization` —
 `Locale`, `Namespace`, `Message` with its declared `MessageVariable` list, `Translation`,
 `Release`, the build-time `TranslationBundle` and the runtime render shapes — plus five

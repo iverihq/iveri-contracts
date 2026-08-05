@@ -32,6 +32,23 @@ export interface MessageVariable {
 }
 
 /**
+ * A declaration as a *client sends* it, where the optional halves may simply be absent.
+ *
+ * A separate type from {@link MessageVariable} rather than that one with everything optional,
+ * because the two directions genuinely differ: on the way in, omitting `description` means "I
+ * have nothing to say"; on the way out, the field is always present and `null` says the same
+ * thing explicitly. Collapsing them forces every reader to handle `undefined` for a field the
+ * server always sends.
+ */
+export interface MessageVariableInput {
+    name: string;
+    type: VariableType;
+    description?: Nullable<string>;
+    example?: Nullable<string>;
+    options?: Nullable<string[]>;
+}
+
+/**
  * A translatable string, identified by a key that never changes.
  *
  * The key is the contract with the consuming code: `t('inbox.conversation.assign')` is compiled
@@ -88,7 +105,7 @@ export type MessagesPage = Paginated<Message>;
 export interface CreateMessageBody {
     key: string;
     description?: Nullable<string>;
-    variables?: MessageVariable[];
+    variables?: MessageVariableInput[];
     /** The source-locale text. Written as an `APPROVED` translation in the same transaction. */
     sourceValue: string;
 }
@@ -102,6 +119,6 @@ export interface CreateMessageBody {
  */
 export interface UpdateMessageBody {
     description?: Nullable<string>;
-    variables?: MessageVariable[];
+    variables?: MessageVariableInput[];
     isArchived?: boolean;
 }
