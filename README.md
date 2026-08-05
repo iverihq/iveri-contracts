@@ -3,6 +3,10 @@
 The wire contract every Iveri service and frontend compiles against: shared types and plain
 enums, and nothing else.
 
+Release `0.17.0` adds `realtime.unsubscribe`. Subscribing is additive and capped per socket, so
+without it a long-lived inbox that pages through conversations reaches the cap and then silently
+stops receiving anything.
+
 Release `0.16.0` adds the Unibox realtime contract under `@iveri/contracts/unibox` —
 `RealtimeConversationEvent`, the publish body, the socket message shapes and the event-name
 constants — plus the `unibox:realtime:publish` permission. It is shared by three repos at once

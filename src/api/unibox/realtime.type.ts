@@ -5,6 +5,7 @@ import type { RealtimeConversationEvent } from './realtime-event.enum.js';
 /** Socket.IO event names a client sends. */
 export const REALTIME_CLIENT_EVENT = {
     SUBSCRIBE: 'realtime.subscribe',
+    UNSUBSCRIBE: 'realtime.unsubscribe',
 } as const;
 
 /** Socket.IO event names a client receives. */
@@ -59,8 +60,20 @@ export interface RealtimeReadyMessage {
     protocolVersion: typeof REALTIME_PROTOCOL_VERSION;
 }
 
-/** What a client asks to watch. */
+/** What a client asks to watch. Additive — the socket keeps what it already had. */
 export interface RealtimeSubscribeRequest {
+    conversationIds: UUID[];
+}
+
+/**
+ * What a client asks to stop watching.
+ *
+ * Subscribing is additive and capped at {@link MAX_REALTIME_SUBSCRIPTIONS_PER_SOCKET}, so
+ * without this a long-lived inbox that pages through conversations reaches the cap and then
+ * silently stops receiving anything new. Unsubscribing what has scrolled out of view is what
+ * keeps the set bounded by what is on screen rather than by everything ever looked at.
+ */
+export interface RealtimeUnsubscribeRequest {
     conversationIds: UUID[];
 }
 
