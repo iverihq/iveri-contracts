@@ -3,6 +3,16 @@
 The wire contract every Iveri service and frontend compiles against: shared types and plain
 enums, and nothing else.
 
+Release `0.20.0` adds the notification contract under `@iveri/contracts/notification` —
+`NotificationChannel`, `NotificationDeliveryStatus`, `NotificationTemplate`, `Notification` with
+its per-channel `NotificationDelivery` list, `InAppNotification` and the submit body — plus six
+`notification:*` permissions. Two absences are decisions and each carries a spec: there is no
+`push` channel, because a channel a caller can name and nothing can deliver reads as a successful
+submit and reaches nobody; and no `delivered` status, because a relay accepting a message is not
+evidence a person received it and nothing subscribes to a bounce. Status lives on the delivery
+rather than the notification — one that emailed successfully and dead-lettered in the inbox has
+two true answers and no single one.
+
 Release `0.19.0` adds `MessageVariableInput` — a declaration as a client sends it, where the
 optional halves may be absent. A separate type rather than `MessageVariable` with everything
 optional, because omitting a field on the way in and receiving `null` on the way out are
@@ -38,9 +48,10 @@ import type { CaptureSummary, Endpoint } from '@iveri/contracts/conduit';
 import type { AuthSession, Principal } from '@iveri/contracts/identity';
 import type { Conversation, Message } from '@iveri/contracts/unibox';
 import type { Namespace, TranslationBundle } from '@iveri/contracts/localization';
+import type { Notification, NotificationChannel } from '@iveri/contracts/notification';
 ```
 
-Six entry points, and no others — never `@iveri/contracts/dist/...`.
+Seven entry points, and no others — never `@iveri/contracts/dist/...`.
 
 The per-service surfaces are **not** re-exported from the root, deliberately. Conduit owns a
 `Provider`, a `Connection` and an `Endpoint`; Unibox owns a `Channel` and a `Contact` and would
@@ -154,6 +165,26 @@ surface the translator panel is written against, with `TranslationStatus` and `V
 `Locale` is a row rather than an enum on purpose — see the type's own note. Nothing in the
 platform branches on _which_ language a string is in, so encoding the set in a type would make
 adding one a release of this package and a redeploy of every consumer, for a value no code reads.
+
+### `api/notification/` → `@iveri/contracts/notification`
+
+`iveri-notification-api`'s surface: `NotificationTemplate` and its upsert body, `Notification`
+with its per-channel `NotificationDelivery` list, `SubmitNotificationBody`, `InAppNotification`,
+and the `NotificationChannel` and `NotificationDeliveryStatus` enums.
+
+Three shapes here are decisions rather than descriptions, and each is pinned by a spec:
+
+- **Status lives on the delivery, not the notification.** One that emailed successfully and
+  dead-lettered in the inbox has two true answers, and a rolled-up field would have to pick one —
+  hiding a dead letter behind a success, or failing a notification that mostly worked.
+- **No `push` channel**, because there is no device registry, no per-platform credentials and no
+  token rotation behind one. A channel a caller can name and nothing can deliver looks like a
+  successful submit and reaches nobody.
+- **No `delivered` status**, because a relay accepting a message is not evidence a person received
+  it and nothing subscribes to a bounce yet. `SENT` is the strongest honest statement.
+
+A template holds message **keys**, never text — the wording lives in `iveri-localization-api`, so
+there is one place with ICU validation, a review gate and Georgian, rather than two.
 
 ### Why the wire shapes moved here
 
