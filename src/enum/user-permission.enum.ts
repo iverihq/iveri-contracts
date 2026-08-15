@@ -357,6 +357,67 @@ export enum UserPermission {
      * key catalogue, and separating it keeps a compromised worker from enumerating it.
      */
     LOCALIZATION_RENDER = 'localization:render',
+
+    // ══ iveri-notification-api ══════════════════════════════════════════════
+
+    /**
+     * Submit a notification for delivery.
+     *
+     * **A service permission, and the sharpest one here.** It reaches a real person's mailbox with
+     * text the platform composed, and it is not deliberately absent from the seeded `ADMIN` role
+     * the way `UNIBOX_REALTIME_PUBLISH` is — an admin has no reason to hold it, because there is
+     * nothing for a human to prove by sending a notification to somebody else by hand.
+     *
+     * Note what it does *not* let a holder do: a submission names a **template key**, never a
+     * subject and body. The wording of every notification the platform sends was written by
+     * somebody holding {@link UserPermission.NOTIFICATION_TEMPLATE_MANAGE} and translated by
+     * somebody holding {@link UserPermission.LOCALIZATION_TRANSLATE}. This is the same shape as
+     * `CONDUIT_DISPATCH_SEND` naming an operation rather than a URL, and it is load-bearing for
+     * the same reason: without it, a compromised service principal is an authenticated way to
+     * send arbitrary text from our own domain to any address it likes.
+     */
+    NOTIFICATION_SEND = 'notification:send',
+
+    /**
+     * Read **your own** in-app inbox, and mark your own rows read.
+     *
+     * Scoped to the calling principal by the endpoint, not by this permission — there is no
+     * variant that reads somebody else's inbox, because a notification is addressed to one person
+     * and reading another's is reading their mail. It belongs in every human role, including the
+     * narrowest, for the same reason: without it a member cannot see what the product is telling
+     * them.
+     */
+    NOTIFICATION_READ = 'notification:read',
+
+    /** Read the tenant's notification templates and the platform's built-in ones. */
+    NOTIFICATION_TEMPLATE_READ = 'notification:template:read',
+
+    /**
+     * Override a built-in template, or define a new one — which channels a notification type
+     * reaches and which message keys it renders.
+     *
+     * Configuration that decides what every future notification of a type says, including the
+     * password-reset email. Overriding one badly is a way to stop people getting back into their
+     * accounts, so it is separated from reading for the same reason `CONDUIT_CONNECTOR_MANAGE` is.
+     */
+    NOTIFICATION_TEMPLATE_MANAGE = 'notification:template:manage',
+
+    /**
+     * Read the delivery log and the dead-letter queue, including each delivery's last error.
+     *
+     * Grouped with reading rather than with operating the queue, and it is closer to a data-read
+     * permission than a config one: the log names who was written to and about what.
+     */
+    NOTIFICATION_DELIVERY_READ = 'notification:delivery:read',
+
+    /**
+     * Redrive a dead-lettered delivery, or cancel one still pending.
+     *
+     * Separate from reading because it causes a message to be sent to a person rather than
+     * returning a row — and because redriving a backlog is a way to mail somebody the same thing
+     * fifty times an hour after an outage.
+     */
+    NOTIFICATION_DELIVERY_OPERATE = 'notification:delivery:operate',
 }
 
 /**
