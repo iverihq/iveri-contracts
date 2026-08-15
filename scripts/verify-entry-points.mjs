@@ -31,6 +31,7 @@ const ENTRY_POINTS = [
     ['./unibox', 'ChannelPlatform'],
     ['./unibox-ai', 'AgentRunStatus'],
     ['./localization', 'TranslationStatus'],
+    ['./notification', 'NotificationChannel'],
 ];
 
 for (const [subpath, member] of ENTRY_POINTS) {
