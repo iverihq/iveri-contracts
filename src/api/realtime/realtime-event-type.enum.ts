@@ -8,6 +8,7 @@
 export enum RealtimeEventType {
     TAXI_RIDE_UPDATED = 'taxi.ride.updated',
     DELIVERY_JOB_UPDATED = 'delivery.job.updated',
+    MOBILITY_WORKER_UPDATED = 'mobility.worker.updated',
     MOBILITY_WORKER_LOCATION_UPDATED = 'mobility.worker-location.updated',
     MOBILITY_ASSIGNMENT_UPDATED = 'mobility.assignment.updated',
 }

@@ -20,6 +20,7 @@ describe('shared realtime contract', () => {
     it.each([
         [RealtimeEventType.TAXI_RIDE_UPDATED, 'taxi.ride.updated'],
         [RealtimeEventType.DELIVERY_JOB_UPDATED, 'delivery.job.updated'],
+        [RealtimeEventType.MOBILITY_WORKER_UPDATED, 'mobility.worker.updated'],
         [RealtimeEventType.MOBILITY_WORKER_LOCATION_UPDATED, 'mobility.worker-location.updated'],
         [RealtimeEventType.MOBILITY_ASSIGNMENT_UPDATED, 'mobility.assignment.updated'],
     ])('pins event type %s', (member, value) => {
