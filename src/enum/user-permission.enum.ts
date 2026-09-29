@@ -418,6 +418,22 @@ export enum UserPermission {
      * fifty times an hour after an outage.
      */
     NOTIFICATION_DELIVERY_OPERATE = 'notification:delivery:operate',
+
+    // ══ iveri-realtime ══════════════════════════════════════════════════════
+
+    /**
+     * Ask the shared gateway to issue a short-lived subscription grant after the owning API has
+     * authorized a person to read one resource. Service-only: a human may consume a grant but
+     * must never mint one.
+     */
+    REALTIME_SUBSCRIPTION_GRANT_ISSUE = 'realtime:subscription-grant:issue',
+
+    /**
+     * Publish an identifier-only resource change. Separate from grant issue because announcing a
+     * write and authorizing a read are distinct powers and a service may legitimately need one
+     * without the other.
+     */
+    REALTIME_EVENT_PUBLISH = 'realtime:event:publish',
 }
 
 /**

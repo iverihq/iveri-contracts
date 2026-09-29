@@ -32,6 +32,7 @@ const ENTRY_POINTS = [
     ['./unibox-ai', 'AgentRunStatus'],
     ['./localization', 'TranslationStatus'],
     ['./notification', 'NotificationChannel'],
+    ['./realtime', 'RealtimeResourceType'],
 ];
 
 for (const [subpath, member] of ENTRY_POINTS) {
