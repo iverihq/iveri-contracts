@@ -434,6 +434,17 @@ export enum UserPermission {
      * without the other.
      */
     REALTIME_EVENT_PUBLISH = 'realtime:event:publish',
+
+    // ══ iveri-mobility-api ══════════════════════════════════════════════════
+
+    /** Read worker profiles and operational availability inside the caller's tenant. */
+    MOBILITY_WORKER_READ = 'mobility:worker:read',
+
+    /** Enrol workers, amend their capabilities, and suspend or reactivate them. */
+    MOBILITY_WORKER_MANAGE = 'mobility:worker:manage',
+
+    /** Go online or offline. Assignment-owned `busy` cannot be requested through this grant. */
+    MOBILITY_WORKER_AVAILABILITY_UPDATE = 'mobility:worker:availability:update',
 }
 
 /**

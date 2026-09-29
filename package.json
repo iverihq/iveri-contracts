@@ -1,6 +1,6 @@
 {
   "name": "@iveri/contracts",
-  "version": "0.21.0",
+  "version": "0.22.0",
   "description": "Wire contracts shared by every Iveri backend and frontend. Zero runtime dependencies.",
   "license": "MIT",
   "repository": {
@@ -59,6 +59,11 @@
       "import": "./dist/esm/api/realtime/index.js",
       "require": "./dist/cjs/api/realtime/index.js"
     },
+    "./mobility": {
+      "types": "./dist/cjs/api/mobility/index.d.ts",
+      "import": "./dist/esm/api/mobility/index.js",
+      "require": "./dist/cjs/api/mobility/index.js"
+    },
     "./package.json": "./package.json"
   },
   "typesVersions": {
@@ -77,6 +82,9 @@
       ],
       "realtime": [
         "./dist/cjs/api/realtime/index.d.ts"
+      ],
+      "mobility": [
+        "./dist/cjs/api/mobility/index.d.ts"
       ],
       "unibox": [
         "./dist/cjs/api/unibox/index.d.ts"
