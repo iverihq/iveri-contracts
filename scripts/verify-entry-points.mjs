@@ -33,6 +33,7 @@ const ENTRY_POINTS = [
     ['./localization', 'TranslationStatus'],
     ['./notification', 'NotificationChannel'],
     ['./realtime', 'RealtimeResourceType'],
+    ['./mobility', 'MobilityServiceType'],
 ];
 
 for (const [subpath, member] of ENTRY_POINTS) {
