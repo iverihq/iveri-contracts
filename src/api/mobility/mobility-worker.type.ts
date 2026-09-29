@@ -40,3 +40,35 @@ export interface UpdateMobilityWorkerBody {
 export interface SetMobilityWorkerAvailabilityBody {
     availability: MobilityAvailabilityStatus.AVAILABLE | MobilityAvailabilityStatus.OFFLINE;
 }
+
+/**
+ * A worker's most recently accepted device position.
+ *
+ * Coordinates are deliberately an API response only where a caller holds the separate location
+ * permission. Realtime carries only this worker id and an aggregate version; it never carries
+ * these fields.
+ */
+export interface MobilityWorkerLocation {
+    workerId: UUID;
+    latitude: number;
+    longitude: number;
+    accuracyMeters: number;
+    capturedAt: IsoDateTime;
+    receivedAt: IsoDateTime;
+    /** Monotonic per-worker device sequence; older samples are rejected, not silently reordered. */
+    sequence: number;
+}
+
+/**
+ * A device heartbeat for the caller's own worker profile.
+ *
+ * `receivedAt` and the location source are server-owned evidence. A client cannot backdate its
+ * server receipt or claim that a manual coordinate was GPS-derived.
+ */
+export interface UpdateMobilityWorkerLocationBody {
+    latitude: number;
+    longitude: number;
+    accuracyMeters: number;
+    capturedAt: IsoDateTime;
+    sequence: number;
+}

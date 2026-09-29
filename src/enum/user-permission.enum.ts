@@ -445,6 +445,12 @@ export enum UserPermission {
 
     /** Go online or offline. Assignment-owned `busy` cannot be requested through this grant. */
     MOBILITY_WORKER_AVAILABILITY_UPDATE = 'mobility:worker:availability:update',
+
+    /** Read a worker's latest raw coordinate. Separate because location is sensitive operational data. */
+    MOBILITY_WORKER_LOCATION_READ = 'mobility:worker:location:read',
+
+    /** Submit the caller's own device heartbeat; a worker may never update somebody else's location. */
+    MOBILITY_WORKER_LOCATION_UPDATE = 'mobility:worker:location:update',
 }
 
 /**
