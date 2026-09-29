@@ -3,6 +3,12 @@
 The wire contract every Iveri service and frontend compiles against: shared types and plain
 enums, and nothing else.
 
+Release `0.21.0` adds the shared realtime contract under `@iveri/contracts/realtime`: closed
+resource and event vocabularies, identifier-only publish messages, and short-lived subscription
+grants bound to one tenant, person and resource. It also separates permission to issue a grant
+from permission to publish an event, because authorizing a read and announcing a write are
+different powers.
+
 Release `0.20.0` adds the notification contract under `@iveri/contracts/notification` —
 `NotificationChannel`, `NotificationDeliveryStatus`, `NotificationTemplate`, `Notification` with
 its per-channel `NotificationDelivery` list, `InAppNotification` and the submit body — plus six
@@ -49,9 +55,10 @@ import type { AuthSession, Principal } from '@iveri/contracts/identity';
 import type { Conversation, Message } from '@iveri/contracts/unibox';
 import type { Namespace, TranslationBundle } from '@iveri/contracts/localization';
 import type { Notification, NotificationChannel } from '@iveri/contracts/notification';
+import type { RealtimeSubscription, RealtimeResourceUpdatedMessage } from '@iveri/contracts/realtime';
 ```
 
-Seven entry points, and no others — never `@iveri/contracts/dist/...`.
+Eight entry points, and no others — never `@iveri/contracts/dist/...`.
 
 The per-service surfaces are **not** re-exported from the root, deliberately. Conduit owns a
 `Provider`, a `Connection` and an `Endpoint`; Unibox owns a `Channel` and a `Contact` and would
