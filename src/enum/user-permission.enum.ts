@@ -451,6 +451,15 @@ export enum UserPermission {
 
     /** Submit the caller's own device heartbeat; a worker may never update somebody else's location. */
     MOBILITY_WORKER_LOCATION_UPDATE = 'mobility:worker:location:update',
+
+    /** Read dispatch aggregate state and its pickup coordinate inside the caller's tenant. */
+    MOBILITY_DISPATCH_READ = 'mobility:dispatch:read',
+
+    /** Submit a dispatch request for a vertical-owned ride or delivery job. */
+    MOBILITY_DISPATCH_CREATE = 'mobility:dispatch:create',
+
+    /** Cancel, expire, or manually operate a dispatch; intentionally not granted to ordinary submitters. */
+    MOBILITY_DISPATCH_OPERATE = 'mobility:dispatch:operate',
 }
 
 /**
