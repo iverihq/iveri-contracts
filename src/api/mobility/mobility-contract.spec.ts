@@ -1,6 +1,8 @@
 import { UserPermission } from '../../enum/user-permission.enum.js';
 
+import { MobilityAssignmentStatus } from './mobility-assignment-status.enum.js';
 import { MobilityAvailabilityStatus } from './mobility-availability-status.enum.js';
+import { MobilityDispatchOfferStatus } from './mobility-dispatch-offer-status.enum.js';
 import { MobilityDispatchStatus } from './mobility-dispatch-status.enum.js';
 import { MobilityServiceType } from './mobility-service-type.enum.js';
 import { MobilityWorkerStatus } from './mobility-worker-status.enum.js';
@@ -32,5 +34,21 @@ describe('mobility contracts', () => {
         ]);
         expect(UserPermission.MOBILITY_DISPATCH_CREATE).toBe('mobility:dispatch:create');
         expect(UserPermission.MOBILITY_DISPATCH_OPERATE).toBe('mobility:dispatch:operate');
+    });
+
+    it('keeps offer and assignment lifecycles closed', () => {
+        expect(Object.values(MobilityDispatchOfferStatus)).toEqual([
+            'pending',
+            'accepted',
+            'rejected',
+            'expired',
+            'superseded',
+        ]);
+        expect(Object.values(MobilityAssignmentStatus)).toEqual(['active', 'released']);
+    });
+
+    it('gives workers least-privilege offer access without dispatch operation', () => {
+        expect(UserPermission.MOBILITY_DISPATCH_OFFER_READ).toBe('mobility:dispatch-offer:read');
+        expect(UserPermission.MOBILITY_DISPATCH_OFFER_RESPOND).toBe('mobility:dispatch-offer:respond');
     });
 });
