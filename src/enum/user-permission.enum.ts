@@ -466,6 +466,23 @@ export enum UserPermission {
 
     /** Accept or reject only an offer addressed to the caller's own worker profile. */
     MOBILITY_DISPATCH_OFFER_RESPOND = 'mobility:dispatch-offer:respond',
+
+    // ══ taxi-api ════════════════════════════════════════════════════════════
+
+    /** Read ride state, fare quote and trip history inside the caller's tenant. */
+    TAXI_RIDE_READ = 'taxi:ride:read',
+
+    /** Request a ride and receive its fare quote. The passenger-facing grant. */
+    TAXI_RIDE_CREATE = 'taxi:ride:create',
+
+    /**
+     * Confirm, cancel or otherwise advance a ride somebody else requested.
+     *
+     * Separate from `taxi:ride:create` for the reason Mobility separates `dispatch:operate`
+     * from `dispatch:create`: requesting work and overriding it are different powers, and an
+     * operator who can cancel any ride in a tenant is not the same principal as a passenger.
+     */
+    TAXI_RIDE_OPERATE = 'taxi:ride:operate',
 }
 
 /**
