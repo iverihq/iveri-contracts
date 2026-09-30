@@ -460,6 +460,12 @@ export enum UserPermission {
 
     /** Cancel, expire, or manually operate a dispatch; intentionally not granted to ordinary submitters. */
     MOBILITY_DISPATCH_OPERATE = 'mobility:dispatch:operate',
+
+    /** Read only the dispatch offers addressed to the caller's own worker profile. */
+    MOBILITY_DISPATCH_OFFER_READ = 'mobility:dispatch-offer:read',
+
+    /** Accept or reject only an offer addressed to the caller's own worker profile. */
+    MOBILITY_DISPATCH_OFFER_RESPOND = 'mobility:dispatch-offer:respond',
 }
 
 /**
