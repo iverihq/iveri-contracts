@@ -483,6 +483,9 @@ export enum UserPermission {
      * operator who can cancel any ride in a tenant is not the same principal as a passenger.
      */
     TAXI_RIDE_OPERATE = 'taxi:ride:operate',
+
+    /** Report arrival, trip start and completion for the caller's own assigned worker only. */
+    TAXI_RIDE_DRIVE = 'taxi:ride:drive',
 }
 
 /**
