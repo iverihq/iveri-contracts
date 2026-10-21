@@ -486,6 +486,17 @@ export enum UserPermission {
 
     /** Report arrival, trip start and completion for the caller's own assigned worker only. */
     TAXI_RIDE_DRIVE = 'taxi:ride:drive',
+
+    // ══ delivery-api ═══════════════════════════════════════════════════════
+
+    /** Read delivery job and quote data in the caller's tenant; endpoints still check ownership. */
+    DELIVERY_JOB_READ = 'delivery:job:read',
+
+    /** Create a delivery job and receive its quote. The sender-facing grant. */
+    DELIVERY_JOB_CREATE = 'delivery:job:create',
+
+    /** Confirm or cancel a delivery job; operator actions on another sender's job require this grant. */
+    DELIVERY_JOB_OPERATE = 'delivery:job:operate',
 }
 
 /**
