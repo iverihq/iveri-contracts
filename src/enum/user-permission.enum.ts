@@ -497,6 +497,9 @@ export enum UserPermission {
 
     /** Confirm or cancel a delivery job; operator actions on another sender's job require this grant. */
     DELIVERY_JOB_OPERATE = 'delivery:job:operate',
+
+    /** Read and advance only jobs assigned to the caller's own courier worker. */
+    DELIVERY_JOB_DELIVER = 'delivery:job:deliver',
 }
 
 /**
