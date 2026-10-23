@@ -23,8 +23,16 @@ describe('shared realtime contract', () => {
         [RealtimeEventType.MOBILITY_WORKER_UPDATED, 'mobility.worker.updated'],
         [RealtimeEventType.MOBILITY_WORKER_LOCATION_UPDATED, 'mobility.worker-location.updated'],
         [RealtimeEventType.MOBILITY_ASSIGNMENT_UPDATED, 'mobility.assignment.updated'],
+        [RealtimeEventType.MOBILITY_DISPATCH_OFFER_UPDATED, 'mobility.dispatch-offer.updated'],
     ])('pins event type %s', (member, value) => {
         expect(member).toBe(value);
+    });
+
+    // There is deliberately no `mobility.dispatch-offer` resource. An offer is addressed to a
+    // worker and discovered through them, so adding one would invite a grant for a resource the
+    // subscriber cannot name until after the thing they are waiting for has already happened.
+    it('keeps offers addressable only through the worker that holds them', () => {
+        expect(Object.values(RealtimeResourceType)).not.toContain('mobility.dispatch-offer');
     });
 
     it('keeps grants short-lived and scoped to this gateway', () => {
