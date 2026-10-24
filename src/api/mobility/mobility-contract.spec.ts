@@ -4,10 +4,33 @@ import { MobilityAssignmentStatus } from './mobility-assignment-status.enum.js';
 import { MobilityAvailabilityStatus } from './mobility-availability-status.enum.js';
 import { MobilityDispatchOfferStatus } from './mobility-dispatch-offer-status.enum.js';
 import { MobilityDispatchStatus } from './mobility-dispatch-status.enum.js';
+import type { CreateMobilityDispatchBody, MobilityDispatch } from './mobility-dispatch.type.js';
 import { MobilityServiceType } from './mobility-service-type.enum.js';
 import { MobilityWorkerStatus } from './mobility-worker-status.enum.js';
 
 describe('mobility contracts', () => {
+    it('requires a pickup to create a dispatch and allows a redacted one to be read', () => {
+        // A type-level assertion, written as a value so it runs: a dispatch cannot be *created*
+        // without a pickup, while one read back may have had it redacted past Mobility's location
+        // retention window. Collapsing the two into one shape is the tidy-up that would either
+        // let a caller submit a dispatch with nowhere to search from, or make every reader of a
+        // live dispatch handle a null that cannot occur.
+        const created: CreateMobilityDispatchBody = {
+            serviceType: MobilityServiceType.TAXI,
+            subjectId: '11111111-1111-4111-8111-111111111111',
+            pickupLatitude: 41.7151,
+            pickupLongitude: 44.8271,
+        };
+        const redacted: Pick<MobilityDispatch, 'pickupLatitude' | 'pickupLongitude'> = {
+            pickupLatitude: null,
+            pickupLongitude: null,
+        };
+
+        expect(created.pickupLatitude).toBe(41.7151);
+        expect(redacted.pickupLatitude).toBeNull();
+        expect(redacted.pickupLongitude).toBeNull();
+    });
+
     it('keeps service types closed', () => {
         expect(Object.values(MobilityServiceType)).toEqual(['taxi', 'delivery']);
     });
