@@ -74,4 +74,13 @@ export interface UpdateEndpointBody {
 export interface GetEndpointsQuery {
     limit?: number;
     offset?: number;
+    /**
+     * Case-insensitive partial match on the endpoint name.
+     *
+     * The panel renders endpoints as a filter dropdown, which takes one page — so past that page a
+     * workspace cannot select the rest at all, and a `<select>` holding the first hundred names
+     * looks exactly like one holding every name. `%` and `_` are matched literally rather than as
+     * wildcards, so a search matches what the operator typed.
+     */
+    search?: string;
 }
