@@ -1,4 +1,5 @@
 import type { IsoDateTime } from '../../type/iso-date-time.type.js';
+import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
 import type { MobilityDispatchStatus } from './mobility-dispatch-status.enum.js';
@@ -15,8 +16,23 @@ export interface MobilityDispatch {
     serviceType: MobilityServiceType;
     subjectId: UUID;
     status: MobilityDispatchStatus;
-    pickupLatitude: number;
-    pickupLongitude: number;
+    /**
+     * `null` once the dispatch is past Mobility's location retention window.
+     *
+     * **Nullable because it is redacted, not because it is optional** —
+     * `CreateMobilityDispatchBody` below still requires both, and a dispatch cannot exist without
+     * them. Mobility strips them from a terminal dispatch and keeps the row, because the
+     * assignment hanging off it is a worker's evidence of a job they did.
+     *
+     * This is the half of the products' own retention promise that lives here: Taxi and Delivery
+     * expire a ride's and a job's coordinates, and **the pickup survived in this table keyed by
+     * the same `subjectId`** until this window existed. A reader that holds this value past a
+     * product's window is holding what that product has already deleted.
+     *
+     * Both move together, so a consumer that can render one can render both.
+     */
+    pickupLatitude: Nullable<number>;
+    pickupLongitude: Nullable<number>;
     expiresAt: IsoDateTime;
     /** Version of the dispatch state machine, not a worker or location version. */
     version: number;
@@ -24,7 +40,13 @@ export interface MobilityDispatch {
     updatedAt: IsoDateTime;
 }
 
-/** `POST /api/v1/dispatches`; retry safety is supplied by the `Idempotency-Key` header. */
+/**
+ * `POST /api/v1/dispatches`; retry safety is supplied by the `Idempotency-Key` header.
+ *
+ * The two coordinates are **required here and nullable on `MobilityDispatch`**, deliberately: the
+ * request and the response are the same fields with opposite nullability, and widening this one so
+ * the two could share a type would let a caller submit a dispatch with nowhere to search from.
+ */
 export interface CreateMobilityDispatchBody {
     serviceType: MobilityServiceType;
     subjectId: UUID;
