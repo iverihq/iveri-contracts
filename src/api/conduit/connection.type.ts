@@ -2,6 +2,9 @@ import type { IsoDateTime } from '../../type/iso-date-time.type.js';
 import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
+import type { ConnectionVerificationVerdict } from './connection-verification-verdict.enum.js';
+import type { ConnectorAuthType } from './connector-auth-type.enum.js';
+
 /**
  * One tenant's configured instance of a connector: the credentials and the account details that
  * turn a manifest into something that can actually send.
@@ -111,4 +114,38 @@ export interface UpdateConnectionBody {
     credentials?: Nullable<Record<string, string>>;
     variables?: Nullable<Record<string, string>>;
     isActive?: boolean;
+}
+
+/**
+ * `POST /api/v1/connections/:id/verify`.
+ *
+ * Takes no body. Everything the check needs is already on the connection and its connector's
+ * manifest, and a field a caller could send would be a field that changes what is verified —
+ * which is the opposite of the point.
+ */
+export interface ConnectionVerification {
+    verdict: ConnectionVerificationVerdict;
+
+    /**
+     * The auth type the verdict was reached under, so a client can explain it without fetching
+     * the connector.
+     *
+     * A reader needs this to say *why* a verdict is as weak as it is — "nothing to check" and
+     * "cannot be checked without sending something real" are different sentences, and which one
+     * applies is a property of the connector rather than of the connection.
+     */
+    authType: ConnectorAuthType;
+
+    /**
+     * What the provider or the configuration said, when there is something to pass on.
+     *
+     * **Never a credential, in whole or in part.** It carries a token endpoint's error code, a
+     * missing credential's name, or a timeout — the same things `lastAuthError` holds, and the
+     * same rule applies: no endpoint returns a credential value in any form, not masked, not
+     * truncated, not a length.
+     */
+    detail: Nullable<string>;
+
+    /** When the check ran. A client showing a stale verdict should say how stale. */
+    checkedAt: IsoDateTime;
 }

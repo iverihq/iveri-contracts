@@ -1,4 +1,5 @@
 export * from './capture.type.js';
+export * from './connection-verification-verdict.enum.js';
 export * from './connection.type.js';
 export * from './connector-auth-type.enum.js';
 export * from './connector.type.js';
