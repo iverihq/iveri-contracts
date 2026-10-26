@@ -309,7 +309,31 @@ export enum UserPermission {
     // ── Payment ────────────────────────────────────────────────────────────
     /** Read payment sessions and their provider-neutral status. */
     BILLING_PAYMENT_READ = 'billing:payment:read',
-    /** Create payment sessions and operate refunds or recurring authorizations. */
+    /**
+     * Start a hosted payment. **Separate from `manage` because of what `manage` also covers:**
+     * issuing a refund, charging a saved card through a recurring authorization, and writing a
+     * tenant's encrypted merchant credentials. Three very different blast radii behind one grant,
+     * which `iveri-billing-api`'s authorization matrix has recorded as a gap since it was written.
+     *
+     * A vertical that sells something needs exactly one of those four things. `commerce-api` holds
+     * this so a shopper's order can be paid for, and holding it does not let Commerce move money
+     * back out, charge a card again, or read a credential.
+     *
+     * It does not carry a read: `billing:payment:read` still opens the status route, and that read
+     * is tenant-wide because **billing records no owner for a session** — it stores our own payment
+     * state, a provider key and an opaque reference, and nothing about what the payment was for. A
+     * narrower "read the ones you started" grant would be a promise the schema cannot keep.
+     */
+    BILLING_PAYMENT_CHECKOUT = 'billing:payment:checkout',
+    /**
+     * Operate refunds, recurring authorizations and charges, and merchant credentials.
+     *
+     * Creating a payment session moved to {@link UserPermission.BILLING_PAYMENT_CHECKOUT}. That was
+     * affordable as a move rather than an addition because **nothing in the fleet called that route
+     * yet** — the one case where narrowing an existing route costs no backfill. Contrast
+     * `commerce:order:*`, which had to be added beside `commerce:catalog:*` rather than moving the
+     * merchant's own routes, since `OWNER` is derived from `ALL_USER_PERMISSIONS` at seed time.
+     */
     BILLING_PAYMENT_MANAGE = 'billing:payment:manage',
 
     // ── Invoice ────────────────────────────────────────────────────────────
