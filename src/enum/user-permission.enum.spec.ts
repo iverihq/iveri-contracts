@@ -35,6 +35,18 @@ describe('UserPermission', () => {
         expect(Object.isFrozen(ALL_USER_PERMISSIONS)).toBe(true);
     });
 
+    it('keeps starting a payment apart from moving money back out', () => {
+        // The reason `billing:payment:checkout` exists. `billing:payment:manage` opens refunds,
+        // recurring charges against a saved card, and a tenant's encrypted merchant credentials —
+        // and `commerce-api` needs none of those to let a shopper pay for an order.
+        //
+        // Pinned here rather than only in billing's authorization matrix because the tempting
+        // "simplification" is to delete one of the two and widen the other, which reads as tidying
+        // a redundant pair.
+        expect(UserPermission.BILLING_PAYMENT_CHECKOUT).not.toBe(UserPermission.BILLING_PAYMENT_MANAGE);
+        expect(UserPermission.BILLING_PAYMENT_CHECKOUT).not.toBe(UserPermission.BILLING_PAYMENT_READ);
+    });
+
     it.each([
         ['CONDUIT_', 'conduit:'],
         ['COMMERCE_', 'commerce:'],
