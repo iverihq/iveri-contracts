@@ -171,6 +171,22 @@ export enum UserPermission {
     /** Create, edit, archive or restore products in the tenant's catalog. */
     COMMERCE_CATALOG_MANAGE = 'commerce:catalog:manage',
 
+    // ── Shopper orders ──────────────────────────────────────────────────────
+    //
+    // Separate from the catalog pair because of **who holds them**: `storefront-api` answers the
+    // public internet on a merchant's behalf, and it has to be able to place an order without
+    // being able to delete the merchant's products. `commerce:catalog:manage` covers both, so
+    // granting it to that service would put a catalogue edit one bug away from a shopfront.
+    //
+    // The merchant's own `/orders` routes still carry `commerce:catalog:*`. Moving them here is
+    // the right follow-up and is **not** a decorator change: `OWNER` is derived from
+    // `ALL_USER_PERMISSIONS` *at seed time*, so a tenant that already exists would not hold these
+    // and its owner would lose access to their own orders. It needs a backfill first.
+    /** Read orders a shopper placed, scoped to that shopper by the caller. */
+    COMMERCE_ORDER_READ = 'commerce:order:read',
+    /** Place an order on a shopper's behalf. Does not permit any catalog change. */
+    COMMERCE_ORDER_CREATE = 'commerce:order:create',
+
     // ══ iveri-messaging-api ═════════════════════════════════════════════════
 
     /** Read tenant message and provider-neutral delivery records. */
