@@ -87,3 +87,34 @@ export interface GetCapturesQuery {
     method?: Nullable<string>;
     signatureVerdict?: Nullable<SignatureVerdict>;
 }
+
+/**
+ * `GET /api/v1/capture/stats`.
+ *
+ * Three numbers for a landing page, not a reporting surface. Each is deliberately cheap: see the
+ * note on {@link CaptureStats.signatureRejected} for the one that needed an index to stay that
+ * way.
+ */
+export interface CaptureStats {
+    /** How far back the counts reach. Fixed by the service, not chosen by the caller. */
+    windowHours: number;
+
+    /** Every capture received in the window, whatever its signature verdict. */
+    received: number;
+
+    /**
+     * Captures whose signature was checked and found wrong — `invalid` or
+     * `timestamp-out-of-tolerance`, the only two verdicts that mean something is actually wrong.
+     *
+     * **Not a breakdown by verdict**, deliberately. The other six are "verification could not
+     * run", each for a separately fixable configuration reason, and a client has to map all
+     * eight to a tone anyway — so a pre-grouped "unverified" count here would be a second place
+     * that decides which verdicts are failures, which is how one of the two comes to disagree
+     * with the badge beside it. The eight-way breakdown is what the capture list's own verdict
+     * filter is for.
+     *
+     * In gateway mode a rejected signature is a webhook that was captured and **not forwarded**,
+     * so this is data a customer's receiver never got, for a reason nobody has been told about.
+     */
+    signatureRejected: number;
+}

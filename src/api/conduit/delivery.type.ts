@@ -103,3 +103,54 @@ export interface GetDeliveriesQuery {
     /** Everything one capture fanned out to. */
     captureId?: Nullable<UUID>;
 }
+
+/**
+ * `GET /api/v1/deliveries/stats`.
+ *
+ * **The split between the two halves is the whole design, and it is not a presentation choice.**
+ * A count is only as cheap as the set it scans, and "all time" is affordable only for a set
+ * something else keeps small — so the backlog is counted over all time because the processor and
+ * the retention sweep bound it, while throughput is counted over a window because nothing bounds
+ * the delivered rows.
+ *
+ * It is also the honest reading for an operator: a dead letter from three days ago is still
+ * somebody's data that never arrived, and windowing it would quietly retire the problem.
+ */
+export interface DeliveryStats {
+    /** Deliveries still waiting on something, over all time. */
+    backlog: DeliveryBacklog;
+
+    /** How far back {@link DeliveryStats.recent} reaches. Fixed by the service. */
+    windowHours: number;
+
+    recent: DeliveryThroughput;
+}
+
+export interface DeliveryBacklog {
+    /** Queued, including rows waiting out a backoff. */
+    pending: number;
+
+    /** Claimed by a replica and being attempted. */
+    inFlight: number;
+
+    /**
+     * Out of attempts. Terminal until an operator redrives one, so this number does not come
+     * down on its own — which is exactly why it is the first thing a dashboard shows.
+     */
+    deadLettered: number;
+}
+
+/**
+ * Deliveries **created** in the window, by the state they are in now.
+ *
+ * Created, rather than finished, because `created_at` is indexed and the terminal transition is
+ * not — and `updated_at` would not answer the question either, since a redrive touches it too. A
+ * delivery's whole life is one attempt budget of capped, jittered backoff, so the only rows this
+ * misplaces are the handful created in the half hour before the window opened.
+ */
+export interface DeliveryThroughput {
+    delivered: number;
+
+    /** The denominator's other half: `delivered / (delivered + deadLettered)` is the success rate. */
+    deadLettered: number;
+}

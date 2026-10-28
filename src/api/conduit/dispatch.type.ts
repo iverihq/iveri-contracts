@@ -184,3 +184,40 @@ export interface SubmitDispatchResponse {
 
     createdAt: IsoDateTime;
 }
+
+/**
+ * `GET /api/v1/dispatches/stats`.
+ *
+ * The same two halves as {@link DeliveryStats}, and separate from it for the same reason the two
+ * queues are separate tables: inbound a dead letter means a customer's receiver never got their
+ * data, outbound it means a message a vertical believes it sent never arrived. One number
+ * covering both would need an operator to guess which.
+ */
+export interface DispatchStats {
+    /** Dispatches still waiting on something, over all time. */
+    backlog: DispatchBacklog;
+
+    /** How far back {@link DispatchStats.recent} reaches. Fixed by the service. */
+    windowHours: number;
+
+    recent: DispatchThroughput;
+}
+
+export interface DispatchBacklog {
+    /**
+     * Queued, including rows pushed out by a connector's rate limit — a deferral costs no
+     * attempt, so a busy connection legitimately shows a backlog here while nothing is wrong.
+     */
+    pending: number;
+
+    inFlight: number;
+
+    /** Out of attempts, and terminal until an operator redrives one. */
+    deadLettered: number;
+}
+
+/** Dispatches created in the window, by the state they are in now. {@link DeliveryThroughput} has the reasoning. */
+export interface DispatchThroughput {
+    delivered: number;
+    deadLettered: number;
+}
