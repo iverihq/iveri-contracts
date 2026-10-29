@@ -3,10 +3,18 @@ import type { UUID } from '../../type/uuid.type.js';
 
 import type { MobilityAvailabilityStatus } from './mobility-availability-status.enum.js';
 import type { MobilityServiceType } from './mobility-service-type.enum.js';
+import type { MobilityWorkerReputation } from './mobility-worker-rating.type.js';
 import type { MobilityWorkerStatus } from './mobility-worker-status.enum.js';
 
-/** Shared worker profile used by taxi and delivery dispatch. */
-export interface MobilityWorker {
+/**
+ * Shared worker profile used by taxi and delivery dispatch.
+ *
+ * It extends {@link MobilityWorkerReputation} rather than carrying a separate route, because
+ * every caller that wants a worker's standing already holds `mobility:worker:read` and is
+ * already reading this row — a second endpoint would be a second request and a second permission
+ * question for two columns sitting on the row the first one returned.
+ */
+export interface MobilityWorker extends MobilityWorkerReputation {
     id: UUID;
     /** Identity user represented by this worker. Unique within a tenant. */
     userId: UUID;
