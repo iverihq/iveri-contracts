@@ -6,5 +6,6 @@ export * from './mobility-dispatch-offer.type.js';
 export * from './mobility-dispatch-status.enum.js';
 export * from './mobility-dispatch.type.js';
 export * from './mobility-service-type.enum.js';
+export * from './mobility-worker-rating.type.js';
 export * from './mobility-worker-status.enum.js';
 export * from './mobility-worker.type.js';

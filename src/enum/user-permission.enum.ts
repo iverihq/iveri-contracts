@@ -501,6 +501,18 @@ export enum UserPermission {
     /** Go online or offline. Assignment-owned `busy` cannot be requested through this grant. */
     MOBILITY_WORKER_AVAILABILITY_UPDATE = 'mobility:worker:availability:update',
 
+    /**
+     * Record one customer's score for one completed assignment.
+     *
+     * Held by a **product API**, never by a passenger or a sender: only `taxi-api` and
+     * `delivery-api` know who was on a given ride or job, and whether it finished. A customer
+     * rates through the product, which submits here with its own service credential — the same
+     * arrangement as dispatch, and the reason this is not folded into
+     * {@link UserPermission.MOBILITY_WORKER_MANAGE}, which is an administrator's grant over
+     * somebody's capabilities and employment.
+     */
+    MOBILITY_WORKER_RATING_SUBMIT = 'mobility:worker:rating:submit',
+
     /** Read a worker's latest raw coordinate. Separate because location is sensitive operational data. */
     MOBILITY_WORKER_LOCATION_READ = 'mobility:worker:location:read',
 
