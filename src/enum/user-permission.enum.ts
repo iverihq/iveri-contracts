@@ -31,6 +31,21 @@ export enum UserPermission {
     USER_UPDATE = 'user:update',
     USER_REMOVE = 'user:remove',
 
+    // ── Profile ─────────────────────────────────────────────────────────────
+    /**
+     * Read the **public** half of somebody else's profile — a display name and a photo, and
+     * nothing else.
+     *
+     * Deliberately not `USER_READ`, which returns an email, a membership and a role list for
+     * every person in the tenant. The thing a passenger needs is the face of the driver coming
+     * to collect them, and the thing a merchant needs is the name of the courier at their door;
+     * granting a tenant-wide user read to answer that would hand a phone the staff directory.
+     *
+     * A person always reads their **own** profile through `GET /auth/me`, which needs no
+     * permission at all — it is the subject of the presented token.
+     */
+    PROFILE_READ = 'profile:read',
+
     // ── Membership ──────────────────────────────────────────────────────────
     MEMBERSHIP_READ = 'membership:read',
     /** Suspend or reactivate someone's access without deleting their account. */

@@ -106,6 +106,24 @@ export interface Principal {
     firstName: Nullable<string>;
     lastName: Nullable<string>;
 
+    /**
+     * E.164, or null where nobody has given one.
+     *
+     * Stored as typed, not normalised: a Georgian number written `+995 555 12 34 56` and the
+     * same number without spaces are one number to a person and two strings to a column, and
+     * guessing a country code for a bare `555123456` is how a driver ends up unreachable.
+     */
+    phone: Nullable<string>;
+
+    /**
+     * Absolute URL of this person's photo, or null.
+     *
+     * The key is a digest of the bytes, so the URL changes whenever the photo does and may be
+     * cached for a year. It carries **no tenant id** — these are fetched by a passenger's phone
+     * looking at their driver, the same reason a product image carries none.
+     */
+    avatarUrl: Nullable<string>;
+
     tenantId: UUID;
     tenantName: string;
     tenantSlug: string;
@@ -129,4 +147,44 @@ export interface Principal {
 export interface AuthSession {
     principal: Principal;
     tokens: AuthTokens;
+}
+
+/**
+ * `PATCH /auth/me` — a person editing their own profile.
+ *
+ * Self-service, so it carries **no permission**: the subject of the presented token is the row
+ * that changes and there is no field that could name anybody else. That is what lets a driver,
+ * a courier and a shopper — none of whom hold `USER_UPDATE` — put their own name right, where
+ * `PATCH /users/:userId` is the administrative route and answers 403 to all three.
+ *
+ * Every field is optional and an omitted one is left alone. `phone` is the one that accepts an
+ * explicit `null`, which clears it; omitting it and clearing it are different instructions, and
+ * a form that sent its empty input as `''` rather than `null` would be asking for a third thing
+ * again.
+ */
+export interface UpdateProfileBody {
+    firstName?: string;
+    lastName?: string;
+    phone?: Nullable<string>;
+}
+
+/**
+ * What one person may see about another. Returned by `GET /users/:userId/profile` behind
+ * {@link UserPermission.PROFILE_READ}.
+ *
+ * **The whole value of this type is what it leaves out.** No email, no phone, no role, no
+ * membership, no tenant — a passenger looking at their driver gets a name and a face, which is
+ * what makes getting into a stranger's car reasonable, and nothing that would make the route a
+ * way to enumerate a workforce.
+ *
+ * `displayName` is composed by the server rather than assembled by each client, so a driver is
+ * named identically on a phone, in a panel and in a receipt.
+ */
+export interface PublicProfile {
+    userId: UUID;
+
+    /** `firstName lastName`, trimmed; the email's local part where no name is set. */
+    displayName: string;
+
+    avatarUrl: Nullable<string>;
 }
