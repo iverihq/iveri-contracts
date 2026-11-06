@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { ErrorCode } from '../enum/error-code.enum.js';
 
 import type { ApiErrorResponse } from './api-response.type.js';

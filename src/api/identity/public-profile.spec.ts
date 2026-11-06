@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import type { Principal, PublicProfile } from './auth.type.js';
 
 /**

@@ -1,6 +1,6 @@
 {
   "name": "@iveri/contracts",
-  "version": "0.38.0",
+  "version": "0.39.0",
   "description": "Wire contracts shared by every Iveri backend and frontend. Zero runtime dependencies.",
   "license": "MIT",
   "repository": {
@@ -10,89 +10,49 @@
   "publishConfig": {
     "access": "public"
   },
+  "type": "module",
   "engines": {
     "node": ">=26"
   },
-  "packageManager": "pnpm@9.12.0",
-  "type": "commonjs",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/cjs/index.d.ts",
+  "packageManager": "pnpm@12.18.0",
   "exports": {
     ".": {
-      "types": "./dist/cjs/index.d.ts",
-      "import": "./dist/esm/index.js",
-      "require": "./dist/cjs/index.js"
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
     },
     "./conduit": {
-      "types": "./dist/cjs/api/conduit/index.d.ts",
-      "import": "./dist/esm/api/conduit/index.js",
-      "require": "./dist/cjs/api/conduit/index.js"
+      "types": "./dist/api/conduit/index.d.ts",
+      "default": "./dist/api/conduit/index.js"
     },
     "./identity": {
-      "types": "./dist/cjs/api/identity/index.d.ts",
-      "import": "./dist/esm/api/identity/index.js",
-      "require": "./dist/cjs/api/identity/index.js"
+      "types": "./dist/api/identity/index.d.ts",
+      "default": "./dist/api/identity/index.js"
     },
     "./unibox": {
-      "types": "./dist/cjs/api/unibox/index.d.ts",
-      "import": "./dist/esm/api/unibox/index.js",
-      "require": "./dist/cjs/api/unibox/index.js"
+      "types": "./dist/api/unibox/index.d.ts",
+      "default": "./dist/api/unibox/index.js"
     },
     "./unibox-ai": {
-      "types": "./dist/cjs/api/unibox-ai/index.d.ts",
-      "import": "./dist/esm/api/unibox-ai/index.js",
-      "require": "./dist/cjs/api/unibox-ai/index.js"
+      "types": "./dist/api/unibox-ai/index.d.ts",
+      "default": "./dist/api/unibox-ai/index.js"
     },
     "./localization": {
-      "types": "./dist/cjs/api/localization/index.d.ts",
-      "import": "./dist/esm/api/localization/index.js",
-      "require": "./dist/cjs/api/localization/index.js"
+      "types": "./dist/api/localization/index.d.ts",
+      "default": "./dist/api/localization/index.js"
     },
     "./notification": {
-      "types": "./dist/cjs/api/notification/index.d.ts",
-      "import": "./dist/esm/api/notification/index.js",
-      "require": "./dist/cjs/api/notification/index.js"
+      "types": "./dist/api/notification/index.d.ts",
+      "default": "./dist/api/notification/index.js"
     },
     "./realtime": {
-      "types": "./dist/cjs/api/realtime/index.d.ts",
-      "import": "./dist/esm/api/realtime/index.js",
-      "require": "./dist/cjs/api/realtime/index.js"
+      "types": "./dist/api/realtime/index.d.ts",
+      "default": "./dist/api/realtime/index.js"
     },
     "./mobility": {
-      "types": "./dist/cjs/api/mobility/index.d.ts",
-      "import": "./dist/esm/api/mobility/index.js",
-      "require": "./dist/cjs/api/mobility/index.js"
+      "types": "./dist/api/mobility/index.d.ts",
+      "default": "./dist/api/mobility/index.js"
     },
     "./package.json": "./package.json"
-  },
-  "typesVersions": {
-    "*": {
-      "conduit": [
-        "./dist/cjs/api/conduit/index.d.ts"
-      ],
-      "identity": [
-        "./dist/cjs/api/identity/index.d.ts"
-      ],
-      "localization": [
-        "./dist/cjs/api/localization/index.d.ts"
-      ],
-      "notification": [
-        "./dist/cjs/api/notification/index.d.ts"
-      ],
-      "realtime": [
-        "./dist/cjs/api/realtime/index.d.ts"
-      ],
-      "mobility": [
-        "./dist/cjs/api/mobility/index.d.ts"
-      ],
-      "unibox": [
-        "./dist/cjs/api/unibox/index.d.ts"
-      ],
-      "unibox-ai": [
-        "./dist/cjs/api/unibox-ai/index.d.ts"
-      ]
-    }
   },
   "sideEffects": false,
   "files": [
@@ -100,26 +60,23 @@
     "README.md"
   ],
   "scripts": {
-    "clean": "rimraf dist tsconfig.*.tsbuildinfo",
-    "build": "pnpm clean && tsc -p tsconfig.cjs.json && tsc -p tsconfig.esm.json && node ./scripts/write-dist-package-json.mjs && node ./scripts/verify-zero-runtime-deps.mjs && node ./scripts/verify-entry-points.mjs",
+    "clean": "rimraf dist",
+    "build": "pnpm clean && tsc -p tsconfig.build.json && node ./scripts/verify-zero-runtime-deps.mjs && node ./scripts/verify-entry-points.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "jest",
+    "test": "vitest run",
     "lint": "eslint .",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "prettier": "@iveri/prettier-config",
   "devDependencies": {
-    "@iveri/eslint-config": "^0.1.0",
+    "@iveri/eslint-config": "^0.2.3",
     "@iveri/prettier-config": "^0.1.0",
-    "@iveri/tsconfig": "^0.1.0",
-    "@types/jest": "^29.5.14",
-    "@types/node": "^26.6.6",
-    "eslint": "^9.18.0",
-    "jest": "^29.7.0",
-    "prettier": "^3.4.2",
-    "rimraf": "^6.0.1",
-    "ts-jest": "^29.2.5",
-    "typescript": "^5.7.3"
+    "@iveri/tsconfig": "^0.2.1",
+    "eslint": "^10.14.0",
+    "prettier": "^3.9.10",
+    "rimraf": "^6.1.4",
+    "typescript": "~6.0.3",
+    "vitest": "^5.1.0"
   }
 }

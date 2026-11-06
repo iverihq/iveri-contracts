@@ -3,6 +3,11 @@
 The wire contract every Iveri service and frontend compiles against: shared types and plain
 enums, and nothing else.
 
+Release `0.39.0` is **ESM-only**: one build, `"type": "module"`, and an `exports` map whose every
+entry offers exactly `types` and `default`. The CommonJS build and the `typesVersions` block are
+gone, so a consumer resolves the subpaths under `moduleResolution` `nodenext` or `bundler` — and
+under Node 26 a CommonJS consumer still loads it, through `require`. See `CHANGELOG.md`.
+
 Release `0.21.0` adds the shared realtime contract under `@iveri/contracts/realtime`: closed
 resource and event vocabularies, identifier-only publish messages, and short-lived subscription
 grants bound to one tenant, person and resource. It also separates permission to issue a grant
@@ -46,8 +51,9 @@ pnpm add @iveri/contracts
 ```
 
 ```ts
-// Cross-service primitives.
-import { CursorPage, ErrorCode, Maybe, Paginated, UUID, UserPermission } from '@iveri/contracts';
+// Cross-service primitives. Enums are values; everything else is a type, imported as one.
+import { ErrorCode, UserPermission } from '@iveri/contracts';
+import type { CursorPage, Maybe, Paginated, UUID } from '@iveri/contracts';
 
 // One service's wire surface.
 import type { CaptureSummary, Endpoint } from '@iveri/contracts/conduit';
@@ -58,7 +64,7 @@ import type { Notification, NotificationChannel } from '@iveri/contracts/notific
 import type { RealtimeSubscription, RealtimeResourceUpdatedMessage } from '@iveri/contracts/realtime';
 ```
 
-Eight entry points, and no others — never `@iveri/contracts/dist/...`.
+Nine entry points — the root and one per service — and no others — never `@iveri/contracts/dist/...`.
 
 The per-service surfaces are **not** re-exported from the root, deliberately. Conduit owns a
 `Provider`, a `Connection` and an `Endpoint`; Unibox owns a `Channel` and a `Contact` and would
@@ -158,7 +164,7 @@ taking over reads to know what the customer was already told — adding it later
 message written before then indistinguishable from a human's, retroactively. `ChannelPlatform.ECHO`
 is a first-class member for the same reason Conduit's `local-echo` connector is: the whole pipeline
 is provable without a Meta app, and a test double would put a branch in the normalizer registry
-that only exists under Jest.
+that only exists under a test runner.
 
 ### `api/localization/` → `@iveri/contracts/localization`
 
@@ -234,11 +240,25 @@ Conduit's outbox.
 
 ## Build output
 
-Dual ESM + CJS (`dist/esm`, `dist/cjs`) behind an `exports` map, so NestJS `require`s it and
-Vite tree-shakes it. `sideEffects: false`.
+One ES module build in `dist/`, `"type": "module"`, `sideEffects: false`. Every entry point in
+the `exports` map offers exactly two conditions:
 
-The subpath entry points also need a `typesVersions` block, because **TypeScript only reads
-`exports` under `moduleResolution` `node16`/`nodenext`/`bundler`** and every Nest service in the
-fleet compiles with `"node"`. Without it `@iveri/contracts/conduit` resolves at runtime and is
-untyped at compile time — in one repo but not another, which is a confusing thing to debug.
-`scripts/verify-entry-points.mjs` runs in `build` and fails if either half is missing.
+```json
+"./conduit": { "types": "./dist/api/conduit/index.d.ts", "default": "./dist/api/conduit/index.js" }
+```
+
+- **`default`, not `import`.** Metro resolves a React Native bundle with the `require` and
+  `default` conditions, so an `import`-only map builds every web app and service and breaks both
+  Expo apps.
+- **No CommonJS build.** Node 26 loads an ES module through `require`, so a second build would only
+  be a second thing to keep in step.
+- **No `typesVersions`.** It existed for services compiled with `moduleResolution: node`, which
+  TypeScript 6 no longer accepts. `nodenext` and `bundler` both read the `exports` map.
+- **No source maps.** They would point at `src/`, which is not published; the declarations carry
+  every comment an editor shows.
+
+`pnpm build` refuses to finish unless every entry point is emitted and loads in Node both imported
+and required (`scripts/verify-entry-points.mjs`), and unless nothing emitted — JavaScript **or**
+declarations — refers to a module outside the package (`scripts/verify-zero-runtime-deps.mjs`).
+Scanning the declarations matters: `import type` disappears from JavaScript and survives into a
+`.d.ts`, where a type from a package the consumer does not have fails their build just as surely.

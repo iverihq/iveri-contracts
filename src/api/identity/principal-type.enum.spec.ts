@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { PrincipalType } from './principal-type.enum.js';
 
 describe('PrincipalType', () => {

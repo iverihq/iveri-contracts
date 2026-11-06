@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { ConnectionVerificationVerdict } from './connection-verification-verdict.enum.js';
 import { ConnectorAuthType } from './connector-auth-type.enum.js';
 
