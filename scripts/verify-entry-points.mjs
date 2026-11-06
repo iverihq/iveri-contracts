@@ -1,30 +1,25 @@
 /**
- * Every declared entry point must resolve, as JavaScript *and* as types, in both module
- * systems.
+ * Every declared entry point must be emitted and must load in Node, both imported and required.
  *
- * The subpaths (`@iveri/contracts/conduit`, `@iveri/contracts/identity`) are more fragile than
- * the root: an `exports` map is honoured by Node and by bundlers, but **TypeScript only reads
- * it under `moduleResolution` `node16`/`nodenext`/`bundler`**. Every Nest service in the fleet
- * compiles with `moduleResolution: "node"`, which ignores `exports` entirely and resolves a
- * subpath by looking for a matching path on disk. So the services need `typesVersions`, the
- * frontends and Node itself need `exports`, and dropping either one produces a failure that
- * looks nothing like its cause — `conduit-api` reporting "Cannot find module
- * '@iveri/contracts/conduit'" while the identical import compiles in `conduit-admin-web`.
+ * The package is ESM-only and each entry point offers exactly two conditions: `types` for
+ * TypeScript and `default` for everything else. `default` rather than `import` is load-bearing:
+ * Metro resolves a React Native bundle with the `require` and `default` conditions, so an
+ * `import`-only map builds every web app and service and breaks both Expo apps. Requiring each
+ * entry point below is the same question Metro asks.
  *
  * Runs in `build`, after the emit, so the package cannot be published half-wired.
  */
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
-import { dirname, resolve } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { resolve } from 'node:path';
 
-const PACKAGE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+const PACKAGE_ROOT = resolve(import.meta.dirname, '..');
 const manifest = JSON.parse(readFileSync(resolve(PACKAGE_ROOT, 'package.json'), 'utf8'));
 const require = createRequire(import.meta.url);
 
 /** One representative runtime export per entry point — an enum, so it survives to JavaScript. */
-const ENTRY_POINTS = [
+const ENTRY_POINTS = new Map([
     ['.', 'UserPermission'],
     ['./conduit', 'SignatureVerdict'],
     ['./identity', 'TenantStatus'],
@@ -34,36 +29,48 @@ const ENTRY_POINTS = [
     ['./notification', 'NotificationChannel'],
     ['./realtime', 'RealtimeResourceType'],
     ['./mobility', 'MobilityServiceType'],
-];
+]);
+
+// Left behind by a dual build, each of these points at a file that no longer exists.
+for (const field of ['main', 'module', 'types', 'typesVersions']) {
+    assert.ok(!(field in manifest), `package.json still declares "${field}"; the exports map is the only entry.`);
+}
+
+const declared = Object.keys(manifest.exports).filter((subpath) => subpath !== './package.json');
+assert.deepEqual(
+    declared.toSorted(),
+    [...ENTRY_POINTS.keys()].toSorted(),
+    'The exports map and the entry points this script checks have drifted apart.',
+);
 
 for (const [subpath, member] of ENTRY_POINTS) {
     const specifier = subpath === '.' ? manifest.name : `${manifest.name}/${subpath.slice(2)}`;
     const conditions = manifest.exports[subpath];
 
-    assert.ok(conditions, `${subpath} is missing from the exports map.`);
-
-    for (const condition of ['types', 'import', 'require']) {
-        const target = resolve(PACKAGE_ROOT, conditions[condition]);
+    // `types` first: resolvers take the first condition that matches, and TypeScript reads only
+    // `types`, so behind `default` it would land on JavaScript and find no declarations.
+    assert.deepEqual(
+        Object.keys(conditions),
+        ['types', 'default'],
+        `${specifier} must offer exactly { types, default }, types first.`,
+    );
+    for (const target of Object.values(conditions)) {
         assert.ok(
-            existsSync(target),
-            `${specifier} declares a ${condition} of ${conditions[condition]}, which was not emitted.`,
+            typeof target === 'string' && target.startsWith('./dist/'),
+            `${specifier} maps to ${JSON.stringify(target)}; every target is a path into ./dist.`,
+        );
+        assert.ok(
+            existsSync(resolve(PACKAGE_ROOT, target)),
+            `${specifier} points at ${target}, which was not emitted.`,
         );
     }
 
-    // Resolves through the exports map exactly as a consumer's `require` would.
-    const loaded = require(specifier);
-    assert.ok(member in loaded, `${specifier} resolved but does not export ${member}.`);
+    // Both resolve through the exports map by self-reference, as they would from node_modules.
+    const imported = await import(specifier);
+    assert.ok(member in imported, `${specifier} imported but does not export ${member}.`);
 
-    // The node10 resolver ignores `exports`; subpaths need a typesVersions entry to be typed.
-    if (subpath !== '.') {
-        const key = subpath.slice(2);
-        const mapped = manifest.typesVersions?.['*']?.[key];
-        assert.ok(mapped, `${specifier} has no typesVersions entry; every Nest service resolves it as untyped.`);
-        assert.ok(
-            existsSync(resolve(PACKAGE_ROOT, mapped[0])),
-            `${specifier} maps types to ${mapped[0]}, which was not emitted.`,
-        );
-    }
+    const required = require(specifier);
+    assert.ok(member in required, `${specifier} required but does not export ${member}.`);
 }
 
-console.log(`@iveri/contracts: ${ENTRY_POINTS.length} entry points resolve`);
+console.log(`@iveri/contracts: ${ENTRY_POINTS.size} entry points are emitted, import and require`);

@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { TranslationStatus } from './translation-status.enum.js';
 import { VariableType } from './variable-type.enum.js';
 

@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { NotificationChannel } from './notification-channel.enum.js';
 import { NotificationDeliveryStatus } from './notification-delivery-status.enum.js';
 

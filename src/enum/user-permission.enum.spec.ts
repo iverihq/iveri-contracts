@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { ALL_USER_PERMISSIONS, UserPermission } from './user-permission.enum.js';
 
 describe('UserPermission', () => {

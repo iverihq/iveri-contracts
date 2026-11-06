@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { RealtimeEventType } from './realtime-event-type.enum.js';
 import { RealtimeResourceType } from './realtime-resource-type.enum.js';
 import {

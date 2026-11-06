@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { ErrorCode } from './error-code.enum.js';
 
 describe('ErrorCode', () => {

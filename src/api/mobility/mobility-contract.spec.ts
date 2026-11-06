@@ -1,3 +1,5 @@
+import { describe, expect, it } from 'vitest';
+
 import { ALL_USER_PERMISSIONS, UserPermission } from '../../enum/user-permission.enum.js';
 
 import { MobilityAssignmentStatus } from './mobility-assignment-status.enum.js';
