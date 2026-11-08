@@ -1,10 +1,15 @@
 import { describe, expect, it } from 'vitest';
 
-import { ClinicAppointmentStatus, ClinicResourceStatus } from './index.js';
+import { ClinicAppointmentStatus, ClinicLeadKind, ClinicLeadStatus, ClinicResourceStatus } from './index.js';
 
 describe('clinic contract', () => {
     it('keeps the resource status wire values', () => {
         expect(Object.values(ClinicResourceStatus)).toEqual(['active', 'inactive']);
+    });
+
+    it('keeps the lead wire values', () => {
+        expect(Object.values(ClinicLeadKind)).toEqual(['callback', 'question']);
+        expect(Object.values(ClinicLeadStatus)).toEqual(['new', 'handled']);
     });
 
     it('keeps the appointment status wire values', () => {

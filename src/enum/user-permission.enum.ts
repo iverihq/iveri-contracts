@@ -587,6 +587,12 @@ export enum UserPermission {
 
     /** Create and change a clinic's clients. */
     CLINIC_CLIENT_MANAGE = 'clinic:client:manage',
+
+    /** Read callback requests and questions sent from a clinic's website or app. */
+    CLINIC_LEAD_READ = 'clinic:lead:read',
+
+    /** Mark those requests as handled. */
+    CLINIC_LEAD_MANAGE = 'clinic:lead:manage',
 }
 
 /**
