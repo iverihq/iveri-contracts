@@ -575,6 +575,18 @@ export enum UserPermission {
 
     /** Create and change them, including staff working hours. */
     CLINIC_SETUP_MANAGE = 'clinic:setup:manage',
+
+    /** Read the appointment calendar and search for free slots. */
+    CLINIC_APPOINTMENT_READ = 'clinic:appointment:read',
+
+    /** Book appointments and move them through their statuses. */
+    CLINIC_APPOINTMENT_MANAGE = 'clinic:appointment:manage',
+
+    /** Read a clinic's clients. */
+    CLINIC_CLIENT_READ = 'clinic:client:read',
+
+    /** Create and change a clinic's clients. */
+    CLINIC_CLIENT_MANAGE = 'clinic:client:manage',
 }
 
 /**
