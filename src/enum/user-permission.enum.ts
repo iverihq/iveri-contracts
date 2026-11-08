@@ -567,6 +567,14 @@ export enum UserPermission {
 
     /** Read and advance only jobs assigned to the caller's own courier worker. */
     DELIVERY_JOB_DELIVER = 'delivery:job:deliver',
+
+    // Clinic
+
+    /** Read a clinic's specialties, locations, rooms, devices, treatments and staff. */
+    CLINIC_SETUP_READ = 'clinic:setup:read',
+
+    /** Create and change them, including staff working hours. */
+    CLINIC_SETUP_MANAGE = 'clinic:setup:manage',
 }
 
 /**
