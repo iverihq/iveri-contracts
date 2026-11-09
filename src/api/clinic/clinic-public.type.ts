@@ -39,6 +39,18 @@ export interface PublicTreatmentOption {
     name: LocalizedText;
     durationMinutes: number;
     priceMinor: number;
+    /** The price under the treatment's promotion, or null when there is none. */
+    promotionPriceMinor: Nullable<number>;
+}
+
+/** The best promotion running today for one treatment. */
+export interface PublicTreatmentPromotion {
+    id: UUID;
+    name: LocalizedText;
+    discountPercent: number;
+    endsOn: string;
+    /** Where it applies. Booking at any other branch costs the full price. */
+    locationIds: UUID[];
 }
 
 export interface PublicTreatment {
@@ -50,6 +62,7 @@ export interface PublicTreatment {
     minDaysBetweenSessions: Nullable<number>;
     isBookableOnline: boolean;
     options: PublicTreatmentOption[];
+    promotion: Nullable<PublicTreatmentPromotion>;
 }
 
 export interface PublicSpecialist {
@@ -57,4 +70,17 @@ export interface PublicSpecialist {
     displayName: string;
     locationId: UUID;
     treatmentIds: UUID[];
+}
+
+/** A promotion running today, biggest discount first. */
+export interface PublicPromotion {
+    id: UUID;
+    name: LocalizedText;
+    description: Nullable<LocalizedText>;
+    discountPercent: number;
+    startsOn: string;
+    endsOn: string;
+    showInBanner: boolean;
+    treatmentIds: UUID[];
+    locationIds: UUID[];
 }

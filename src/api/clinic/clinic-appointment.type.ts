@@ -31,7 +31,11 @@ export interface ClinicAppointment {
     /** When the specialist, the room and any machine are free again, which includes the buffer. */
     blockedUntil: IsoDateTime;
     currency: string;
+    /** What the client pays, after any promotion. */
     totalMinor: number;
+    /** How much a promotion took off, as it stood when this was booked. */
+    discountMinor: number;
+    promotionName: Nullable<LocalizedText>;
     lines: ClinicAppointmentLine[];
     note: Nullable<string>;
     createdAt: IsoDateTime;
