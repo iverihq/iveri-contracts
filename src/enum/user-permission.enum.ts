@@ -599,6 +599,15 @@ export enum UserPermission {
 
     /** Change what a clinic is promoting and publishing, including its discounts. */
     CLINIC_MARKETING_MANAGE = 'clinic:marketing:manage',
+
+    /** Read a client's clinical record. Reception runs the calendar without this. */
+    CLINIC_RECORD_READ = 'clinic:record:read',
+
+    /** Add to a client's clinical record: screening answers, signed consent and the treatment log. */
+    CLINIC_RECORD_MANAGE = 'clinic:record:manage',
+
+    /** See who has read a client's clinical record, which reading the record does not show. */
+    CLINIC_RECORD_AUDIT = 'clinic:record:audit',
 }
 
 /**

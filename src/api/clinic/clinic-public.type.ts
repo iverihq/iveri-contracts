@@ -105,3 +105,26 @@ export interface PublicReviewList {
     count: number;
     items: PublicReview[];
 }
+
+export interface PublicScreeningQuestion {
+    id: UUID;
+    text: LocalizedText;
+    /** The answer that rules the treatment out, or `null` when it is only for the specialist to read. */
+    stopsBookingOn: Nullable<boolean>;
+}
+
+export interface PublicConsentForm {
+    version: number;
+    body: LocalizedText;
+}
+
+/**
+ * What a treatment asks of somebody before it can be booked.
+ *
+ * The rule travels with the question so a client can stop at the answer that rules it out, without
+ * sending somebody's health information anywhere when no booking is going to follow.
+ */
+export interface PublicBookingForm {
+    questions: PublicScreeningQuestion[];
+    consent: Nullable<PublicConsentForm>;
+}

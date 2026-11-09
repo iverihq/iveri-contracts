@@ -4,6 +4,7 @@ import type { UUID } from '../../type/uuid.type.js';
 
 import type { ClinicAppointmentStatus } from './clinic-appointment-status.enum.js';
 import type { ClinicAppointmentLine } from './clinic-appointment.type.js';
+import type { ClinicScreeningAnswerRequest, SignClinicConsentRequest } from './clinic-record.type.js';
 import type { LocalizedText } from './localized-text.type.js';
 
 /** A client's own view of a booking, without the room and machine the clinic assigned. */
@@ -35,6 +36,18 @@ export interface BookMyClinicAppointmentRequest {
     staffMemberId: UUID;
     startsAt: IsoDateTime;
     note?: Nullable<string>;
+    /** One answer for each of the treatment's questions. Required when it has any. */
+    screening?: ClinicScreeningAnswerRequest[];
+    /** Required when the treatment has a consent form this client has not signed yet. */
+    consent?: SignClinicConsentRequest;
+}
+
+/** What one client still has to do before booking one treatment. */
+export interface MyClinicBookingStatus {
+    /** Whether the booking has to carry a signature, which it does until the current form is signed. */
+    needsConsent: boolean;
+    /** When this client's next session may start, or `null` when nothing they have booked limits it. */
+    nextSessionFrom: Nullable<IsoDateTime>;
 }
 
 export interface SaveMyClinicClientRequest {

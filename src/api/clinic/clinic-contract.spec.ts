@@ -1,6 +1,13 @@
 import { describe, expect, it } from 'vitest';
 
-import { ClinicAppointmentStatus, ClinicLeadKind, ClinicLeadStatus, ClinicResourceStatus } from './index.js';
+import {
+    ClinicAppointmentStatus,
+    ClinicLeadKind,
+    ClinicLeadStatus,
+    ClinicRecordAccessAction,
+    ClinicRecordMethod,
+    ClinicResourceStatus,
+} from './index.js';
 
 describe('clinic contract', () => {
     it('keeps the resource status wire values', () => {
@@ -20,5 +27,10 @@ describe('clinic contract', () => {
             'cancelled',
             'no-show',
         ]);
+    });
+
+    it('keeps the clinical record wire values', () => {
+        expect(Object.values(ClinicRecordMethod)).toEqual(['online', 'in-clinic']);
+        expect(Object.values(ClinicRecordAccessAction)).toEqual(['visit', 'client']);
     });
 });
