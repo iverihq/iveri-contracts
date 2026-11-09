@@ -1,3 +1,4 @@
+import type { IsoDateTime } from '../../type/iso-date-time.type.js';
 import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
@@ -83,4 +84,24 @@ export interface PublicPromotion {
     showInBanner: boolean;
     treatmentIds: UUID[];
     locationIds: UUID[];
+}
+
+/** A published review. It names a client only if they agreed, and otherwise `authorName` is null. */
+export interface PublicReview {
+    id: UUID;
+    rating: number;
+    comment: Nullable<string>;
+    authorName: Nullable<string>;
+    treatmentId: UUID;
+    treatmentName: LocalizedText;
+    staffMemberId: UUID;
+    specialistName: string;
+    createdAt: IsoDateTime;
+}
+
+/** The newest published reviews, and what all of those matching the filter add up to. */
+export interface PublicReviewList {
+    averageRating: Nullable<number>;
+    count: number;
+    items: PublicReview[];
 }

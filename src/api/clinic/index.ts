@@ -11,6 +11,8 @@ export * from './clinic-profile.type.js';
 export * from './clinic-promotion.type.js';
 export * from './clinic-public.type.js';
 export * from './clinic-resource-status.enum.js';
+export * from './clinic-review-status.enum.js';
+export * from './clinic-review.type.js';
 export * from './clinic-room.type.js';
 export * from './clinic-slot.type.js';
 export * from './clinic-specialty.type.js';
