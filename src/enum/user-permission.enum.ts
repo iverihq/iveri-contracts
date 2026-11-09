@@ -608,6 +608,15 @@ export enum UserPermission {
 
     /** See who has read a client's clinical record, which reading the record does not show. */
     CLINIC_RECORD_AUDIT = 'clinic:record:audit',
+
+    /** See what has been paid, each client's balance and the day's takings. */
+    CLINIC_PAYMENT_READ = 'clinic:payment:read',
+
+    /** Record money taken at the desk and sell prepaid courses. */
+    CLINIC_PAYMENT_RECORD = 'clinic:payment:record',
+
+    /** Give money back. Its own permission, because reception taking money does not imply returning it. */
+    CLINIC_PAYMENT_REFUND = 'clinic:payment:refund',
 }
 
 /**
