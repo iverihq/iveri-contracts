@@ -18,6 +18,8 @@ export interface MyClinicAppointment {
     endsAt: IsoDateTime;
     currency: string;
     totalMinor: number;
+    discountMinor: number;
+    promotionName: Nullable<LocalizedText>;
     lines: ClinicAppointmentLine[];
     note: Nullable<string>;
     /** Whether the clinic's rules still let this client cancel it themselves. */

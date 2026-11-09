@@ -8,6 +8,7 @@ export * from './clinic-lead.type.js';
 export * from './clinic-location.type.js';
 export * from './clinic-my-appointment.type.js';
 export * from './clinic-profile.type.js';
+export * from './clinic-promotion.type.js';
 export * from './clinic-public.type.js';
 export * from './clinic-resource-status.enum.js';
 export * from './clinic-room.type.js';

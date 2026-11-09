@@ -593,6 +593,12 @@ export enum UserPermission {
 
     /** Mark those requests as handled. */
     CLINIC_LEAD_MANAGE = 'clinic:lead:manage',
+
+    /** See what a clinic is promoting and publishing. */
+    CLINIC_MARKETING_READ = 'clinic:marketing:read',
+
+    /** Change what a clinic is promoting and publishing, including its discounts. */
+    CLINIC_MARKETING_MANAGE = 'clinic:marketing:manage',
 }
 
 /**
