@@ -21,6 +21,8 @@ export interface ClinicProfile {
     clientCancelCutoffHours: number;
     /** How far ahead a client can book. */
     bookingHorizonDays: number;
+    /** The share of money paid that comes back as bonus. Zero means the clinic runs no bonus programme. */
+    bonusEarnPercent: number;
     createdAt: IsoDateTime;
     updatedAt: IsoDateTime;
 }
@@ -35,4 +37,5 @@ export interface SaveClinicProfileRequest {
     isPublished: boolean;
     clientCancelCutoffHours: number;
     bookingHorizonDays: number;
+    bonusEarnPercent?: number;
 }

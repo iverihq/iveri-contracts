@@ -4,6 +4,7 @@ import {
     ClinicAppointmentStatus,
     ClinicLeadKind,
     ClinicLeadStatus,
+    ClinicPaymentMethod,
     ClinicRecordAccessAction,
     ClinicRecordMethod,
     ClinicResourceStatus,
@@ -27,6 +28,10 @@ describe('clinic contract', () => {
             'cancelled',
             'no-show',
         ]);
+    });
+
+    it('keeps the payment method wire values', () => {
+        expect(Object.values(ClinicPaymentMethod)).toEqual(['cash', 'card', 'transfer', 'course', 'bonus']);
     });
 
     it('keeps the clinical record wire values', () => {
