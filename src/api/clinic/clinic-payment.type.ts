@@ -118,6 +118,18 @@ export interface ClinicDailyTakings {
 }
 
 /** What a client holds at this clinic. */
+/** One line of what somebody has paid, as they see it. Nothing the desk wrote about it is here. */
+export interface MyClinicPayment {
+    id: UUID;
+    method: ClinicPaymentMethod;
+    /** Negative for a refund. */
+    amountMinor: number;
+    currency: string;
+    /** The treatment or course this was for, or `null` where it can no longer be named. */
+    subject: Nullable<LocalizedText>;
+    createdAt: IsoDateTime;
+}
+
 export interface MyClinicWallet {
     bonusBalances: ClinicBonusBalance[];
     courses: MyClinicCourse[];

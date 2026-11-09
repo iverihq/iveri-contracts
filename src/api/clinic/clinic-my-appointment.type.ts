@@ -29,6 +29,12 @@ export interface MyClinicAppointment {
     canReview: boolean;
 }
 
+/** Another time for a visit already booked. Everything agreed for it stays as it was. */
+export interface RescheduleMyClinicAppointmentRequest {
+    startsAt: IsoDateTime;
+    staffMemberId: UUID;
+}
+
 export interface BookMyClinicAppointmentRequest {
     locationId: UUID;
     treatmentId: UUID;
