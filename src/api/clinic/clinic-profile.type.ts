@@ -13,6 +13,8 @@ export interface ClinicProfile {
     tagline: Nullable<LocalizedText>;
     phone: Nullable<string>;
     email: Nullable<string>;
+    /** The clinic's public website, which the links in its emails point at. No path, no trailing slash. */
+    siteUrl: Nullable<string>;
     /** Nothing about the clinic is public until this is true. */
     isPublished: boolean;
     /** How long before a booking a client can still cancel it themselves. */
@@ -29,6 +31,7 @@ export interface SaveClinicProfileRequest {
     tagline?: Nullable<LocalizedText>;
     phone?: Nullable<string>;
     email?: Nullable<string>;
+    siteUrl?: Nullable<string>;
     isPublished: boolean;
     clientCancelCutoffHours: number;
     bookingHorizonDays: number;
