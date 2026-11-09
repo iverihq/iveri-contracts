@@ -24,6 +24,8 @@ export interface MyClinicAppointment {
     note: Nullable<string>;
     /** Whether the clinic's rules still let this client cancel it themselves. */
     canCancel: boolean;
+    /** Whether this visit is over and has not been reviewed yet. */
+    canReview: boolean;
 }
 
 export interface BookMyClinicAppointmentRequest {
