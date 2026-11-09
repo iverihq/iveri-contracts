@@ -9,6 +9,12 @@ export interface ClinicClient {
     lastName: string;
     phone: string;
     email: Nullable<string>;
+    /**
+     * When the address in `email` was shown to belong to this client. Null means nothing is sent to
+     * it: anybody can register with an address that is not theirs, and a booking email carries a
+     * treatment name.
+     */
+    emailConfirmedAt: Nullable<IsoDateTime>;
     createdAt: IsoDateTime;
     updatedAt: IsoDateTime;
 }

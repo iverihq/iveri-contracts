@@ -38,4 +38,11 @@ export interface SaveMyClinicClientRequest {
     lastName: string;
     phone: string;
     email?: Nullable<string>;
+    /** The language the client reads, which their emails are written in. */
+    localeCode?: string;
+}
+
+/** The token from a confirmation link. It is the only thing the public route accepts. */
+export interface ConfirmClinicEmailRequest {
+    token: string;
 }
