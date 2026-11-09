@@ -7,6 +7,8 @@ export * from './clinic-lead-status.enum.js';
 export * from './clinic-lead.type.js';
 export * from './clinic-location.type.js';
 export * from './clinic-my-appointment.type.js';
+export * from './clinic-newsletter-channel.enum.js';
+export * from './clinic-newsletter.type.js';
 export * from './clinic-profile.type.js';
 export * from './clinic-promotion.type.js';
 export * from './clinic-public.type.js';
