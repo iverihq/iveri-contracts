@@ -1,4 +1,5 @@
 import type { IsoDateTime } from '../../type/iso-date-time.type.js';
+import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
 import type { MobilityAvailabilityStatus } from './mobility-availability-status.enum.js';
@@ -21,11 +22,24 @@ export interface MobilityWorker extends MobilityWorkerReputation {
     serviceTypes: MobilityServiceType[];
     status: MobilityWorkerStatus;
     availability: MobilityAvailabilityStatus;
+    /** The car or van this worker drives, or `null` until they have said. */
+    vehicle: Nullable<MobilityWorkerVehicle>;
     /** Monotonic aggregate version used by events and optimistic clients. */
     version: number;
     createdAt: IsoDateTime;
     updatedAt: IsoDateTime;
 }
+
+/** What somebody waiting at the kerb needs in order to recognise the right car. */
+export interface MobilityWorkerVehicle {
+    make: string;
+    model: string;
+    colour: string;
+    plateNumber: string;
+}
+
+/** `PUT /api/v1/workers/me/vehicle`. A worker says what they drive, and nobody else does. */
+export type SetMobilityWorkerVehicleBody = MobilityWorkerVehicle;
 
 /** `POST /api/v1/workers`; retry safety is supplied by the `Idempotency-Key` header. */
 export interface CreateMobilityWorkerBody {
