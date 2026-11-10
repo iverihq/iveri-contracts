@@ -44,6 +44,8 @@ export interface RestaurantKitchenBoard {
     warnMinutes: number;
     lateMinutes: number;
     tickets: RestaurantKitchenTicket[];
+    /** Tickets just finished, so one can be called back. */
+    recent: RestaurantKitchenTicket[];
     allDay: RestaurantAllDayCount[];
 }
 

@@ -118,6 +118,7 @@ export interface PublicRestaurantTableOrderLine {
 }
 
 export interface PublicRestaurantTableOrder {
+    id: UUID;
     number: number;
     status: RestaurantOrderStatus;
     placedAt: string;
@@ -136,6 +137,11 @@ export interface PublicRestaurantTableBill {
     balanceMinor: number;
     orders: PublicRestaurantTableOrder[];
     openRequests: RestaurantServiceRequestKind[];
+}
+
+/** What a table has at the moment. No open bill is an ordinary answer: nobody has ordered yet. */
+export interface PublicRestaurantTableState {
+    bill: PublicRestaurantTableBill | null;
 }
 
 export interface PublicRestaurantServiceRequestBody {
