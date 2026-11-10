@@ -27,6 +27,8 @@ export interface GymMyProfile {
     emergencyContactName: Nullable<string>;
     emergencyContactPhone: Nullable<string>;
     weeklyTarget: number;
+    /** The language their emails are written in. */
+    localeCode: Nullable<string>;
     isWaiverSigned: boolean;
     /** What still has to be signed, or null when nothing does. */
     waiverToSign: Nullable<GymWaiver>;
@@ -39,6 +41,7 @@ export interface JoinGymRequest {
     phone?: Nullable<string>;
     birthDate?: Nullable<string>;
     homeBranchId: UUID;
+    localeCode?: Nullable<string>;
 }
 
 /** Ties the signed-in account to the record the desk already holds. */
@@ -55,6 +58,7 @@ export interface UpdateGymMyProfileRequest {
     homeBranchId?: UUID;
     emergencyContactName?: Nullable<string>;
     emergencyContactPhone?: Nullable<string>;
+    localeCode?: Nullable<string>;
 }
 
 /**
