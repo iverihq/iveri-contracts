@@ -62,6 +62,7 @@ describe('UserPermission', () => {
         ['TAXI_', 'taxi:'],
         ['DELIVERY_', 'delivery:'],
         ['SOCIAL_', 'social:'],
+        ['CHAT_', 'chat:'],
     ])('namespaces every %s permission as %s', (keyPrefix, valuePrefix) => {
         // Identity's members predate the shared catalogue and are embedded in issued tokens
         // and stored role rows — prefixing them now would invalidate both. Every service added

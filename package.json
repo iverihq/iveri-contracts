@@ -1,6 +1,6 @@
 {
   "name": "@iveri/contracts",
-  "version": "0.69.0",
+  "version": "0.70.0",
   "description": "Wire contracts shared by every Iveri backend and frontend. Zero runtime dependencies.",
   "license": "MIT",
   "repository": {
@@ -51,6 +51,10 @@
     "./clinic": {
       "types": "./dist/api/clinic/index.d.ts",
       "default": "./dist/api/clinic/index.js"
+    },
+    "./chat": {
+      "types": "./dist/api/chat/index.d.ts",
+      "default": "./dist/api/chat/index.js"
     },
     "./social": {
       "types": "./dist/api/social/index.d.ts",
