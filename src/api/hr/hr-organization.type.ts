@@ -12,6 +12,11 @@ export interface HrCompany {
     workingWeekdays: number[];
     workdayMinutes: number;
     capturesClockLocation: boolean;
+    incomeTaxBasisPoints: number;
+    pensionEmployeeBasisPoints: number;
+    pensionEmployerBasisPoints: number;
+    careersSlug: string | null;
+    applicantRetentionDays: number;
 }
 
 export interface HrDepartment {
@@ -70,6 +75,11 @@ export interface UpdateHrCompanyRequest {
     workingWeekdays?: number[];
     workdayMinutes?: number;
     capturesClockLocation?: boolean;
+    incomeTaxBasisPoints?: number;
+    pensionEmployeeBasisPoints?: number;
+    pensionEmployerBasisPoints?: number;
+    careersSlug?: string;
+    applicantRetentionDays?: number;
 }
 
 export interface UpdateHrDepartmentRequest {
