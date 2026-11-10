@@ -26,4 +26,13 @@ export enum RealtimeEventType {
      * uniqueness constraint. `mobility_worker_outbox_event.aggregate_type` exists for this.
      */
     MOBILITY_DISPATCH_OFFER_UPDATED = 'mobility.dispatch-offer.updated',
+
+    /**
+     * Something on a branch's floor or kitchen changed, so staff screens refetch. Carried on the
+     * branch, while the version is that of whichever order or bill moved.
+     */
+    RESTAURANT_BRANCH_UPDATED = 'restaurant.branch.updated',
+
+    /** One diner's order moved. */
+    RESTAURANT_ORDER_UPDATED = 'restaurant.order.updated',
 }

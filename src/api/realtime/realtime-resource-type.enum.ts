@@ -9,4 +9,6 @@ export enum RealtimeResourceType {
     DELIVERY_JOB = 'delivery.job',
     MOBILITY_WORKER = 'mobility.worker',
     MOBILITY_DISPATCH = 'mobility.dispatch',
+    RESTAURANT_BRANCH = 'restaurant.branch',
+    RESTAURANT_ORDER = 'restaurant.order',
 }

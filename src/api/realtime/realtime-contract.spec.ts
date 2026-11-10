@@ -15,6 +15,8 @@ describe('shared realtime contract', () => {
         [RealtimeResourceType.DELIVERY_JOB, 'delivery.job'],
         [RealtimeResourceType.MOBILITY_WORKER, 'mobility.worker'],
         [RealtimeResourceType.MOBILITY_DISPATCH, 'mobility.dispatch'],
+        [RealtimeResourceType.RESTAURANT_BRANCH, 'restaurant.branch'],
+        [RealtimeResourceType.RESTAURANT_ORDER, 'restaurant.order'],
     ])('pins resource type %s', (member, value) => {
         expect(member).toBe(value);
     });
@@ -26,6 +28,8 @@ describe('shared realtime contract', () => {
         [RealtimeEventType.MOBILITY_WORKER_LOCATION_UPDATED, 'mobility.worker-location.updated'],
         [RealtimeEventType.MOBILITY_ASSIGNMENT_UPDATED, 'mobility.assignment.updated'],
         [RealtimeEventType.MOBILITY_DISPATCH_OFFER_UPDATED, 'mobility.dispatch-offer.updated'],
+        [RealtimeEventType.RESTAURANT_BRANCH_UPDATED, 'restaurant.branch.updated'],
+        [RealtimeEventType.RESTAURANT_ORDER_UPDATED, 'restaurant.order.updated'],
     ])('pins event type %s', (member, value) => {
         expect(member).toBe(value);
     });

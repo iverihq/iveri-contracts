@@ -29,6 +29,7 @@ const ENTRY_POINTS = new Map([
     ['./notification', 'NotificationChannel'],
     ['./realtime', 'RealtimeResourceType'],
     ['./clinic', 'ClinicResourceStatus'],
+    ['./restaurant', 'RestaurantOrderStatus'],
     ['./mobility', 'MobilityServiceType'],
 ]);
 
