@@ -744,6 +744,66 @@ export enum UserPermission {
 
     /** Run review cycles. */
     HR_PERFORMANCE_MANAGE = 'hr:performance:manage',
+
+    /** See how a gym is set up: its profile, branches, rooms, classes, staff and plans. */
+    GYM_SETUP_READ = 'gym:setup:read',
+
+    /** Change how a gym is set up, including its prices and booking rules. */
+    GYM_SETUP_MANAGE = 'gym:setup:manage',
+
+    /** See members, their memberships and their waivers. */
+    GYM_MEMBER_READ = 'gym:member:read',
+
+    /** Add and change members, and sell, freeze and cancel memberships. */
+    GYM_MEMBER_MANAGE = 'gym:member:manage',
+
+    /** See who has come through the door. */
+    GYM_DOOR_READ = 'gym:door:read',
+
+    /** Scan people in. */
+    GYM_DOOR_OPERATE = 'gym:door:operate',
+
+    /** Let somebody in whom the rules refused. Its own permission, and recorded with a reason. */
+    GYM_DOOR_OVERRIDE = 'gym:door:override',
+
+    /** See the timetable and who is booked. */
+    GYM_SCHEDULE_READ = 'gym:schedule:read',
+
+    /** Change the timetable: patterns, dates, trainers and cancellations. */
+    GYM_SCHEDULE_MANAGE = 'gym:schedule:manage',
+
+    /** Book people into classes and mark who came. */
+    GYM_BOOKING_MANAGE = 'gym:booking:manage',
+
+    /** See what has been paid, what is owing and the day's takings. */
+    GYM_PAYMENT_READ = 'gym:payment:read',
+
+    /** Record money taken at the desk. */
+    GYM_PAYMENT_RECORD = 'gym:payment:record',
+
+    /** Give money back. Its own permission, because taking money does not imply returning it. */
+    GYM_PAYMENT_REFUND = 'gym:payment:refund',
+
+    /** Read a member's workouts and measurements. The front desk runs without this. */
+    GYM_TRAINING_READ = 'gym:training:read',
+
+    /** Write routines, assign them and record measurements, and keep the exercise library. */
+    GYM_TRAINING_MANAGE = 'gym:training:manage',
+
+    /** Read trial requests and questions sent from a gym's website or app. */
+    GYM_LEAD_READ = 'gym:lead:read',
+
+    /** Work through them. */
+    GYM_LEAD_MANAGE = 'gym:lead:manage',
+
+    /** See promo codes and the gallery. */
+    GYM_MARKETING_READ = 'gym:marketing:read',
+
+    /** Change promo codes and the gallery. */
+    GYM_MARKETING_MANAGE = 'gym:marketing:manage',
+
+    /** See the owner's reports. */
+    GYM_REPORT_READ = 'gym:report:read',
 }
 
 /**
