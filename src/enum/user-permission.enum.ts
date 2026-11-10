@@ -673,6 +673,24 @@ export enum UserPermission {
 
     /** See sales reports. */
     RESTAURANT_REPORT_READ = 'restaurant:report:read',
+
+    /** See Ezo's moderation queue, what was reported and the appeals against decisions. */
+    SOCIAL_MODERATION_READ = 'social:moderation:read',
+
+    /** Decide a case: dismiss it, remove the content, warn, suspend or ban. */
+    SOCIAL_MODERATION_DECIDE = 'social:moderation:decide',
+
+    /** Answer an appeal. Never against your own decision, which the service refuses. */
+    SOCIAL_APPEAL_DECIDE = 'social:appeal:decide',
+
+    /** Look up members and their records. */
+    SOCIAL_MEMBER_READ = 'social:member:read',
+
+    /** Suspend, ban or reinstate a member without a report behind it. */
+    SOCIAL_MEMBER_SANCTION = 'social:member:sanction',
+
+    /** Read the record of what staff looked at and did. */
+    SOCIAL_AUDIT_READ = 'social:audit:read',
 }
 
 /**
