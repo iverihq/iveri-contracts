@@ -11,5 +11,11 @@ export enum RealtimeResourceType {
     MOBILITY_DISPATCH = 'mobility.dispatch',
     RESTAURANT_BRANCH = 'restaurant.branch',
     RESTAURANT_ORDER = 'restaurant.order',
+
+    /**
+     * One Ezo member's own room. They subscribe to themselves, the one thing they can name before a
+     * message or a like has happened, and the events on it say what became stale.
+     */
+    SOCIAL_MEMBER = 'social.member',
     GYM_BRANCH = 'gym.branch',
 }

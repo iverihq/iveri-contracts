@@ -36,6 +36,11 @@ export enum RealtimeEventType {
     /** One diner's order moved. */
     RESTAURANT_ORDER_UPDATED = 'restaurant.order.updated',
 
+    /** A member's conversations changed, so their inbox is stale. */
+    SOCIAL_INBOX_UPDATED = 'social.inbox.updated',
+
+    /** Something new happened to a member, so their activity list and its count are stale. */
+    SOCIAL_ACTIVITY_UPDATED = 'social.activity.updated',
     /** Somebody came through a branch's door or a class changed, so staff screens refetch. */
     GYM_BRANCH_UPDATED = 'gym.branch.updated',
 }
