@@ -14,16 +14,6 @@ export interface ChatRealtimeFrame {
     userId: Nullable<UUID>;
 }
 
-/** `POST /api/v1/frames` on `chat-realtime`, under `chat:realtime:publish`. The tenant is the caller's. */
-export interface PublishChatFrameRequest {
-    recipients: UUID[];
-    frame: ChatRealtimeFrame;
-}
-
-export interface PublishChatFrameResponse {
-    accepted: boolean;
-}
-
 /** `PUT /me/devices`. One row per installation; signing out removes it. */
 export interface RegisterChatDeviceRequest {
     installationId: string;

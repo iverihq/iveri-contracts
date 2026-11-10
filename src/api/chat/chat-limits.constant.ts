@@ -34,10 +34,11 @@ export const CHAT_QUICK_REACTIONS: readonly string[] = ['👍', '❤️', '😂'
  */
 export const CHAT_HANDLE_PATTERN = /^(?!\.)(?!.*\.$)[a-z0-9._]{3,30}$/;
 
-/** The most recipients one realtime publish can name. A bigger group is published in several. */
-export const CHAT_REALTIME_MAX_RECIPIENTS = 500;
-
-/** The Socket.IO namespace of `chat-realtime`. */
+/**
+ * The Socket.IO namespace of `chat-realtime`. `chat-api` emits into it through the Redis adapter, to
+ * the room `t:<tenantId>:p:<userId>` of each person a frame is for, so no credential is needed to act
+ * for the tenant a conversation belongs to.
+ */
 export const CHAT_REALTIME_NAMESPACE = '/chat';
 
 /** What `chat-realtime` says to a socket. */

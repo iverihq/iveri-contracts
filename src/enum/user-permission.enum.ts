@@ -827,9 +827,6 @@ export enum UserPermission {
     /** Open, reconcile and close conversations about something in a product. Held by that product's service key. */
     CHAT_EMBED_MANAGE = 'chat:embed:manage',
 
-    /** Publish identifier-only frames to `chat-realtime`. Held by `chat-api`'s service key only. */
-    CHAT_REALTIME_PUBLISH = 'chat:realtime:publish',
-
     /** See the moderation queue and what a report copied. Every read of a conversation is logged. */
     CHAT_MODERATION_READ = 'chat:moderation:read',
 
