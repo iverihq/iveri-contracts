@@ -3,7 +3,10 @@ import type { UUID } from '../../type/uuid.type.js';
 import type { LocalizedText } from '../clinic/localized-text.type.js';
 
 import type { RestaurantChannel } from './restaurant-channel.enum.js';
+import type { RestaurantDeliveryState } from './restaurant-delivery-state.enum.js';
+import type { RestaurantDeliveryAddress } from './restaurant-diner-order.type.js';
 import type { RestaurantLineStatus } from './restaurant-line-status.enum.js';
+import type { RestaurantOrderPaymentStatus } from './restaurant-order-payment-status.enum.js';
 import type { RestaurantOrderSource } from './restaurant-order-source.enum.js';
 import type { RestaurantOrderStatus } from './restaurant-order-status.enum.js';
 
@@ -22,7 +25,9 @@ export interface RestaurantOrderLine {
     name: LocalizedText;
     quantity: number;
     unitPriceMinor: number;
+    /** After any promotion, so every sum built on it is already right. */
     lineTotalMinor: number;
+    discountMinor: number;
     options: RestaurantOrderLineOption[];
     note: string | null;
     status: RestaurantLineStatus;
@@ -43,12 +48,18 @@ export interface RestaurantOrder {
     channel: RestaurantChannel;
     source: RestaurantOrderSource;
     status: RestaurantOrderStatus;
+    paymentStatus: RestaurantOrderPaymentStatus;
+    deliveryState: RestaurantDeliveryState | null;
+    deliveryAddress: RestaurantDeliveryAddress | null;
+    customerId: UUID | null;
     customerName: string | null;
     customerPhone: string | null;
     note: string | null;
     /** When it should be ready. Null means as soon as it can be. */
     requestedFor: IsoDateTime | null;
     subtotalMinor: number;
+    discountMinor: number;
+    deliveryFeeMinor: number;
     currency: string;
     lines: RestaurantOrderLine[];
     placedAt: IsoDateTime;
