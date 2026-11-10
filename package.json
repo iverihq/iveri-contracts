@@ -55,6 +55,7 @@
     "./social": {
       "types": "./dist/api/social/index.d.ts",
       "default": "./dist/api/social/index.js"
+    },
     "./hr": {
       "types": "./dist/api/hr/index.d.ts",
       "default": "./dist/api/hr/index.js"
