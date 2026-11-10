@@ -68,6 +68,8 @@ export interface PublicRestaurantMenuItem {
     name: LocalizedText;
     description: LocalizedText | null;
     priceMinor: number;
+    /** What a promotion running now makes it. Null when none applies. */
+    discountedPriceMinor: number | null;
     imageUrl: string | null;
     thumbnailUrl: string | null;
     allergens: RestaurantAllergen[];
