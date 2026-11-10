@@ -1,6 +1,6 @@
 {
   "name": "@iveri/contracts",
-  "version": "0.54.0",
+  "version": "0.55.0",
   "description": "Wire contracts shared by every Iveri backend and frontend. Zero runtime dependencies.",
   "license": "MIT",
   "repository": {
@@ -55,6 +55,9 @@
     "./social": {
       "types": "./dist/api/social/index.d.ts",
       "default": "./dist/api/social/index.js"
+    "./hr": {
+      "types": "./dist/api/hr/index.d.ts",
+      "default": "./dist/api/hr/index.js"
     },
     "./restaurant": {
       "types": "./dist/api/restaurant/index.d.ts",

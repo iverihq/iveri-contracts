@@ -31,6 +31,7 @@ const ENTRY_POINTS = new Map([
     ['./clinic', 'ClinicResourceStatus'],
     ['./restaurant', 'RestaurantOrderStatus'],
     ['./social', 'SocialMemberStatus'],
+    ['./hr', 'HrEmploymentStatus'],
     ['./mobility', 'MobilityServiceType'],
 ]);
 
