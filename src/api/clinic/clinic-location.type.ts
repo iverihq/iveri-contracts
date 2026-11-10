@@ -3,6 +3,7 @@ import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
 import type { ClinicResourceStatus } from './clinic-resource-status.enum.js';
+import type { ClinicWorkingPeriod } from './clinic-staff.type.js';
 import type { LocalizedText } from './localized-text.type.js';
 
 export interface ClinicLocation {
@@ -16,6 +17,10 @@ export interface ClinicLocation {
     /** The specialties this branch offers, which clients filter branches by. */
     specialtyIds: UUID[];
     status: ClinicResourceStatus;
+    /** When the doors are open, which a visitor reads. Bookable times come from the staff's hours. */
+    openingHours: ClinicWorkingPeriod[];
+    latitude: Nullable<number>;
+    longitude: Nullable<number>;
     createdAt: IsoDateTime;
     updatedAt: IsoDateTime;
 }
@@ -27,6 +32,9 @@ export interface CreateClinicLocationRequest {
     phone?: Nullable<string>;
     timeZone: string;
     specialtyIds?: UUID[];
+    openingHours?: ClinicWorkingPeriod[];
+    latitude?: Nullable<number>;
+    longitude?: Nullable<number>;
 }
 
 export interface UpdateClinicLocationRequest {
@@ -37,4 +45,7 @@ export interface UpdateClinicLocationRequest {
     timeZone?: string;
     specialtyIds?: UUID[];
     status?: ClinicResourceStatus;
+    openingHours?: ClinicWorkingPeriod[];
+    latitude?: Nullable<number>;
+    longitude?: Nullable<number>;
 }
