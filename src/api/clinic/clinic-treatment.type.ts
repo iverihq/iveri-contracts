@@ -2,6 +2,7 @@ import type { IsoDateTime } from '../../type/iso-date-time.type.js';
 import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
+import type { ClinicMediaImage } from './clinic-media.type.js';
 import type { ClinicResourceStatus } from './clinic-resource-status.enum.js';
 import type { LocalizedText } from './localized-text.type.js';
 
@@ -13,6 +14,22 @@ export interface ClinicTreatmentOption {
     /** Integer minor units of the treatment's currency. */
     priceMinor: number;
     sortOrder: number;
+}
+
+export interface ClinicTreatmentFaq {
+    question: LocalizedText;
+    answer: LocalizedText;
+}
+
+/** What a treatment's page says about it. Every part may be left empty. */
+export interface ClinicTreatmentContent {
+    benefits: LocalizedText[];
+    steps: LocalizedText[];
+    preparation: Nullable<LocalizedText>;
+    aftercare: Nullable<LocalizedText>;
+    faq: ClinicTreatmentFaq[];
+    /** How many sessions a course usually takes, which is advice and limits nothing. */
+    recommendedSessions: Nullable<number>;
 }
 
 export interface ClinicTreatment {
@@ -30,6 +47,8 @@ export interface ClinicTreatment {
     isBookableOnline: boolean;
     status: ClinicResourceStatus;
     options: ClinicTreatmentOption[];
+    content: ClinicTreatmentContent;
+    image: Nullable<ClinicMediaImage>;
     createdAt: IsoDateTime;
     updatedAt: IsoDateTime;
 }
@@ -57,6 +76,7 @@ export interface CreateClinicTreatmentRequest {
     minDaysBetweenSessions?: Nullable<number>;
     isBookableOnline?: boolean;
     options: CreateClinicTreatmentOptionRequest[];
+    content?: ClinicTreatmentContent;
 }
 
 export interface UpdateClinicTreatmentRequest {
@@ -68,4 +88,5 @@ export interface UpdateClinicTreatmentRequest {
     minDaysBetweenSessions?: Nullable<number>;
     isBookableOnline?: boolean;
     status?: ClinicResourceStatus;
+    content?: ClinicTreatmentContent;
 }

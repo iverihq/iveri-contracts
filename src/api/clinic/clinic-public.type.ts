@@ -2,6 +2,10 @@ import type { IsoDateTime } from '../../type/iso-date-time.type.js';
 import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
+import type { ClinicMediaImage } from './clinic-media.type.js';
+import type { ClinicSocialLinks } from './clinic-profile.type.js';
+import type { ClinicWorkingPeriod } from './clinic-staff.type.js';
+import type { ClinicTreatmentContent } from './clinic-treatment.type.js';
 import type { LocalizedText } from './localized-text.type.js';
 
 /**
@@ -14,6 +18,8 @@ export interface PublicClinic {
     slug: string;
     name: LocalizedText;
     tagline: Nullable<LocalizedText>;
+    about: Nullable<LocalizedText>;
+    socialLinks: Nullable<ClinicSocialLinks>;
     phone: Nullable<string>;
     email: Nullable<string>;
     bookingHorizonDays: number;
@@ -33,6 +39,9 @@ export interface PublicBranch {
     phone: Nullable<string>;
     timeZone: string;
     specialtyIds: UUID[];
+    openingHours: ClinicWorkingPeriod[];
+    latitude: Nullable<number>;
+    longitude: Nullable<number>;
 }
 
 export interface PublicTreatmentOption {
@@ -64,6 +73,8 @@ export interface PublicTreatment {
     isBookableOnline: boolean;
     options: PublicTreatmentOption[];
     promotion: Nullable<PublicTreatmentPromotion>;
+    content: ClinicTreatmentContent;
+    image: Nullable<ClinicMediaImage>;
 }
 
 export interface PublicSpecialist {
@@ -71,6 +82,10 @@ export interface PublicSpecialist {
     displayName: string;
     locationId: UUID;
     treatmentIds: UUID[];
+    title: Nullable<LocalizedText>;
+    bio: Nullable<LocalizedText>;
+    experienceYears: Nullable<number>;
+    photo: Nullable<ClinicMediaImage>;
 }
 
 /** A promotion running today, biggest discount first. */

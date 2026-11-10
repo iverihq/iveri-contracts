@@ -5,12 +5,22 @@ import type { UUID } from '../../type/uuid.type.js';
 import type { LocalizedText } from './localized-text.type.js';
 
 /** How a clinic presents itself to the public, and the rules for booking online. */
+/** Where else a clinic can be found. WhatsApp is a phone number and the rest are addresses. */
+export interface ClinicSocialLinks {
+    instagram: Nullable<string>;
+    facebook: Nullable<string>;
+    tiktok: Nullable<string>;
+    whatsapp: Nullable<string>;
+}
+
 export interface ClinicProfile {
     id: UUID;
     /** The name its public address and app build use. Unique across every clinic. */
     slug: string;
     name: LocalizedText;
     tagline: Nullable<LocalizedText>;
+    about: Nullable<LocalizedText>;
+    socialLinks: Nullable<ClinicSocialLinks>;
     phone: Nullable<string>;
     email: Nullable<string>;
     /** The clinic's public website, which the links in its emails point at. No path, no trailing slash. */
@@ -31,6 +41,8 @@ export interface SaveClinicProfileRequest {
     slug: string;
     name: LocalizedText;
     tagline?: Nullable<LocalizedText>;
+    about?: Nullable<LocalizedText>;
+    socialLinks?: Nullable<ClinicSocialLinks>;
     phone?: Nullable<string>;
     email?: Nullable<string>;
     siteUrl?: Nullable<string>;
