@@ -164,4 +164,6 @@ export interface HrLeaveDaysRequest {
     reason?: Nullable<string>;
 }
 
-export type UpdateHrLeaveTypeRequest = Partial<Omit<CreateHrLeaveTypeRequest, 'code'>>;
+export interface UpdateHrLeaveTypeRequest extends Partial<Omit<CreateHrLeaveTypeRequest, 'code'>> {
+    status?: HrResourceStatus;
+}
