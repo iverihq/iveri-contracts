@@ -22,6 +22,8 @@ export interface PublicRestaurant {
     logoUrl: string | null;
     coverUrl: string | null;
     socialLinks: RestaurantSocialLink[];
+    /** Without it a diner with no account cannot order, because they would have nothing to pay with. */
+    acceptsOnlinePayment: boolean;
 }
 
 export interface PublicRestaurantBranch {
