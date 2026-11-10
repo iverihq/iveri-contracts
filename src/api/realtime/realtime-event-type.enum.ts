@@ -35,4 +35,7 @@ export enum RealtimeEventType {
 
     /** One diner's order moved. */
     RESTAURANT_ORDER_UPDATED = 'restaurant.order.updated',
+
+    /** Somebody came through a branch's door or a class changed, so staff screens refetch. */
+    GYM_BRANCH_UPDATED = 'gym.branch.updated',
 }
