@@ -18,6 +18,7 @@ describe('shared realtime contract', () => {
         [RealtimeResourceType.RESTAURANT_BRANCH, 'restaurant.branch'],
         [RealtimeResourceType.RESTAURANT_ORDER, 'restaurant.order'],
         [RealtimeResourceType.SOCIAL_MEMBER, 'social.member'],
+        [RealtimeResourceType.GYM_BRANCH, 'gym.branch'],
     ])('pins resource type %s', (member, value) => {
         expect(member).toBe(value);
     });
@@ -33,6 +34,7 @@ describe('shared realtime contract', () => {
         [RealtimeEventType.RESTAURANT_ORDER_UPDATED, 'restaurant.order.updated'],
         [RealtimeEventType.SOCIAL_INBOX_UPDATED, 'social.inbox.updated'],
         [RealtimeEventType.SOCIAL_ACTIVITY_UPDATED, 'social.activity.updated'],
+        [RealtimeEventType.GYM_BRANCH_UPDATED, 'gym.branch.updated'],
     ])('pins event type %s', (member, value) => {
         expect(member).toBe(value);
     });

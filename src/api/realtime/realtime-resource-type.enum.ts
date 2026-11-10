@@ -17,4 +17,5 @@ export enum RealtimeResourceType {
      * message or a like has happened, and the events on it say what became stale.
      */
     SOCIAL_MEMBER = 'social.member',
+    GYM_BRANCH = 'gym.branch',
 }
