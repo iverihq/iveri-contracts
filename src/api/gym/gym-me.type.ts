@@ -35,14 +35,21 @@ export interface GymMyProfile {
 export interface JoinGymRequest {
     firstName: string;
     lastName: string;
+    email: string;
     phone?: Nullable<string>;
     birthDate?: Nullable<string>;
     homeBranchId: UUID;
 }
 
+/** Ties the signed-in account to the record the desk already holds. */
+export interface LinkGymMemberRequest {
+    code: string;
+}
+
 export interface UpdateGymMyProfileRequest {
     firstName?: string;
     lastName?: string;
+    email?: string;
     phone?: Nullable<string>;
     birthDate?: Nullable<string>;
     homeBranchId?: UUID;
@@ -100,6 +107,13 @@ export interface GymMyBooking {
     canCancel: boolean;
     /** Cancelling now would keep what the booking cost. */
     isLateCancel: boolean;
+}
+
+export interface CreateMyGymPersonalSessionRequest {
+    branchId: UUID;
+    trainerId: UUID;
+    startsAt: IsoDateTime;
+    durationMinutes?: number;
 }
 
 export interface GymMyVisit {

@@ -87,6 +87,15 @@ export interface GymBooking {
     updatedAt: IsoDateTime;
 }
 
+/** A booking seen from the member's side, for their page in the panel. */
+export interface GymMemberBooking {
+    id: UUID;
+    status: GymBookingStatus;
+    spotNumber: Nullable<number>;
+    waitlistPosition: Nullable<number>;
+    session: GymSession;
+}
+
 export interface GymSessionDetail extends GymSession {
     bookings: GymBooking[];
 }

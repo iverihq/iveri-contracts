@@ -56,3 +56,9 @@ export interface CreateGymMemberRequest {
 }
 
 export type UpdateGymMemberRequest = Partial<CreateGymMemberRequest> & { status?: GymResourceStatus };
+
+/** A short code the desk gives somebody already on the books, which ties their app account to that record. */
+export interface GymMemberInvite {
+    code: string;
+    expiresAt: IsoDateTime;
+}
