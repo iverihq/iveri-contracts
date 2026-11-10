@@ -821,6 +821,26 @@ export enum UserPermission {
 
     /** See the owner's reports. */
     GYM_REPORT_READ = 'gym:report:read',
+
+    // Chat
+
+    /** Open, reconcile and close conversations about something in a product. Held by that product's service key. */
+    CHAT_EMBED_MANAGE = 'chat:embed:manage',
+
+    /** See the moderation queue and what a report copied. Every read of a conversation is logged. */
+    CHAT_MODERATION_READ = 'chat:moderation:read',
+
+    /** Decide a case: dismiss it, remove the message, warn, suspend or ban. */
+    CHAT_MODERATION_DECIDE = 'chat:moderation:decide',
+
+    /** Look people up, with their record. Never their conversations. */
+    CHAT_PERSON_READ = 'chat:person:read',
+
+    /** Suspend, ban or reinstate somebody without a report behind it. */
+    CHAT_PERSON_SANCTION = 'chat:person:sanction',
+
+    /** Read the record of what staff looked at and did. */
+    CHAT_AUDIT_READ = 'chat:audit:read',
 }
 
 /**
