@@ -673,6 +673,77 @@ export enum UserPermission {
 
     /** See sales reports. */
     RESTAURANT_REPORT_READ = 'restaurant:report:read',
+
+    // HR
+
+    /** Read a company's HR settings, locations, departments and job titles. */
+    HR_ORG_READ = 'hr:org:read',
+
+    /** Change them. */
+    HR_ORG_MANAGE = 'hr:org:manage',
+
+    /** Read employee records, without pay or identity numbers. */
+    HR_EMPLOYEE_READ = 'hr:employee:read',
+
+    /** Add and change employee records, record a job change, and end somebody's employment. */
+    HR_EMPLOYEE_MANAGE = 'hr:employee:manage',
+
+    /** Read pay, identity numbers and bank details. Its own permission, because keeping a directory right does not need them. */
+    HR_COMPENSATION_READ = 'hr:compensation:read',
+
+    /** Change them. */
+    HR_COMPENSATION_MANAGE = 'hr:compensation:manage',
+
+    /** See who read or changed pay and identity numbers, which reading them does not show. */
+    HR_AUDIT_READ = 'hr:audit:read',
+
+    /** See everybody's time off, balances and the holiday calendar. A manager sees their own reports without this. */
+    HR_TIME_OFF_READ = 'hr:time-off:read',
+
+    /** Decide anybody's time off, adjust balances, and change leave types and holidays. */
+    HR_TIME_OFF_MANAGE = 'hr:time-off:manage',
+
+    /** See everybody's attendance and timesheets. */
+    HR_ATTENDANCE_READ = 'hr:attendance:read',
+
+    /** Change attendance and decide corrections. */
+    HR_ATTENDANCE_MANAGE = 'hr:attendance:manage',
+
+    /** Read employee documents and company policies. */
+    HR_DOCUMENT_READ = 'hr:document:read',
+
+    /** Upload, change and remove them. */
+    HR_DOCUMENT_MANAGE = 'hr:document:manage',
+
+    /** See onboarding and offboarding checklists. */
+    HR_ONBOARDING_READ = 'hr:onboarding:read',
+
+    /** Change the templates and start a checklist for somebody. */
+    HR_ONBOARDING_MANAGE = 'hr:onboarding:manage',
+
+    /** Post and withdraw company announcements. */
+    HR_ANNOUNCEMENT_MANAGE = 'hr:announcement:manage',
+
+    /** See payroll runs and payslips. */
+    HR_PAYROLL_READ = 'hr:payroll:read',
+
+    /** Prepare a payroll run. */
+    HR_PAYROLL_MANAGE = 'hr:payroll:manage',
+
+    /** Approve a payroll run, which freezes every payslip in it. Its own permission, so one person cannot both prepare and sign off. */
+    HR_PAYROLL_APPROVE = 'hr:payroll:approve',
+
+    /** See job openings and applicants. */
+    HR_HIRING_READ = 'hr:hiring:read',
+
+    /** Change job openings and move applicants through the pipeline. */
+    HR_HIRING_MANAGE = 'hr:hiring:manage',
+
+    /** See goals and reviews across the company. A manager sees their own reports without this. */
+    HR_PERFORMANCE_READ = 'hr:performance:read',
+
+    /** Run review cycles. */
+    HR_PERFORMANCE_MANAGE = 'hr:performance:manage',
 }
 
 /**
