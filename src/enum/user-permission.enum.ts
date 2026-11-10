@@ -617,6 +617,62 @@ export enum UserPermission {
 
     /** Give money back. Its own permission, because reception taking money does not imply returning it. */
     CLINIC_PAYMENT_REFUND = 'clinic:payment:refund',
+
+    // Restaurant
+
+    /** Read a restaurant's profile, branches, tables and kitchen stations. */
+    RESTAURANT_SETUP_READ = 'restaurant:setup:read',
+
+    /** Change them, including what each branch offers. */
+    RESTAURANT_SETUP_MANAGE = 'restaurant:setup:manage',
+
+    /** Read the menu as staff see it, including what is hidden. */
+    RESTAURANT_MENU_READ = 'restaurant:menu:read',
+
+    /** Change the menu: dishes, prices, modifiers, photographs. */
+    RESTAURANT_MENU_MANAGE = 'restaurant:menu:manage',
+
+    /** Say a dish has run out. A cook can do this without being able to change a price. */
+    RESTAURANT_STOCK_MANAGE = 'restaurant:stock:manage',
+
+    /** See orders, bills and the floor. */
+    RESTAURANT_ORDER_READ = 'restaurant:order:read',
+
+    /** Take, accept, cancel and hand over orders, and answer a table's requests. */
+    RESTAURANT_ORDER_MANAGE = 'restaurant:order:manage',
+
+    /** See the kitchen screen and move plates along it. */
+    RESTAURANT_KITCHEN_OPERATE = 'restaurant:kitchen:operate',
+
+    /** See what has been paid and the day's takings. */
+    RESTAURANT_PAYMENT_READ = 'restaurant:payment:read',
+
+    /** Record money taken at the table or till. */
+    RESTAURANT_PAYMENT_RECORD = 'restaurant:payment:record',
+
+    /** Give money back. Its own permission, because taking money does not imply returning it. */
+    RESTAURANT_PAYMENT_REFUND = 'restaurant:payment:refund',
+
+    /** See the booking book. */
+    RESTAURANT_RESERVATION_READ = 'restaurant:reservation:read',
+
+    /** Take, seat and cancel bookings. */
+    RESTAURANT_RESERVATION_MANAGE = 'restaurant:reservation:manage',
+
+    /** See a restaurant's diners. */
+    RESTAURANT_CUSTOMER_READ = 'restaurant:customer:read',
+
+    /** Change what is held about them. */
+    RESTAURANT_CUSTOMER_MANAGE = 'restaurant:customer:manage',
+
+    /** See promotions and reviews. */
+    RESTAURANT_MARKETING_READ = 'restaurant:marketing:read',
+
+    /** Change promotions and moderate reviews. */
+    RESTAURANT_MARKETING_MANAGE = 'restaurant:marketing:manage',
+
+    /** See sales reports. */
+    RESTAURANT_REPORT_READ = 'restaurant:report:read',
 }
 
 /**
