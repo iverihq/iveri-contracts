@@ -81,6 +81,13 @@ export interface HrEmploymentEvent {
     createdAt: IsoDateTime;
 }
 
+export interface HrImportResult {
+    isDryRun: boolean;
+    createdCount: number;
+    refusedCount: number;
+    rows: HrImportRowResult[];
+}
+
 export interface HrImportRowResult {
     row: number;
     isCreated: boolean;
@@ -105,10 +112,37 @@ export interface HrOrgChartNode {
     reportCount: number;
 }
 
+export interface HrOverviewCelebration {
+    employeeId: UUID;
+    displayName: string;
+    jobTitleName: Nullable<string>;
+    date: string;
+    isBirthday: boolean;
+    years: Nullable<number>;
+}
+
 export interface HrOverviewDepartment {
     departmentId: Nullable<UUID>;
     departmentName: Nullable<string>;
     count: number;
+}
+
+export interface HrOverviewMovement {
+    month: string;
+    joined: number;
+    left: number;
+}
+
+export interface HrOverview {
+    headcount: number;
+    upcomingCount: number;
+    leavingCount: number;
+    withoutAccountCount: number;
+    byDepartment: HrOverviewDepartment[];
+    movements: HrOverviewMovement[];
+    startingSoon: HrEmployeeSummary[];
+    leavingSoon: HrEmployeeSummary[];
+    celebrations: HrOverviewCelebration[];
 }
 
 export interface ChangeHrJobRequest {
