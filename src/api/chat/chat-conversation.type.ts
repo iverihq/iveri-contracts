@@ -48,8 +48,16 @@ export interface ChatConversationSummary {
     /** A line under the title, set by a product for a context conversation. */
     subtitle: Nullable<string>;
     avatar: Nullable<ChatImage>;
-    /** The other person in a one-to-one conversation. */
+    /**
+     * The other person in a one-to-one conversation, and in a product's conversation that holds two people and
+     * is not a group.
+     */
     other: Nullable<ChatPersonCard>;
+    /**
+     * A conversation of many: a Baasi group, or a product's conversation opened with `isGroup`. It is drawn under
+     * its own title and never under one member's name, however many people are in it.
+     */
+    isGroup: boolean;
     context: Nullable<ChatContext>;
     memberCount: number;
     lastMessage: Nullable<ChatLastMessagePreview>;

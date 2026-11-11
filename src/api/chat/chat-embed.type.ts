@@ -26,6 +26,12 @@ export interface OpenEmbeddedChatRequest {
     title: string;
     subtitle?: Nullable<string>;
     participants: EmbeddedChatParticipant[];
+    /**
+     * A conversation of many, such as a team, whatever its size today. Without it a conversation that happens
+     * to hold two people is drawn as one person talking to the other, under that person's name. Sent on every
+     * `PUT`; omitted means false.
+     */
+    isGroup?: boolean;
     /** Sending ends here and reading stays. Omitted means until closed. */
     writableUntil?: Nullable<IsoDateTime>;
     link?: Nullable<{ web?: Nullable<string>; app?: Nullable<string> }>;
