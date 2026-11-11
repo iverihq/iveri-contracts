@@ -2,6 +2,25 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.74.0 — Ezo's messages move to Baasi
+
+**What changed.** Ezo keeps every rule about who may message whom, and Baasi, Iveri's messenger, holds
+the conversations. So `@iveri/contracts/social` no longer describes a conversation or a message:
+
+- `SocialConversation`, `SocialMessage`, `SocialMessagePreview` and `SendSocialMessageRequest` are
+  removed. `POST /conversations` answers `SocialConversationHandle`, the Baasi conversation id, and the
+  thread is read and written through `@iveri/chat-kit` and the `chat` entry point.
+- `SocialReportTarget.MESSAGE` is removed. A message is reported to Baasi and worked in Baasi's queue.
+- `SocialRefusal.MESSAGE_EMPTY` is removed and `SocialRefusal.MESSAGING_UNAVAILABLE` added, for a
+  deployment that cannot reach Baasi.
+- `SocialMe.unreadMessageCount` and `SocialPreferences.emailOnMessage` are removed. Ezo no longer sees
+  a message arrive, so it can neither count one nor email about one.
+
+**Who is affected.** `social-api`, `social-web`, `social-app` and `social-admin-web`.
+
+**Moving across.** Open a conversation through `social-api` and hand the id to the kit. A moderation
+screen drops its `message` row; a case of that kind cannot be created any more.
+
 ## 0.39.0 — ESM-only
 
 **What changed.** The package is published as native ES modules only: `"type": "module"`, one

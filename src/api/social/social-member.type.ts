@@ -48,7 +48,6 @@ export interface SocialMe extends SocialProfile {
     deletionScheduledFor: Nullable<IsoDateTime>;
     acceptedTermsVersion: string;
     unreadActivityCount: number;
-    unreadMessageCount: number;
 }
 
 export interface CreateSocialProfileRequest {
@@ -80,7 +79,6 @@ export interface SocialMemberListItem {
 }
 
 export interface SocialPreferences {
-    emailOnMessage: boolean;
     emailOnFollow: boolean;
     emailOnMention: boolean;
     emailOnComment: boolean;

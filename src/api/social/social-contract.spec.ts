@@ -21,7 +21,7 @@ describe('social contract', () => {
     });
 
     it('keeps the kinds of thing that can be reported', () => {
-        expect(Object.values(SocialReportTarget)).toEqual(['post', 'comment', 'story', 'member', 'message']);
+        expect(Object.values(SocialReportTarget)).toEqual(['post', 'comment', 'story', 'member']);
     });
 
     it('keeps the decisions a moderator has', () => {
