@@ -2,6 +2,16 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.80.0 — Ezo's inbox event goes
+
+**What changed.** `RealtimeEventType.SOCIAL_INBOX_UPDATED` is removed. It announced a change to Ezo's own
+inbox, which has not existed since 0.75.0: Baasi holds Ezo's conversations and its own realtime service
+tells a member about them. Nothing published or subscribed to the event.
+
+**Who is affected.** `iveri-realtime`, whose exhaustive event-to-resource table names it.
+
+**Moving across.** Delete the entry. `SOCIAL_ACTIVITY_UPDATED` is unchanged.
+
 ## 0.75.0 — Ezo's messages move to Baasi
 
 **What changed.** Ezo keeps every rule about who may message whom, and Baasi, Iveri's messenger, holds
