@@ -2,6 +2,7 @@ import type { IsoDateTime } from '../../type/iso-date-time.type.js';
 import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
+import type { HrApplicationSource } from './hr-application-source.enum.js';
 import type { HrApplicationStage } from './hr-application-stage.enum.js';
 import type { HrEmploymentType } from './hr-employment-type.enum.js';
 import type { HrOpeningStatus } from './hr-opening-status.enum.js';
@@ -29,7 +30,7 @@ export interface HrApplication {
     coverLetter: Nullable<string>;
     hasCv: boolean;
     stage: HrApplicationStage;
-    source: string;
+    source: HrApplicationSource;
     consentedAt: IsoDateTime;
     stageChangedAt: IsoDateTime;
     decidedAt: Nullable<IsoDateTime>;

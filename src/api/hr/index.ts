@@ -1,5 +1,6 @@
 export * from './hr-access-action.enum.js';
 export * from './hr-announcement.type.js';
+export * from './hr-application-source.enum.js';
 export * from './hr-application-stage.enum.js';
 export * from './hr-attendance-correction-status.enum.js';
 export * from './hr-attendance-source.enum.js';
