@@ -8,6 +8,7 @@ export * from './hr-attendance-state.enum.js';
 export * from './hr-attendance.type.js';
 export * from './hr-checklist-kind.enum.js';
 export * from './hr-compensation.type.js';
+export * from './hr-conversation.type.js';
 export * from './hr-document-audience.enum.js';
 export * from './hr-document.type.js';
 export * from './hr-employee.type.js';
