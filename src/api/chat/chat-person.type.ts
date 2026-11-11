@@ -8,6 +8,8 @@ import type { ChatPersonStatus } from './chat-person-status.enum.js';
 /** Somebody as another person sees them. Nothing here is an email address or a phone number. */
 export interface ChatPersonCard {
     userId: UUID;
+    /** The id an outside app knows this person by. Null for everybody signed in through Iveri. */
+    externalId: Nullable<string>;
     displayName: string;
     /** Only in the Baasi network. A person inside a product has none. */
     handle: Nullable<string>;
@@ -26,6 +28,8 @@ export interface ChatSettings {
 /** The signed-in person's own profile. */
 export interface ChatProfile {
     userId: UUID;
+    /** The id an outside app knows me by. Null for everybody signed in through Iveri. */
+    externalId: Nullable<string>;
     /** True in the Baasi tenant. Elsewhere a person only uses conversations their product opened. */
     isNetwork: boolean;
     /** False until a Baasi person has chosen a handle and a name. */

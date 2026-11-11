@@ -1,7 +1,12 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+    CHAT_APP_MAX_ACTIVE_SECRETS,
+    CHAT_APP_SECRET_PREFIX,
+    CHAT_APP_TOKEN_MAX_TTL_SECONDS,
     CHAT_HANDLE_PATTERN,
+    CHAT_SOCKET_TICKET_TYPE,
+    ChatAppConversationMode,
     CHAT_QUICK_REACTIONS,
     ChatCaseDecision,
     ChatConversationKind,
@@ -15,6 +20,18 @@ import {
 } from './index.js';
 
 describe('chat contract', () => {
+    it('keeps an app closed to its users starting conversations unless it says otherwise', () => {
+        expect(Object.values(ChatAppConversationMode)).toEqual(['server', 'users']);
+    });
+
+    it('keeps the numbers an app’s server is built against', () => {
+        // A customer's server signs against these; moving one breaks somebody else's production.
+        expect(CHAT_APP_SECRET_PREFIX).toBe('bs_');
+        expect(CHAT_APP_MAX_ACTIVE_SECRETS).toBe(2);
+        expect(CHAT_APP_TOKEN_MAX_TTL_SECONDS).toBe(24 * 60 * 60);
+        expect(CHAT_SOCKET_TICKET_TYPE).toBe('chat-socket');
+    });
+
     it('keeps the conversation kinds', () => {
         expect(Object.values(ChatConversationKind)).toEqual(['direct', 'group', 'context']);
     });

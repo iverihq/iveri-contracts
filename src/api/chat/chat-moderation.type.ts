@@ -80,6 +80,8 @@ export interface DecideChatCaseRequest {
 export interface ChatStaffPerson {
     userId: UUID;
     tenantId: UUID;
+    /** The id an outside app knows this person by. Null for everybody signed in through Iveri. */
+    externalId: Nullable<string>;
     handle: Nullable<string>;
     displayName: Nullable<string>;
     status: ChatPersonStatus;

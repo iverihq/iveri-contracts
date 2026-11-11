@@ -109,13 +109,20 @@ export interface ChatInboxPage {
 /** What `GET /conversations` can be narrowed to. */
 export type ChatInboxFolder = 'inbox' | 'requests' | 'archived';
 
+/**
+ * Exactly one of the two. Inside an outside app that lets its users start conversations, a person names the
+ * other by the app's own id for them, since that is the only id the app knows.
+ */
 export interface StartDirectChatRequest {
-    userId: UUID;
+    userId?: UUID;
+    externalUserId?: string;
 }
 
+/** Exactly one of the two lists, as with {@link StartDirectChatRequest}. */
 export interface CreateGroupChatRequest {
     title: string;
-    memberUserIds: UUID[];
+    memberUserIds?: UUID[];
+    memberExternalIds?: string[];
 }
 
 export interface UpdateGroupChatRequest {
@@ -124,8 +131,10 @@ export interface UpdateGroupChatRequest {
     avatarAttachmentId?: Nullable<UUID>;
 }
 
+/** Exactly one of the two lists, as with {@link StartDirectChatRequest}. */
 export interface AddChatMembersRequest {
-    userIds: UUID[];
+    userIds?: UUID[];
+    externalUserIds?: string[];
 }
 
 export interface UpdateChatMemberRequest {
