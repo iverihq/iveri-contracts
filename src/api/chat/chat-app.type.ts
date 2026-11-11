@@ -4,7 +4,7 @@ import type { UUID } from '../../type/uuid.type.js';
 
 import type { ChatAppConversationMode } from './chat-app-conversation-mode.enum.js';
 import type { CHAT_SOCKET_TICKET_TYPE } from './chat-app.constant.js';
-import type { OpenEmbeddedChatRequest } from './chat-embed.type.js';
+import type { EmbeddedChatParticipant, OpenEmbeddedChatRequest } from './chat-embed.type.js';
 import type { ChatMessageKind } from './chat-message-kind.enum.js';
 import type { ChatPersonStatus } from './chat-person-status.enum.js';
 
@@ -82,11 +82,16 @@ export interface ChatToken {
     expiresAt: IsoDateTime;
 }
 
+/** A participant as an app's server names them: by the app's own id for the person, 1 to 255 characters. */
+export type ServerChatParticipant = Omit<EmbeddedChatParticipant, 'userId'> & { userId: string };
+
 /**
- * `PUT /server/conversations`: the embed request, with each participant's `userId` read as the app's own id for
- * them rather than a Baasi id.
+ * `PUT /server/conversations`: the embed request, with each participant named by the app's own id for them rather
+ * than a Baasi id.
  */
-export type OpenServerChatRequest = OpenEmbeddedChatRequest;
+export type OpenServerChatRequest = Omit<OpenEmbeddedChatRequest, 'participants'> & {
+    participants: ServerChatParticipant[];
+};
 
 /** `GET /server/users/:userId/export`: everything Baasi holds about one user of an app. */
 export interface ChatAppUserExport {
