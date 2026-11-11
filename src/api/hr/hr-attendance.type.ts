@@ -82,6 +82,8 @@ export interface HrMyAttendance {
     todayMinutes: number;
     weekMinutes: number;
     weekExpectedMinutes: number;
+    timeZone: string;
+    capturesClockLocation: boolean;
 }
 
 export interface HrTimesheetDay {

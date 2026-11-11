@@ -32,6 +32,7 @@ export interface HrMyHome {
     nextTimeOff: Nullable<HrLeaveRequest>;
     nextHoliday: Nullable<HrPublicHolidayEntry>;
     awayToday: HrTeamAbsence[];
+    timeZone: string;
 }
 
 export interface HrMyTimeOff {
