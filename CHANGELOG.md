@@ -2,7 +2,7 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
-## 0.74.0 — Ezo's messages move to Baasi
+## 0.75.0 — Ezo's messages move to Baasi
 
 **What changed.** Ezo keeps every rule about who may message whom, and Baasi, Iveri's messenger, holds
 the conversations. So `@iveri/contracts/social` no longer describes a conversation or a message:
