@@ -42,4 +42,42 @@ export enum ConnectorAuthType {
      * of the two results is stored, and the connection is dead until a human re-authorises it.
      */
     OAUTH2_REFRESH_TOKEN = 'oauth2-refresh-token',
+
+    /**
+     * OAuth 2.0 authorization code with PKCE (RFC 6749 §4.1, RFC 7636): a person grants access on
+     * the provider's own consent page, and the provider hands the tokens back to Conduit.
+     *
+     * **Nobody types this credential in.** The connection holds the app's client id and secret;
+     * the access token, and a refresh token when the provider issues one, arrive at Conduit's
+     * callback and are stored encrypted on the connection. That is the only way to obtain a
+     * token a provider gives out per installation — Slack's bot token, a person's own Slack token
+     * — because only somebody signed in at the provider can grant it.
+     *
+     * Afterwards it behaves like {@link OAUTH2_REFRESH_TOKEN}: a token with a lifetime is renewed
+     * with the refresh token under the same row lock. A token issued with **no lifetime and no
+     * refresh token** — Slack's, unless the app turns on rotation — is long-lived and is used until
+     * the provider refuses it; assuming an hour would leave it unusable with nothing to renew it.
+     *
+     * The PKCE verifier and the `state` stay on the server, are single-use and expire in minutes,
+     * so a consent page reached twice, or a callback replayed, connects nothing.
+     */
+    OAUTH2_AUTHORIZATION_CODE = 'oauth2-authorization-code',
+
+    /**
+     * OAuth 2.0 JWT bearer grant (RFC 7523 §2.1): a service account signs an assertion with its own
+     * private key and exchanges it for a short-lived access token, **optionally acting as a named
+     * user**.
+     *
+     * This is Google Workspace's domain-wide delegation: the company's admin trusts one service
+     * account once, and Conduit then writes into each employee's own calendar by naming them as
+     * the assertion's `sub`. One credential, one consent, every person — nobody connects their own
+     * account and nobody can forget to.
+     *
+     * The user is named **per dispatch**, through the variable the manifest's `subjectVariable`
+     * names, so one connection serves a whole company. Tokens are cached per connection *and*
+     * subject: a token minted to act as one person must never be sent on behalf of another. No
+     * refresh token exists — the key signs a fresh assertion whenever one is needed — so, unlike
+     * {@link OAUTH2_REFRESH_TOKEN}, two replicas minting at once costs a token, not a connection.
+     */
+    OAUTH2_JWT_BEARER = 'oauth2-jwt-bearer',
 }

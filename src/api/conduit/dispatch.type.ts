@@ -30,6 +30,20 @@ export interface Dispatch {
     /** The operation named at submit time. */
     operation: string;
 
+    /**
+     * The person whose own connection this went through, or null for a company's connection.
+     *
+     * Recorded so the outbound log can say whose token spoke — a status set on somebody's Slack is
+     * something they will ask about.
+     */
+    ownerUserId: Nullable<UUID>;
+
+    /**
+     * Who a service account acted as, for a JWT bearer connector; null otherwise or when it acted
+     * as itself. Resolved at submit time, like the target URL.
+     */
+    authSubject: Nullable<string>;
+
     /** Optional FIFO lane. Dispatches in the same tenant and lane are claimed in creation order. */
     orderingKey: Nullable<string>;
 
@@ -149,12 +163,23 @@ export interface SubmitDispatchBody {
     payload: Record<string, unknown>;
 
     /**
-     * Values for `{placeholders}` in the operation's path that the connection does not supply.
+     * Values for `{placeholders}` in the operation's path that the connection does not supply, and
+     * for the variable a JWT bearer manifest's `subjectVariable` names.
      *
      * Percent-encoded into the path, so a value cannot introduce a path segment or a query
      * string and steer the request at a different endpoint of the same host.
      */
     pathParams?: Nullable<Record<string, string>>;
+
+    /**
+     * Send through this person's own connection under `connectionKey`, rather than the company's.
+     *
+     * The only way to reach a person's connection, and refused unless the caller is that person or
+     * a service: a person's token speaks as them, so nobody else's request may carry it. Refused
+     * as well when the person has not connected — a status update for somebody who never linked
+     * their Slack is not something to queue and dead-letter, it is something the caller skips.
+     */
+    onBehalfOfUserId?: Nullable<UUID>;
 
     /** Appended to the resolved URL. Values are encoded. */
     query?: Nullable<Record<string, string>>;

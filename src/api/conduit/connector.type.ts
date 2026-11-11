@@ -15,6 +15,19 @@ export const CONNECTOR_CREDENTIAL_CLIENT_SECRET = 'clientSecret';
 export const CONNECTOR_CREDENTIAL_REFRESH_TOKEN = 'refreshToken';
 
 /**
+ * Credential names a JWT bearer manifest expects to find on a connection.
+ *
+ * They are the three fields of a Google service account's key file (`client_email`, `private_key`,
+ * `private_key_id`) under this API's camelCase. A client reading an uploaded key file maps those
+ * fields to these names; the rest of the file — the project id, the token URI — is either public or
+ * already the manifest's, so it is not kept. `privateKeyId` is optional: it only selects which of a
+ * service account's keys the provider checks the signature against.
+ */
+export const CONNECTOR_CREDENTIAL_CLIENT_EMAIL = 'clientEmail';
+export const CONNECTOR_CREDENTIAL_PRIVATE_KEY = 'privateKey';
+export const CONNECTOR_CREDENTIAL_PRIVATE_KEY_ID = 'privateKeyId';
+
+/**
  * How a connector authenticates, as data.
  *
  * Flat with a discriminating {@link ConnectorAuthType} and nullable fields, matching
@@ -57,6 +70,59 @@ export interface ConnectorAuthManifest {
      * routine. Null falls back to the service default.
      */
     expirySkewSeconds: Nullable<number>;
+
+    /**
+     * The provider's consent page. `OAUTH2_AUTHORIZATION_CODE` only.
+     *
+     * Not an outbound target — a person's browser goes there, never Conduit — but it must be https
+     * (or a private address where those are allowed), because the consent page is where somebody
+     * types their password.
+     */
+    authorizationUrl: Nullable<string>;
+
+    /**
+     * Extra query parameters on the consent URL for a **company's** connection. `OAUTH2_AUTHORIZATION_CODE` only.
+     *
+     * `scope` is sent as well when set. Data, because providers name things differently — Google
+     * wants `access_type=offline` before it issues a refresh token, Slack takes bot scopes as
+     * `scope` and a person's scopes as `user_scope`. The parameters the flow itself depends on
+     * (`response_type`, `client_id`, `redirect_uri`, `state`, `code_challenge`,
+     * `code_challenge_method`) are always Conduit's and cannot be overridden here.
+     */
+    authorizationParams: Nullable<Record<string, string>>;
+
+    /**
+     * The consent URL's parameters for a **person's own** connection, used *instead of* `scope`
+     * and {@link authorizationParams}. `OAUTH2_AUTHORIZATION_CODE` only. Null means the same as a
+     * company's.
+     *
+     * Separate because a person asks for less than a company admin does, and asking for more fails:
+     * Slack reinstalls the bot when a consent page requests bot scopes, which an ordinary member is
+     * usually not allowed to do. A person connecting their own Slack asks for `user_scope` alone.
+     */
+    personAuthorizationParams: Nullable<Record<string, string>>;
+
+    /**
+     * Where the token fields sit in the token response, tried in order. `OAUTH2_AUTHORIZATION_CODE` only.
+     *
+     * Each entry is a dotted path to an object holding RFC 6749's `access_token`, `refresh_token` and
+     * `expires_in`; an empty string is the response itself. The first object carrying an
+     * `access_token` wins, and its refresh token and lifetime are read from that same object, so a
+     * bot token is never paired with a user's refresh token. Null means the response itself only,
+     * which is what RFC 6749 describes. Slack's install answers with a bot token at the top and a
+     * person's token under `authed_user`: `['', 'authed_user']`.
+     */
+    tokenObjectPaths: Nullable<string[]>;
+
+    /**
+     * Which variable names the user a service account acts as. `OAUTH2_JWT_BEARER` only.
+     *
+     * Read from the connection's variables first and the dispatch's `pathParams` second — the same
+     * order as a path placeholder, so a connection that fixes it cannot be made to act as anybody
+     * else. Absent from both, the service account acts as itself, which is how it reaches a
+     * calendar shared with it directly. Null means it always acts as itself.
+     */
+    subjectVariable: Nullable<string>;
 }
 
 /** {@link ConnectorAuthManifest} as sent on create/update: nullable fields may simply be omitted. */
@@ -68,6 +134,11 @@ export interface ConnectorAuthManifestInput {
     tokenUrl?: Nullable<string>;
     scope?: Nullable<string>;
     expirySkewSeconds?: Nullable<number>;
+    authorizationUrl?: Nullable<string>;
+    authorizationParams?: Nullable<Record<string, string>>;
+    personAuthorizationParams?: Nullable<Record<string, string>>;
+    tokenObjectPaths?: Nullable<string[]>;
+    subjectVariable?: Nullable<string>;
 }
 
 /**
@@ -97,6 +168,17 @@ export interface ConnectorOperation {
     path: string;
 
     description: Nullable<string>;
+
+    /**
+     * Statuses meaning the change is **already in place**, recorded as a success.
+     *
+     * An insert whose id already exists answers 409, a delete of something already gone answers
+     * 404 or 410 — and that is exactly what a retry after a lost response sees. A caller that
+     * supplies its own id, as a calendar event's is made from a leave request's, is idempotent at
+     * the provider; without this the retry that proves it dead-letters, and a dead-letter queue
+     * full of things that worked teaches an operator to stop reading it. Empty for most operations.
+     */
+    alreadyAppliedStatuses: number[];
 }
 
 /** Requests per minute, and how many may arrive at once. Applied per connection. */
@@ -133,6 +215,17 @@ export interface ConnectorRetryPolicy {
      * expired thirty seconds early is not a failing destination and should not be treated as one.
      */
     authFailureStatuses: number[];
+
+    /**
+     * A dotted path to a boolean the provider sets `true` in a successful JSON response, or null.
+     *
+     * For a provider that answers **200 to a failure**: Slack's Web API returns
+     * `{ "ok": false, "error": "channel_not_found" }` with a 200, so by status alone every refused
+     * message reads as delivered. With `ok` here, a 2xx whose body does not hold `true` at that path
+     * is a permanent failure, kept with its body for the operator. A body that is not JSON fails
+     * the same way: the provider promised a flag and did not send one.
+     */
+    successBodyField: Nullable<string>;
 }
 
 /**

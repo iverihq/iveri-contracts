@@ -63,11 +63,43 @@ export interface Connection {
      */
     lastAuthError: Nullable<string>;
 
+    /**
+     * The person this connection belongs to, or null for a company's connection.
+     *
+     * A person's connection is made by a consent flow started for them, and it shares its key and
+     * connector with the company connection it was started from, whose app credentials it borrows.
+     * It holds a token only that person could grant — their own Slack, for their own status — so
+     * **only that person, or a service acting on their behalf, can dispatch through it**: a
+     * dispatch reaches it by naming the key and `onBehalfOfUserId`, and no other way.
+     */
+    ownerUserId: Nullable<UUID>;
+
+    /**
+     * When a consent flow last finished on this connection, or null when none has.
+     *
+     * For an `oauth2-authorization-code` connector this is the difference between configured and
+     * usable: the client id and secret are typed in, the token is only ever granted.
+     */
+    connectedAt: Nullable<IsoDateTime>;
+
     /** Stops *new* dispatches being accepted. Does not cancel ones already queued. */
     isActive: boolean;
 
     createdAt: IsoDateTime;
     updatedAt: IsoDateTime;
+}
+
+/**
+ * Query for `GET /api/v1/connections`.
+ *
+ * `ownerUserId` lists one person's own connections — how a product learns whether somebody has
+ * connected. Absent lists every connection, a company's and every person's.
+ */
+export interface GetConnectionsQuery {
+    limit?: number;
+    offset?: number;
+    search?: Nullable<string>;
+    ownerUserId?: Nullable<UUID>;
 }
 
 /** `GET /api/v1/connections`. Offset-paginated — a small, slow-moving collection. */
@@ -90,7 +122,9 @@ export interface CreateConnectionBody {
      *
      * Which names are expected depends on the connector's auth type: an `API_KEY_HEADER`
      * manifest names its own, an OAuth one wants `clientId`/`clientSecret` and, for the refresh
-     * grant, `refreshToken`.
+     * grant, `refreshToken`. An authorization-code connection is given `clientId`/`clientSecret`
+     * here and receives its tokens through the consent flow. A JWT bearer one wants `clientEmail`,
+     * `privateKey` and optionally `privateKeyId`, the fields of a service account's key file.
      */
     credentials: Record<string, string>;
 

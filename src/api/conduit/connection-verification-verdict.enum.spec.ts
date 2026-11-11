@@ -35,6 +35,26 @@ const REACHABLE_BY: Readonly<Record<ConnectorAuthType, readonly ConnectionVerifi
         ConnectionVerificationVerdict.MISCONFIGURED,
         ConnectionVerificationVerdict.PROVIDER_UNREACHABLE,
     ],
+    // `misconfigured` covers a connection nobody has connected yet: the token is only ever
+    // granted, so its absence is a missing credential rather than a refused one. A long-lived
+    // token with no refresh token reports `verified-cached`, because nothing was asked of the
+    // provider.
+    [ConnectorAuthType.OAUTH2_AUTHORIZATION_CODE]: [
+        ConnectionVerificationVerdict.VERIFIED,
+        ConnectionVerificationVerdict.VERIFIED_CACHED,
+        ConnectionVerificationVerdict.INVALID_CREDENTIALS,
+        ConnectionVerificationVerdict.MISCONFIGURED,
+        ConnectionVerificationVerdict.PROVIDER_UNREACHABLE,
+    ],
+    // Verified as the service account itself, with no user named. That proves the key; whether the
+    // company's admin granted delegation shows on the first dispatch that names a person.
+    [ConnectorAuthType.OAUTH2_JWT_BEARER]: [
+        ConnectionVerificationVerdict.VERIFIED,
+        ConnectionVerificationVerdict.VERIFIED_CACHED,
+        ConnectionVerificationVerdict.INVALID_CREDENTIALS,
+        ConnectionVerificationVerdict.MISCONFIGURED,
+        ConnectionVerificationVerdict.PROVIDER_UNREACHABLE,
+    ],
 };
 
 describe('ConnectionVerificationVerdict', () => {
