@@ -15,6 +15,11 @@ export interface HrDirectoryEntry {
     workEmail: string;
     managerId: Nullable<UUID>;
     managerName: Nullable<string>;
+    /**
+     * Whether the reader can write to this colleague on Baasi: both work here today and both have accounts.
+     * Always false for the reader themselves.
+     */
+    canMessage: boolean;
 }
 
 export interface HrDirectoryPage {
@@ -72,6 +77,11 @@ export interface HrTeamMember {
     hireDate: string;
     status: HrEmploymentStatus;
     isAwayToday: boolean;
+    /**
+     * Whether the reader can write to this colleague on Baasi: both work here today and both have accounts.
+     * Always false for the reader themselves.
+     */
+    canMessage: boolean;
 }
 
 export interface UpdateHrMyEmployeeRequest {
