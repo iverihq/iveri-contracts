@@ -2,6 +2,11 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.82.1 — a server names a participant by the app's own id
+
+**What changed.** `OpenServerChatRequest` takes `ServerChatParticipant`s, whose `userId` is any string of the app's,
+where 0.82.0 had reused the embed participant and typed it as a Baasi uuid. Nothing else moved.
+
 ## 0.82.0 — Baasi inside other companies' apps
 
 **What changed.** `chat:app:manage` lets a company's staff run Baasi apps; `ChatApp`, its secrets, the server API's
