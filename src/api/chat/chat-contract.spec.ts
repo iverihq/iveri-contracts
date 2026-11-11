@@ -10,6 +10,7 @@ import {
     ChatRealtimeEvent,
     ChatReportReason,
     ChatReportTarget,
+    type ChatLastMessagePreview,
     type EmbeddedChatParticipant,
 } from './index.js';
 
@@ -32,6 +33,21 @@ describe('chat contract', () => {
 
     it('keeps the two kinds of thing that can be reported', () => {
         expect(Object.values(ChatReportTarget)).toEqual(['message', 'person']);
+    });
+
+    it('carries a notice’s variables on an inbox preview, so the row can say the whole sentence', () => {
+        const preview: ChatLastMessagePreview = {
+            seq: 1,
+            kind: ChatMessageKind.SYSTEM,
+            excerpt: null,
+            systemKey: 'chat.system.group-created',
+            systemVariables: { actor: 'Nino' },
+            senderName: null,
+            isOwn: false,
+            isDeleted: false,
+            sentAt: '2026-11-11T10:00:00.000Z',
+        };
+        expect(preview.systemVariables).toEqual({ actor: 'Nino' });
     });
 
     it('keeps child safety among the reasons', () => {
