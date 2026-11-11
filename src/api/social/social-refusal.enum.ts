@@ -24,7 +24,8 @@ export enum SocialRefusal {
     COMMENTS_DISABLED = 'comments-disabled',
     CANNOT_FOLLOW_SELF = 'cannot-follow-self',
     CANNOT_MESSAGE = 'cannot-message',
-    MESSAGE_EMPTY = 'message-empty',
+    /** Messages are held by Baasi, which this deployment cannot reach or is not configured for. */
+    MESSAGING_UNAVAILABLE = 'messaging-unavailable',
     ALREADY_REPORTED = 'already-reported',
     ALREADY_APPEALED = 'already-appealed',
     APPEAL_NOT_ALLOWED = 'appeal-not-allowed',
