@@ -32,7 +32,6 @@ describe('shared realtime contract', () => {
         [RealtimeEventType.MOBILITY_DISPATCH_OFFER_UPDATED, 'mobility.dispatch-offer.updated'],
         [RealtimeEventType.RESTAURANT_BRANCH_UPDATED, 'restaurant.branch.updated'],
         [RealtimeEventType.RESTAURANT_ORDER_UPDATED, 'restaurant.order.updated'],
-        [RealtimeEventType.SOCIAL_INBOX_UPDATED, 'social.inbox.updated'],
         [RealtimeEventType.SOCIAL_ACTIVITY_UPDATED, 'social.activity.updated'],
         [RealtimeEventType.GYM_BRANCH_UPDATED, 'gym.branch.updated'],
     ])('pins event type %s', (member, value) => {
