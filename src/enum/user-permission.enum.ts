@@ -841,6 +841,12 @@ export enum UserPermission {
 
     /** Read the record of what staff looked at and did. */
     CHAT_AUDIT_READ = 'chat:audit:read',
+
+    /**
+     * Run Baasi inside another company's product: create its apps, issue and revoke their secrets, change who may
+     * start conversations, and refuse tokens signed before a moment. Held by that company's own staff.
+     */
+    CHAT_APP_MANAGE = 'chat:app:manage',
 }
 
 /**

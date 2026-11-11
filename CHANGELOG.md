@@ -2,6 +2,20 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.82.0 — Baasi inside other companies' apps
+
+**What changed.** `chat:app:manage` lets a company's staff run Baasi apps; `ChatApp`, its secrets, the server API's
+users, tokens and export, and `ChatSocketTicket` describe them. `ChatPersonCard`, `ChatProfile` and `ChatStaffPerson`
+carry `externalId`, the app's own id for a person, null for everybody signed in through Iveri. `StartDirectChatRequest`,
+`CreateGroupChatRequest` and `AddChatMembersRequest` take either Baasi ids or an app's own ids, so their id fields are
+now optional.
+
+**Who is affected.** Whatever builds a person card, a profile or a staff person (`chat-api`, the fixtures in
+`@iveri/chat-kit`), and whatever reads `userId`, `memberUserIds` or `userIds` off those requests.
+
+**Moving across.** Set `externalId: null` where a card, a profile or a staff person is built for an Iveri user. Send
+the requests as before.
+
 ## 0.81.0 — a product can open a group
 
 **What changed.** `OpenEmbeddedChatRequest.isGroup` lets a product say a conversation is a group, such as an
