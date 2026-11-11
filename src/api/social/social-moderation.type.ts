@@ -40,15 +40,7 @@ export interface CreateSocialAppealRequest {
 export interface SocialCaseEvidence {
     text: Nullable<string>;
     imageUrls: string[];
-    /** For a reported message, what came just before it, oldest first. */
-    context: SocialCaseMessageContext[];
     createdAt: Nullable<IsoDateTime>;
-}
-
-export interface SocialCaseMessageContext {
-    senderHandle: Nullable<string>;
-    body: Nullable<string>;
-    sentAt: IsoDateTime;
 }
 
 export interface SocialCaseSummary {

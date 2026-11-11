@@ -13,8 +13,11 @@ the conversations. So `@iveri/contracts/social` no longer describes a conversati
 - `SocialReportTarget.MESSAGE` is removed. A message is reported to Baasi and worked in Baasi's queue.
 - `SocialRefusal.MESSAGE_EMPTY` is removed and `SocialRefusal.MESSAGING_UNAVAILABLE` added, for a
   deployment that cannot reach Baasi.
-- `SocialMe.unreadMessageCount` and `SocialPreferences.emailOnMessage` are removed. Ezo no longer sees
-  a message arrive, so it can neither count one nor email about one.
+- `SocialMe.unreadMessageCount`, `SocialUnreadCounts.messages` and `SocialPreferences.emailOnMessage`
+  are removed. Ezo no longer sees a message arrive, so it can neither count one nor email about one; the
+  kit's inbox carries the unread count.
+- `SocialCaseEvidence.context`, `SocialCaseMessageContext` and `SOCIAL_LIMITS.MESSAGE_MAX` are removed with
+  the message report.
 
 **Who is affected.** `social-api`, `social-web`, `social-app` and `social-admin-web`.
 

@@ -24,6 +24,5 @@ export interface SocialActivityItem {
 
 export interface SocialUnreadCounts {
     activity: number;
-    messages: number;
     followRequests: number;
 }
