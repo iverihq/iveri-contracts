@@ -71,6 +71,12 @@ export interface BookMyRestaurantReservationRequest {
     startsAt: IsoDateTime;
     partySize: number;
     note?: string | null;
+    /**
+     * Who to expect, for a diner who has never ordered or saved their details. Read only then; a diner the
+     * restaurant already knows keeps the details they saved.
+     */
+    customerName?: string;
+    customerPhone?: string;
 }
 
 export interface MyRestaurantReservation {
