@@ -28,6 +28,11 @@ export interface ChatLastMessagePreview {
     /** Null when deleted, and for a system notice, whose key is given instead. */
     excerpt: Nullable<string>;
     systemKey: Nullable<string>;
+    /**
+     * A system notice's variables, as on the message itself (`{ actor, name, title, role }`), so an inbox row
+     * can say "Nino created the group" rather than a sentence with holes. Null for anything but a notice.
+     */
+    systemVariables: Nullable<Record<string, string>>;
     senderName: Nullable<string>;
     isOwn: boolean;
     isDeleted: boolean;
