@@ -144,6 +144,14 @@ Plus the request bodies for each, and the seven enums they are built from — `S
 `SignatureAlgorithm`, `SignatureEncoding`, `SignatureHeaderScheme`, `HandshakeKind`,
 `MatchOperator`, `DeliveryStatus`.
 
+Outbound: `Connector` with its `ConnectorAuthManifest`, `Connection`, `Dispatch` and
+`DispatchAttempt`, `ConnectionVerification`, and the consent flow — `StartConnectBody`,
+`ConnectStart`, `ConnectAttempt` and `ConnectAttemptStatus`. Two of the five OAuth shapes a
+connector can use are a person's: `oauth2-authorization-code`, where somebody grants access on the
+provider's consent page (Slack's install, a person's own Slack), and `oauth2-jwt-bearer`, where a
+service account acts as a named user (Google's domain-wide delegation). A connection may belong to
+one person, and only that person or a service on their behalf can send through it.
+
 ### `api/unibox/` → `@iveri/contracts/unibox`
 
 `unibox-api`'s surface: `Channel` and its `ChannelIngestSecretResponse`, `Contact` with its

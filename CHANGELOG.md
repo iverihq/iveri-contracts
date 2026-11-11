@@ -2,6 +2,25 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.83.0 — Conduit connects to Google and Slack
+
+**What changed.** `ConnectorAuthType` gains `oauth2-authorization-code` (a consent flow with PKCE) and
+`oauth2-jwt-bearer` (a service account acting as a named user). `ConnectorAuthManifest` gains
+`authorizationUrl`, `authorizationParams`, `personAuthorizationParams`, `tokenObjectPaths` and
+`subjectVariable`; `ConnectorOperation` gains `alreadyAppliedStatuses`; `ConnectorRetryPolicy` gains
+`successBodyField`. `Connection` gains `ownerUserId` and `connectedAt`, `Dispatch` gains `ownerUserId`
+and `authSubject`, and `SubmitDispatchBody` takes `onBehalfOfUserId`. `StartConnectBody`,
+`ConnectStart`, `ConnectAttempt`, `ConnectAttemptStatus` and `GetConnectionsQuery` are new.
+
+**Who is affected.** Whatever builds a `ConnectorOperation`, a `ConnectorRetryPolicy`, a `Connection` or
+a `Dispatch` — `conduit-api` and `conduit-admin-web`'s connector form and fixtures — and every
+exhaustive map over `ConnectorAuthType`.
+
+**Moving across.** Set `alreadyAppliedStatuses: []` on an operation and `successBodyField: null` on a
+retry policy unless the provider needs them; set `ownerUserId: null` and `connectedAt: null` on a
+connection and `ownerUserId: null`, `authSubject: null` on a dispatch. Give the two new auth types an
+entry wherever a `Record<ConnectorAuthType, …>` is kept.
+
 ## 0.82.1 — a server names a participant by the app's own id
 
 **What changed.** `OpenServerChatRequest` takes `ServerChatParticipant`s, whose `userId` is any string of the app's,
