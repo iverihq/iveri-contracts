@@ -2,6 +2,17 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.81.0 — a product can open a group
+
+**What changed.** `OpenEmbeddedChatRequest.isGroup` lets a product say a conversation is a group, such as an
+HR team, and `ChatConversationSummary.isGroup` reports it, true as well for every Baasi group. A product's
+conversation that held exactly two people used to be drawn as one person talking to the other.
+
+**Who is affected.** Whatever builds a `ChatConversationSummary` or a `ChatConversation`, where `isGroup` is now
+required: `chat-api` and the fixtures in `@iveri/chat-kit`.
+
+**Moving across.** Set `isGroup` where the summary is built. A product sends it only for a conversation of many.
+
 ## 0.80.0 — Ezo's inbox event goes
 
 **What changed.** `RealtimeEventType.SOCIAL_INBOX_UPDATED` is removed. It announced a change to Ezo's own
