@@ -92,4 +92,5 @@ export interface UpdateHrMyEmployeeRequest {
     emergencyContactPhone?: Nullable<string>;
     emergencyContactRelation?: Nullable<string>;
     localeCode?: string;
+    sharesBirthday?: boolean;
 }

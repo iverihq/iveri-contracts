@@ -3,6 +3,8 @@ import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
 import type { HrLeaveAccrual } from './hr-leave-accrual.enum.js';
+import type { HrLeaveAllowancePeriod } from './hr-leave-allowance-period.enum.js';
+import type { HrLeaveEligibilityExceptionKind } from './hr-leave-eligibility-exception-kind.enum.js';
 import type { HrLeaveLedgerKind } from './hr-leave-ledger-kind.enum.js';
 import type { HrLeaveRequestStatus } from './hr-leave-request-status.enum.js';
 import type { HrResourceStatus } from './hr-resource-status.enum.js';
@@ -36,12 +38,41 @@ export interface HrLeaveBalance {
     takenHalfDays: number;
     pendingHalfDays: number;
     availableHalfDays: number;
+    allowancePeriod: HrLeaveAllowancePeriod;
+    /** The year, or for a quarterly type the quarter these figures are for. */
+    periodStart: string;
+    periodEnd: string;
+    /** While somebody is still waiting to be allowed this kind of leave, the first day they may take it. */
+    availableFrom: Nullable<string>;
+}
+
+export interface HrLeaveEligibilityException {
+    id: UUID;
+    leaveTypeId: UUID;
+    kind: HrLeaveEligibilityExceptionKind;
+    availableFrom: Nullable<string>;
+    reason: string;
+    decidedByName: Nullable<string>;
+    createdAt: IsoDateTime;
+}
+
+export interface HrLeaveEligibility {
+    leaveTypeId: UUID;
+    leaveTypeName: LocalizedText;
+    availableAfterMonths: number;
+    /** What the type's waiting period alone gives, or null when there is none. */
+    ruleAvailableFrom: Nullable<string>;
+    /** What counts, after any exception. Null means from the first day. */
+    availableFrom: Nullable<string>;
+    exceptions: HrLeaveEligibilityException[];
 }
 
 export interface HrLeavePreview {
     halfDays: number;
     availableHalfDays: Nullable<number>;
     isEnough: boolean;
+    /** When these days start before the person may take this kind of leave, the first day they may. */
+    availableFrom: Nullable<string>;
 }
 
 export interface HrLeaveRequest {
@@ -81,6 +112,9 @@ export interface HrLeaveType {
     tracksBalance: boolean;
     annualAllowanceHalfDays: number;
     accrual: HrLeaveAccrual;
+    allowancePeriod: HrLeaveAllowancePeriod;
+    /** Months of service before it can be taken. */
+    availableAfterMonths: number;
     carryOverMaxHalfDays: number;
     requiresApproval: boolean;
     requiresDocument: boolean;
@@ -116,6 +150,13 @@ export interface HrTimeOffSummary {
     awayToday: HrAbsence[];
 }
 
+export interface AddHrLeaveEligibilityExceptionRequest {
+    leaveTypeId: UUID;
+    kind: HrLeaveEligibilityExceptionKind;
+    availableFrom?: Nullable<string>;
+    reason: string;
+}
+
 export interface AdjustHrBalanceRequest {
     leaveTypeId: UUID;
     year: number;
@@ -140,6 +181,10 @@ export interface CreateHrLeaveTypeRequest {
     tracksBalance?: boolean;
     annualAllowanceHalfDays?: number;
     accrual?: HrLeaveAccrual;
+    /** Per year, or a quarter of `annualAllowanceHalfDays` at the start of each quarter with nothing carried over. */
+    allowancePeriod?: HrLeaveAllowancePeriod;
+    /** Months of service before it can be taken. The balance grows meanwhile. */
+    availableAfterMonths?: number;
     carryOverMaxHalfDays?: number;
     requiresApproval?: boolean;
     requiresDocument?: boolean;

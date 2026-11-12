@@ -38,6 +38,8 @@ export interface HrPayrollRun {
 export interface HrPayslipLine {
     label: string;
     amountMinor: number;
+    /** The expense claim this line pays back, or null for anything else on a payslip. */
+    expenseClaimId: Nullable<UUID>;
 }
 
 export interface HrPayslip {

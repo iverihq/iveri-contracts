@@ -53,6 +53,8 @@ export interface HrLeavePreviewWithClashes {
     halfDays: number;
     availableHalfDays: Nullable<number>;
     isEnough: boolean;
+    /** When these days start before the person may take this kind of leave, the first day they may. */
+    availableFrom: Nullable<string>;
     clashes: HrLeaveClash[];
 }
 
