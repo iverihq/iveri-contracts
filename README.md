@@ -219,6 +219,19 @@ What a company running a taxi service reads in its own panel: `TaxiRideStatus`, 
 - **A day's totals are the rides requested on it**, so `completed` can never exceed `requested`, and the panel names the
   time zone the days were cut in.
 
+### `api/delivery/` → `@iveri/contracts/delivery`
+
+What a company running a delivery service reads in its own panel, shaped like Taxi's: `DeliveryJobStatus`, the live
+board (`DeliveryBoard`, `DeliveryBoardJob`), each courier's work since a moment (`DeliveryCourierActivityList`), its
+senders (`DeliverySendersPage`), its fee settings (`DeliveryFeeSettings`, `UpdateDeliveryFeeSettingsRequest`) and its
+daily totals (`DeliveryDailyReport`).
+
+- **A job the company asked for itself has no sender** (`senderUserId: null`), as a shop shipping its own orders does;
+  it is on the board and in the totals, and in nobody's row of the senders list.
+- **Proof is a yes or no and the recipient's name.** The photograph is private evidence and is never in these shapes.
+- **`expired` folds quote-expired into no courier found, and `failed` stays apart**, because a refused request is a
+  fault on Iveri's side rather than the company's.
+
 ### Why the wire shapes moved here
 
 `conduit-admin-web` hand-transcribed all of it, carefully and with comments. It still drifted:
