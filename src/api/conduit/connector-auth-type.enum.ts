@@ -80,4 +80,19 @@ export enum ConnectorAuthType {
      * {@link OAUTH2_REFRESH_TOKEN}, two replicas minting at once costs a token, not a connection.
      */
     OAUTH2_JWT_BEARER = 'oauth2-jwt-bearer',
+
+    /**
+     * Every request is **signed** with a shared secret, and nothing is sent as a credential.
+     *
+     * The receiver holds the same secret and recomputes the signature over the bytes it received,
+     * so a request that was altered, or forged by somebody without the secret, fails its check.
+     * This is how a webhook is authenticated to whoever receives it: Baasi's webhooks to a
+     * customer's server are dispatches on a connector of this type.
+     *
+     * The connection's `secret` credential is the key ({@link CONNECTOR_CREDENTIAL_SECRET}), and
+     * the manifest's `signature` names the header and the format. **The signature covers the exact
+     * bytes sent and a timestamp of that attempt**, so a retried attempt carries a fresh signature,
+     * and a receiver that refuses old timestamps refuses a replayed request.
+     */
+    HMAC_SIGNATURE = 'hmac-signature',
 }
