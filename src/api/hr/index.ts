@@ -6,6 +6,8 @@ export * from './hr-attendance-correction-status.enum.js';
 export * from './hr-attendance-source.enum.js';
 export * from './hr-attendance-state.enum.js';
 export * from './hr-attendance.type.js';
+export * from './hr-calendar-feed-kind.enum.js';
+export * from './hr-calendar-feed.type.js';
 export * from './hr-celebration.type.js';
 export * from './hr-checklist-kind.enum.js';
 export * from './hr-compensation.type.js';
