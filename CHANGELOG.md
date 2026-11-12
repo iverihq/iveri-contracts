@@ -2,6 +2,20 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.95.0 — Usage, plans and invoices for Baasi apps, and a request that names the company it acts for
+
+**What changed.** Two platform permissions, `billing:usage:record-any` and `billing:usage:read-any`, join
+`PLATFORM_PERMISSIONS`: a request names the company it acts for in `tenantId`, and only a credential in Iveri's operator
+workspace may hold them. A new entry point, `@iveri/contracts/billing`, carries `UsageSummary`, `UsagePlan`,
+`UsageLimits`, `UsageInvoice`, `RecordUsageRequest`, `AssignUsagePlanRequest`, `UsagePlanAssignment`,
+`BillingInvoiceStatus` and `USAGE_LIMIT_REACHED_REASON`. `@iveri/contracts/chat` gains `ChatUsageMetric`, `ChatAppUsage`
+and **`ChatRefusal.USAGE_LIMIT`**.
+
+**Who is affected.** An exhaustive map over `ChatRefusal` (a client translating every refusal) no longer compiles until it
+names the new member.
+
+**Moving across.** Give `usage-limit-reached` a string: the app's plan does not allow this this month.
+
 ## 0.89.0 — Baasi tells an app's server what happened, and pushes with the app's own keys
 
 **What changed.** `@iveri/contracts/chat` gains the webhook shapes (`ChatAppWebhook`, `CreateChatAppWebhookRequest`,

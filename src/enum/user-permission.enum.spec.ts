@@ -45,16 +45,18 @@ describe('UserPermission', () => {
         // Iveri operator.
         expect(PLATFORM_PERMISSIONS.length).toBeGreaterThan(0);
 
+        // A cross-company permission reads as one: `platform:*`, or a last segment ending in `-any`.
+        const looksCrossCompany = (permission: string): boolean =>
+            permission.startsWith('platform:') || permission.endsWith('-any');
+
         for (const permission of PLATFORM_PERMISSIONS) {
             expect(ALL_USER_PERMISSIONS).not.toContain(permission);
-            expect(permission.startsWith('platform:')).toBe(true);
+            expect(looksCrossCompany(permission)).toBe(true);
         }
 
-        expect(
-            Object.values(UserPermission)
-                .filter((permission) => permission.startsWith('platform:'))
-                .sort(),
-        ).toEqual([...PLATFORM_PERMISSIONS].sort());
+        expect(Object.values(UserPermission).filter(looksCrossCompany).sort()).toEqual(
+            [...PLATFORM_PERMISSIONS].sort(),
+        );
         expect(Object.isFrozen(PLATFORM_PERMISSIONS)).toBe(true);
     });
 

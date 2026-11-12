@@ -84,6 +84,10 @@
       "types": "./dist/api/taxi/index.d.ts",
       "default": "./dist/api/taxi/index.js"
     },
+    "./billing": {
+      "types": "./dist/api/billing/index.d.ts",
+      "default": "./dist/api/billing/index.js"
+    },
     "./package.json": "./package.json"
   },
   "sideEffects": false,
