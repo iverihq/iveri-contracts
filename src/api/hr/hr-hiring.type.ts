@@ -35,8 +35,17 @@ export interface HrApplication {
     stageChangedAt: IsoDateTime;
     decidedAt: Nullable<IsoDateTime>;
     hiredEmployeeId: Nullable<UUID>;
+    /** The colleague who put this person forward, when `source` is `referral`. */
+    referredBy: Nullable<HrApplicationReferrer>;
+    /** Why the colleague thinks they fit. Removed with the applicant's other details. */
+    referralNote: Nullable<string>;
     isRemoved: boolean;
     createdAt: IsoDateTime;
+}
+
+export interface HrApplicationReferrer {
+    employeeId: UUID;
+    name: string;
 }
 
 export interface HrCareersOpening {

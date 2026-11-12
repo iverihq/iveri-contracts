@@ -2,7 +2,14 @@ import { describe, expect, it } from 'vitest';
 
 import { UserPermission } from '../../enum/index.js';
 
-import { HrEmploymentStatus, HrLeaveLedgerKind, HrLeaveRequestStatus, HrWorkPlace } from './index.js';
+import {
+    HrApplicationSource,
+    HrEmploymentStatus,
+    HrLeaveLedgerKind,
+    HrLeaveRequestStatus,
+    HrReferralOutcome,
+    HrWorkPlace,
+} from './index.js';
 
 describe('hr contract', () => {
     it('keeps the employment status wire values', () => {
@@ -23,6 +30,11 @@ describe('hr contract', () => {
 
     it('keeps the work place wire values', () => {
         expect(Object.values(HrWorkPlace)).toEqual(['office', 'home']);
+    });
+
+    it('keeps the application source and referral outcome wire values', () => {
+        expect(Object.values(HrApplicationSource)).toEqual(['careers', 'added', 'referral']);
+        expect(Object.values(HrReferralOutcome)).toEqual(['in-progress', 'hired', 'closed']);
     });
 
     it('keeps pay apart from the employee record', () => {
