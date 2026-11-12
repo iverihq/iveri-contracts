@@ -868,6 +868,12 @@ export enum UserPermission {
      * product can refuse a company whose licence has ended without reading anything else about it.
      */
     PLATFORM_LICENCE_CHECK = 'platform:licence:check',
+
+    /**
+     * Read one product's view across every company: who uses it, how much, and the records support needs to answer a
+     * question. Never pay, identity numbers, health records or messages. Each product's backoffice routes need it.
+     */
+    PLATFORM_BACKOFFICE_READ = 'platform:backoffice:read',
 }
 
 /**
@@ -881,6 +887,7 @@ export const PLATFORM_PERMISSIONS: readonly UserPermission[] = Object.freeze([
     UserPermission.PLATFORM_LICENCE_READ,
     UserPermission.PLATFORM_LICENCE_MANAGE,
     UserPermission.PLATFORM_LICENCE_CHECK,
+    UserPermission.PLATFORM_BACKOFFICE_READ,
 ]);
 
 /** Whether a permission acts across companies, and so may only be held in Iveri's operator workspace. */
