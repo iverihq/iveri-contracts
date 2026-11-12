@@ -28,6 +28,8 @@ export interface HrDepartment {
     headEmployeeId: Nullable<UUID>;
     headName: Nullable<string>;
     status: HrResourceStatus;
+    /** How many desks the office has, when HR has said; null when nobody counts them. */
+    deskCount: Nullable<number>;
     employeeCount: number;
     createdAt: IsoDateTime;
     updatedAt: IsoDateTime;
@@ -67,6 +69,7 @@ export interface CreateHrLocationRequest {
     name: string;
     city?: Nullable<string>;
     address?: Nullable<string>;
+    deskCount?: Nullable<number>;
 }
 
 export interface UpdateHrCompanyRequest {
@@ -102,5 +105,7 @@ export interface UpdateHrLocationRequest {
     name?: string;
     city?: Nullable<string>;
     address?: Nullable<string>;
+    /** Null stops counting desks. */
+    deskCount?: Nullable<number>;
     status?: HrResourceStatus;
 }
