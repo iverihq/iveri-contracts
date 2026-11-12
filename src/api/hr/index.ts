@@ -68,4 +68,6 @@ export * from './hr-team-role.enum.js';
 export * from './hr-team.type.js';
 export * from './hr-thanks.type.js';
 export * from './hr-time-off.type.js';
+export * from './hr-work-day.type.js';
+export * from './hr-work-place.enum.js';
 export * from './localized-text.type.js';
