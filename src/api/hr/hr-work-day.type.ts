@@ -67,3 +67,39 @@ export interface HrWhoIsIn {
     offices: HrWorkDayOffice[];
     home: HrWorkDayPerson[];
 }
+
+/** An office in HR's occupancy view, with its desks when HR has counted them. */
+export interface HrOccupancyOffice {
+    id: UUID;
+    name: string;
+    city: Nullable<string>;
+    deskCount: Nullable<number>;
+}
+
+/** How many people said they will be at one office on a day. A null office is people with no office of their own. */
+export interface HrOccupancyCount {
+    locationId: Nullable<UUID>;
+    count: number;
+}
+
+/**
+ * One day of HR's occupancy view, counting everybody on the staff list that day. Each person is in exactly one of:
+ * an office, home, away (agreed time off takes the whole day) or unsaid. A day nobody works counts nobody as unsaid.
+ */
+export interface HrOccupancyDay {
+    date: string;
+    isWorkingDay: boolean;
+    holidayName: Nullable<LocalizedText>;
+    offices: HrOccupancyCount[];
+    home: number;
+    away: number;
+    unsaid: number;
+}
+
+/** Where the company's people said they will work over a stretch of days, as counts. */
+export interface HrOfficeOccupancy {
+    from: string;
+    to: string;
+    offices: HrOccupancyOffice[];
+    days: HrOccupancyDay[];
+}

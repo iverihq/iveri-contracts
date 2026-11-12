@@ -1,6 +1,11 @@
 import { describe, expect, it } from 'vitest';
 
-import { ALL_USER_PERMISSIONS, UserPermission } from './user-permission.enum.js';
+import {
+    ALL_USER_PERMISSIONS,
+    isPlatformPermission,
+    PLATFORM_PERMISSIONS,
+    UserPermission,
+} from './user-permission.enum.js';
 
 describe('UserPermission', () => {
     it('has no two members sharing a wire value', () => {
@@ -25,10 +30,32 @@ describe('UserPermission', () => {
         }
     });
 
-    it('exposes every member through ALL_USER_PERMISSIONS', () => {
+    it('exposes every member a company can hold through ALL_USER_PERMISSIONS', () => {
         // Identity validates custom-role input against this list. A member missing from it is
         // a permission nobody can be granted.
-        expect([...ALL_USER_PERMISSIONS].sort()).toEqual(Object.values(UserPermission).sort());
+        const companyPermissions = Object.values(UserPermission).filter(
+            (permission) => !isPlatformPermission(permission),
+        );
+
+        expect([...ALL_USER_PERMISSIONS].sort()).toEqual(companyPermissions.sort());
+    });
+
+    it('keeps the cross-company permissions out of what a company can hold', () => {
+        // OWNER is ALL_USER_PERMISSIONS at seed time, so one of these in it would make every new company's owner an
+        // Iveri operator.
+        expect(PLATFORM_PERMISSIONS.length).toBeGreaterThan(0);
+
+        for (const permission of PLATFORM_PERMISSIONS) {
+            expect(ALL_USER_PERMISSIONS).not.toContain(permission);
+            expect(permission.startsWith('platform:')).toBe(true);
+        }
+
+        expect(
+            Object.values(UserPermission)
+                .filter((permission) => permission.startsWith('platform:'))
+                .sort(),
+        ).toEqual([...PLATFORM_PERMISSIONS].sort());
+        expect(Object.isFrozen(PLATFORM_PERMISSIONS)).toBe(true);
     });
 
     it('freezes ALL_USER_PERMISSIONS', () => {

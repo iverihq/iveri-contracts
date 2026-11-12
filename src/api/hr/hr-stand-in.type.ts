@@ -17,7 +17,7 @@ export interface HrStandIn {
     isActive: boolean;
 }
 
-/** Who stands in for me, and for whom I stand in, from today on. */
+/** Who stands in for me, and for whom I stand in, from today on. HR's list is the same shape, for everybody. */
 export interface HrMyStandIns {
     mine: HrStandIn[];
     forOthers: HrStandIn[];

@@ -847,12 +847,56 @@ export enum UserPermission {
      * start conversations, and refuse tokens signed before a moment. Held by that company's own staff.
      */
     CHAT_APP_MANAGE = 'chat:app:manage',
+
+    // ── Iveri's own operators ───────────────────────────────────────────────
+    // Held only in Iveri's operator workspace, never by a company: see `PLATFORM_PERMISSIONS`.
+
+    /** List every company on Iveri and read one: its status, its people count and its owner. */
+    PLATFORM_TENANT_READ = 'platform:tenant:read',
+
+    /** Add a company with its owner's invitation, and suspend or reactivate one. */
+    PLATFORM_TENANT_MANAGE = 'platform:tenant:manage',
+
+    /** Read every company's product licences. */
+    PLATFORM_LICENCE_READ = 'platform:licence:read',
+
+    /** Give a company a licence for a product, change its seats or dates, and cancel it. */
+    PLATFORM_LICENCE_MANAGE = 'platform:licence:manage',
+
+    /**
+     * Ask whether a company's licence for one product is live. Held by the products' own service credentials, so a
+     * product can refuse a company whose licence has ended without reading anything else about it.
+     */
+    PLATFORM_LICENCE_CHECK = 'platform:licence:check',
 }
 
 /**
- * Every member, for seeding the owner role and validating custom-role input.
+ * The permissions that act across companies. They are granted only inside Iveri's own operator workspace, which each
+ * service knows as `PLATFORM_TENANT_ID`, and a service honours one only from that workspace: identity refuses them on
+ * any other workspace's role or key, and a route that uses one also checks where the token came from.
+ */
+export const PLATFORM_PERMISSIONS: readonly UserPermission[] = Object.freeze([
+    UserPermission.PLATFORM_TENANT_READ,
+    UserPermission.PLATFORM_TENANT_MANAGE,
+    UserPermission.PLATFORM_LICENCE_READ,
+    UserPermission.PLATFORM_LICENCE_MANAGE,
+    UserPermission.PLATFORM_LICENCE_CHECK,
+]);
+
+/** Whether a permission acts across companies, and so may only be held in Iveri's operator workspace. */
+export function isPlatformPermission(permission: string): boolean {
+    return (PLATFORM_PERMISSIONS as readonly string[]).includes(permission);
+}
+
+/**
+ * Every permission a company can hold, for seeding the owner role and validating custom-role input.
+ *
+ * It leaves out `PLATFORM_PERMISSIONS`. `OWNER` is derived from this list, so a cross-company permission in it would be
+ * handed to the owner of every company that signs up.
  *
  * Frozen because it is shared mutable state in a browser bundle otherwise: one caller sorting
  * it in place reorders it for everyone.
  */
-export const ALL_USER_PERMISSIONS: readonly UserPermission[] = Object.freeze(Object.values(UserPermission));
+export const ALL_USER_PERMISSIONS: readonly UserPermission[] = Object.freeze(
+    Object.values(UserPermission).filter((permission) => !isPlatformPermission(permission)),
+);
