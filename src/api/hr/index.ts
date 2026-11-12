@@ -56,6 +56,7 @@ export * from './hr-resource-status.enum.js';
 export * from './hr-review-cycle-status.enum.js';
 export * from './hr-review-question-kind.enum.js';
 export * from './hr-review-status.enum.js';
+export * from './hr-stand-in.type.js';
 export * from './hr-survey-audience.enum.js';
 export * from './hr-survey-group-kind.enum.js';
 export * from './hr-survey-question-kind.enum.js';
