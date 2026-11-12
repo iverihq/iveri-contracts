@@ -2,13 +2,14 @@ import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
 import type { HrWorkPlace } from './hr-work-place.enum.js';
+import type { LocalizedText } from './localized-text.type.js';
 
 /** One day of somebody's own week, planned or not. */
 export interface HrMyWorkDay {
     date: string;
     /** One of the company's working weekdays and not a public holiday. */
     isWorkingDay: boolean;
-    holidayName: Nullable<string>;
+    holidayName: Nullable<LocalizedText>;
     /** Time off, agreed or waiting, covers it. */
     isAway: boolean;
     /** Null until the person says where they will work. */
