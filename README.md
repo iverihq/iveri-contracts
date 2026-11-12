@@ -207,6 +207,18 @@ Three shapes here are decisions rather than descriptions, and each is pinned by 
 A template holds message **keys**, never text — the wording lives in `iveri-localization-api`, so
 there is one place with ICU validation, a review gate and Georgian, rather than two.
 
+### `api/taxi/` → `@iveri/contracts/taxi`
+
+What a company running a taxi service reads in its own panel: `TaxiRideStatus`, the live board (`TaxiBoard`,
+`TaxiBoardRide`), each driver's work since a moment (`TaxiDriverActivityList`), its passengers
+(`TaxiPassengersPage`), its fare settings (`TaxiFareSettings`, `UpdateTaxiFareSettingsRequest`) and its daily totals
+(`TaxiDailyReport`). The passenger's and driver's own ride shapes stay in `taxi-api` until a second consumer needs them.
+
+- **A fare is a quote and stays one.** The distance is a straight line, so every figure is a floor, and the daily
+  report sums quoted fares of completed rides, never earnings: nothing settles a fare yet.
+- **A day's totals are the rides requested on it**, so `completed` can never exceed `requested`, and the panel names the
+  time zone the days were cut in.
+
 ### Why the wire shapes moved here
 
 `conduit-admin-web` hand-transcribed all of it, carefully and with comments. It still drifted:
