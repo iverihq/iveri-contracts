@@ -30,6 +30,8 @@ export interface HrEmployee {
     userId: Nullable<UUID>;
     personalEmail: Nullable<string>;
     dateOfBirth: Nullable<string>;
+    /** Whether colleagues see the day and month of their birthday. */
+    sharesBirthday: boolean;
     nationality: Nullable<string>;
     address: Nullable<string>;
     emergencyContactName: Nullable<string>;
