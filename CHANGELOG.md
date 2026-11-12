@@ -2,6 +2,20 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.88.0 — Conduit signs requests
+
+**What changed.** `ConnectorAuthType` gains `hmac-signature`: every request is signed with the connection's `secret`
+credential (`CONNECTOR_CREDENTIAL_SECRET`) over the exact bytes sent and the attempt's own timestamp.
+`ConnectorAuthManifest` gains `signature: Nullable<ConnectorRequestSignature>` (`{ header, format }`), and
+`ConnectorSignatureFormat` has one member, `stripe-v1`: `t=<unix seconds>,v1=<lowercase hex HMAC-SHA256 of
+"<t>.<raw body>">`.
+
+**Who is affected.** Whatever builds a `ConnectorAuthManifest` (`conduit-api` and `conduit-admin-web`'s connector form
+and fixtures), and every exhaustive map over `ConnectorAuthType`.
+
+**Moving across.** Set `signature: null` on every manifest that does not sign, and give `hmac-signature` an entry
+wherever a `Record<ConnectorAuthType, …>` is kept.
+
 ## 0.83.0 — Conduit connects to Google and Slack
 
 **What changed.** `ConnectorAuthType` gains `oauth2-authorization-code` (a consent flow with PKCE) and
