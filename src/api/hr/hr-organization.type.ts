@@ -17,6 +17,8 @@ export interface HrCompany {
     pensionEmployerBasisPoints: number;
     careersSlug: string | null;
     applicantRetentionDays: number;
+    /** How many days in one Monday-to-Sunday week somebody may work from home, or null for no limit. */
+    homeDaysPerWeek: Nullable<number>;
 }
 
 export interface HrDepartment {
@@ -80,6 +82,8 @@ export interface UpdateHrCompanyRequest {
     pensionEmployerBasisPoints?: number;
     careersSlug?: string;
     applicantRetentionDays?: number;
+    /** Null lifts the limit. */
+    homeDaysPerWeek?: Nullable<number>;
 }
 
 export interface UpdateHrDepartmentRequest {

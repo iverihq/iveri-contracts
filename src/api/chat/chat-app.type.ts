@@ -67,6 +67,8 @@ export interface ChatAppUser {
     /** Their tokens signed before this moment are refused. */
     tokensNotBefore: Nullable<IsoDateTime>;
     createdAt: IsoDateTime;
+    /** Their last request, to the minute. Null for a user created ahead of time who has not signed in yet. */
+    lastActiveAt: Nullable<IsoDateTime>;
 }
 
 /** `POST /server/tokens`. For a company that would rather not sign a token itself. */

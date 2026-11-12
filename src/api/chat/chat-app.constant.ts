@@ -15,3 +15,12 @@ export const CHAT_APP_TOKEN_DEFAULT_TTL_SECONDS = 3_600;
 
 /** The longest id an app may give one of its users. */
 export const CHAT_EXTERNAL_USER_ID_MAX_LENGTH = 255;
+
+/** At most this many webhooks per app. */
+export const CHAT_APP_MAX_WEBHOOKS = 5;
+
+/** What a webhook's signing secret looks like: this prefix, then 32 random bytes in base64url. */
+export const CHAT_WEBHOOK_SECRET_PREFIX = 'bwh_';
+
+/** The header every webhook is signed in: `t=<unix seconds>,v1=<hex HMAC-SHA256 of "<t>.<body>">`. */
+export const CHAT_WEBHOOK_SIGNATURE_HEADER = 'Baasi-Signature';

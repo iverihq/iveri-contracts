@@ -2,6 +2,7 @@ import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
 import type { ChatDevicePlatform } from './chat-device-platform.enum.js';
+import type { ChatPushTokenKind } from './chat-push-token-kind.enum.js';
 import type { ChatRealtimeEvent } from './chat-realtime-event.enum.js';
 
 /** What a socket receives. Identifiers only, and never a tenant id. */
@@ -19,5 +20,7 @@ export interface RegisterChatDeviceRequest {
     installationId: string;
     platform: ChatDevicePlatform;
     pushToken: string;
+    /** Omitted means `expo`, which is what every Iveri app holds. An app's own build may hold a raw APNs or FCM token. */
+    tokenKind?: ChatPushTokenKind;
     locale?: Nullable<string>;
 }
