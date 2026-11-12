@@ -28,5 +28,6 @@ export * from './chat-realtime.type.js';
 export * from './chat-refusal.enum.js';
 export * from './chat-report-reason.enum.js';
 export * from './chat-report-target.enum.js';
+export * from './chat-usage.type.js';
 export * from './chat-webhook-delivery-status.enum.js';
 export * from './chat-webhook-event.enum.js';

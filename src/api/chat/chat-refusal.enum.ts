@@ -16,4 +16,10 @@ export enum ChatRefusal {
     SUSPENDED = 'suspended',
     ATTACHMENT_REFUSED = 'attachment-refused',
     REQUEST_PENDING = 'request-pending',
+    /**
+     * The app's plan does not allow it this month: a new user over the monthly-active-user limit, or a message over the
+     * message limit. The value is `USAGE_LIMIT_REACHED_REASON` from `@iveri/contracts/billing`, and the details name the
+     * metric and the limit.
+     */
+    USAGE_LIMIT = 'usage-limit-reached',
 }
