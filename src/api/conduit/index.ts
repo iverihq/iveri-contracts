@@ -4,6 +4,7 @@ export * from './connect.type.js';
 export * from './connection-verification-verdict.enum.js';
 export * from './connection.type.js';
 export * from './connector-auth-type.enum.js';
+export * from './connector-signature-format.enum.js';
 export * from './connector.type.js';
 export * from './delivery-status.enum.js';
 export * from './delivery.type.js';

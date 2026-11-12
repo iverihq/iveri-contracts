@@ -3,6 +3,7 @@ import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
 import type { ConnectorAuthType } from './connector-auth-type.enum.js';
+import type { ConnectorSignatureFormat } from './connector-signature-format.enum.js';
 
 /**
  * Credential names an OAuth manifest expects to find on a connection.
@@ -26,6 +27,27 @@ export const CONNECTOR_CREDENTIAL_REFRESH_TOKEN = 'refreshToken';
 export const CONNECTOR_CREDENTIAL_CLIENT_EMAIL = 'clientEmail';
 export const CONNECTOR_CREDENTIAL_PRIVATE_KEY = 'privateKey';
 export const CONNECTOR_CREDENTIAL_PRIVATE_KEY_ID = 'privateKeyId';
+
+/**
+ * Credential name an `HMAC_SIGNATURE` manifest signs with.
+ *
+ * Fixed for the same reason as the OAuth names: the scheme has exactly one secret, so a manifest
+ * that could rename it could only name it wrongly.
+ */
+export const CONNECTOR_CREDENTIAL_SECRET = 'secret';
+
+/**
+ * How a request is signed. `HMAC_SIGNATURE` only.
+ *
+ * The header and the format are the manifest's; the secret is the connection's, under
+ * {@link CONNECTOR_CREDENTIAL_SECRET}.
+ */
+export interface ConnectorRequestSignature {
+    /** Lowercase header the signature is sent in, e.g. `baasi-signature`. */
+    header: string;
+
+    format: ConnectorSignatureFormat;
+}
 
 /**
  * How a connector authenticates, as data.
@@ -123,6 +145,11 @@ export interface ConnectorAuthManifest {
      * calendar shared with it directly. Null means it always acts as itself.
      */
     subjectVariable: Nullable<string>;
+
+    /**
+     * Where and how each request is signed. `HMAC_SIGNATURE` only, and required there.
+     */
+    signature: Nullable<ConnectorRequestSignature>;
 }
 
 /** {@link ConnectorAuthManifest} as sent on create/update: nullable fields may simply be omitted. */
@@ -139,6 +166,7 @@ export interface ConnectorAuthManifestInput {
     personAuthorizationParams?: Nullable<Record<string, string>>;
     tokenObjectPaths?: Nullable<string[]>;
     subjectVariable?: Nullable<string>;
+    signature?: Nullable<ConnectorRequestSignature>;
 }
 
 /**

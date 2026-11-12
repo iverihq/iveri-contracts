@@ -55,6 +55,12 @@ const REACHABLE_BY: Readonly<Record<ConnectorAuthType, readonly ConnectionVerifi
         ConnectionVerificationVerdict.MISCONFIGURED,
         ConnectionVerificationVerdict.PROVIDER_UNREACHABLE,
     ],
+    // A signing secret is checked by whoever receives the request, never by Conduit, so the most
+    // that can be said here is that one is stored.
+    [ConnectorAuthType.HMAC_SIGNATURE]: [
+        ConnectionVerificationVerdict.CREDENTIAL_PRESENT,
+        ConnectionVerificationVerdict.MISCONFIGURED,
+    ],
 };
 
 describe('ConnectionVerificationVerdict', () => {
@@ -106,6 +112,7 @@ describe('ConnectionVerificationVerdict', () => {
             ConnectorAuthType.NONE,
             ConnectorAuthType.API_KEY_HEADER,
             ConnectorAuthType.BEARER_STATIC,
+            ConnectorAuthType.HMAC_SIGNATURE,
         ]) {
             for (const verdict of providerSide) {
                 expect(REACHABLE_BY[authType]).not.toContain(verdict);
