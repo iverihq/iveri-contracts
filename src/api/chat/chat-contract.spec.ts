@@ -2,6 +2,14 @@ import { describe, expect, it } from 'vitest';
 
 import {
     CHAT_APP_MAX_ACTIVE_SECRETS,
+    CHAT_APP_MAX_WEBHOOKS,
+    CHAT_WEBHOOK_SECRET_PREFIX,
+    CHAT_WEBHOOK_SIGNATURE_HEADER,
+    ChatPushCredentialKind,
+    ChatPushTokenKind,
+    ChatWebhookDeliveryStatus,
+    ChatWebhookEvent,
+    type ChatAppConversationSummary,
     CHAT_APP_SECRET_PREFIX,
     CHAT_APP_TOKEN_MAX_TTL_SECONDS,
     CHAT_HANDLE_PATTERN,
@@ -20,6 +28,53 @@ import {
 } from './index.js';
 
 describe('chat contract', () => {
+    it('keeps the events a webhook can carry, under the names customers subscribe to', () => {
+        // A customer's server switches on these strings; renaming one silently drops their events.
+        expect(Object.values(ChatWebhookEvent)).toEqual(['message.created', 'report.created', 'person.sanctioned']);
+        expect(CHAT_WEBHOOK_SIGNATURE_HEADER).toBe('Baasi-Signature');
+        expect(CHAT_WEBHOOK_SECRET_PREFIX).toBe('bwh_');
+        expect(CHAT_APP_MAX_WEBHOOKS).toBe(5);
+    });
+
+    it('keeps the delivery states in step with the queue they are read from', () => {
+        expect(Object.values(ChatWebhookDeliveryStatus)).toEqual([
+            'pending',
+            'in-flight',
+            'delivered',
+            'dead-lettered',
+            'cancelled',
+        ]);
+    });
+
+    it('keeps expo the first token kind, and the two credentials an app can bring', () => {
+        expect(Object.values(ChatPushTokenKind)).toEqual(['expo', 'apns', 'fcm']);
+        expect(Object.values(ChatPushCredentialKind)).toEqual(['apns', 'fcm']);
+    });
+
+    it('lists a conversation to a console with no message text', () => {
+        // A console reads a conversation only through a report, so the summary has nowhere to put what was said.
+        const summary: Required<ChatAppConversationSummary> = {
+            id: '00000000-0000-4000-8000-000000000000',
+            kind: ChatConversationKind.DIRECT,
+            title: null,
+            context: null,
+            participants: [],
+            lastActivityAt: '2026-11-12T10:00:00.000Z',
+            closedAt: null,
+            createdAt: '2026-11-12T10:00:00.000Z',
+        };
+        expect(Object.keys(summary).sort()).toEqual([
+            'closedAt',
+            'context',
+            'createdAt',
+            'id',
+            'kind',
+            'lastActivityAt',
+            'participants',
+            'title',
+        ]);
+    });
+
     it('keeps an app closed to its users starting conversations unless it says otherwise', () => {
         expect(Object.values(ChatAppConversationMode)).toEqual(['server', 'users']);
     });

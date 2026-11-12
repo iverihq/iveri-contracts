@@ -2,6 +2,22 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.89.0 — Baasi tells an app's server what happened, and pushes with the app's own keys
+
+**What changed.** `@iveri/contracts/chat` gains the webhook shapes (`ChatAppWebhook`, `CreateChatAppWebhookRequest`,
+`UpdateChatAppWebhookRequest`, `CreatedChatAppWebhook`, `ChatAppWebhookDelivery`, `ChatWebhookPayload` and one data type
+per `ChatWebhookEvent`), `ChatWebhookDeliveryStatus`, the push credential shapes (`ChatAppPushCredential`,
+`PutChatApnsCredentialRequest`, `PutChatFcmCredentialRequest`, `ChatPushCredentialKind`), `ChatPushTokenKind` and an
+optional `tokenKind` on `RegisterChatDeviceRequest`, and the console's lists (`ChatAppUsersPage`,
+`ChatAppConversationSummary`, `ChatAppConversationsPage`). **`ChatAppUser` gains a required `lastActiveAt`.**
+
+**Who is affected.** Whatever builds a `ChatAppUser`: `chat-api`, and any fixture of one.
+
+**Moving across.** Set `lastActiveAt: null` on a user nobody has seen yet.
+
+**0.88.0 was cut from a `main` that lacked the HR shapes of 0.85.0 to 0.87.1**, which had been released from their
+branches; 0.89.0 carries both, so move from 0.87.x or 0.88.0 straight to it.
+
 ## 0.88.0 — Conduit signs requests
 
 **What changed.** `ConnectorAuthType` gains `hmac-signature`: every request is signed with the connection's `secret`
