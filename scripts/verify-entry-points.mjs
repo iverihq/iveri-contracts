@@ -35,6 +35,7 @@ const ENTRY_POINTS = new Map([
     ['./gym', 'GymMembershipStatus'],
     ['./hr', 'HrEmploymentStatus'],
     ['./mobility', 'MobilityServiceType'],
+    ['./platform', 'IveriProduct'],
 ]);
 
 // Left behind by a dual build, each of these points at a file that no longer exists.

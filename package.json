@@ -76,6 +76,10 @@
       "types": "./dist/api/mobility/index.d.ts",
       "default": "./dist/api/mobility/index.js"
     },
+    "./platform": {
+      "types": "./dist/api/platform/index.d.ts",
+      "default": "./dist/api/platform/index.js"
+    },
     "./package.json": "./package.json"
   },
   "sideEffects": false,
