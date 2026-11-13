@@ -37,6 +37,14 @@ export const CONNECTOR_CREDENTIAL_PRIVATE_KEY_ID = 'privateKeyId';
 export const CONNECTOR_CREDENTIAL_SECRET = 'secret';
 
 /**
+ * The longest a replaced signing secret may keep signing beside its successor: seven days.
+ *
+ * Long enough for a receiver deployed weekly to pick up the new secret, short enough that a secret
+ * somebody replaced because it leaked stops being accepted within a week of their saying so.
+ */
+export const MAX_SIGNING_SECRET_OVERLAP_SECONDS = 604_800;
+
+/**
  * How a request is signed. `HMAC_SIGNATURE` only.
  *
  * The header and the format are the manifest's; the secret is the connection's, under
