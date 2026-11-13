@@ -320,6 +320,18 @@ export enum UserPermission {
     BILLING_USAGE_READ = 'billing:usage:read',
     /** Record billable usage on behalf of a tenant service. */
     BILLING_USAGE_RECORD = 'billing:usage:record',
+    /**
+     * Record usage for a company the request names in `tenantId`, rather than the token's own. A platform permission:
+     * held only by a service credential in Iveri's operator workspace, so `chat-api` can meter each app it hosts
+     * without a key in every app's tenant. The request is authorized and audited as acting for the company it names.
+     */
+    BILLING_USAGE_RECORD_ANY = 'billing:usage:record-any',
+    /**
+     * Read a company the request names in `tenantId`: its usage this month against its plan, and the invoices billed
+     * from that usage. A platform permission, like `record-any`: `chat-api` holds it to enforce an app's limits and to
+     * show the app's owner the app's usage.
+     */
+    BILLING_USAGE_READ_ANY = 'billing:usage:read-any',
 
     // ── Payment ────────────────────────────────────────────────────────────
     /** Read payment sessions and their provider-neutral status. */
@@ -880,6 +892,9 @@ export enum UserPermission {
  * The permissions that act across companies. They are granted only inside Iveri's own operator workspace, which each
  * service knows as `PLATFORM_TENANT_ID`, and a service honours one only from that workspace: identity refuses them on
  * any other workspace's role or key, and a route that uses one also checks where the token came from.
+ *
+ * Two shapes: `platform:*`, the operator console's own, and a service's `*-any`, where a request names the company it
+ * acts for in an explicit `tenantId` (option D of `iveri-infra/docs/cross-tenant-service-credential-decision.md`).
  */
 export const PLATFORM_PERMISSIONS: readonly UserPermission[] = Object.freeze([
     UserPermission.PLATFORM_TENANT_READ,
@@ -888,6 +903,8 @@ export const PLATFORM_PERMISSIONS: readonly UserPermission[] = Object.freeze([
     UserPermission.PLATFORM_LICENCE_MANAGE,
     UserPermission.PLATFORM_LICENCE_CHECK,
     UserPermission.PLATFORM_BACKOFFICE_READ,
+    UserPermission.BILLING_USAGE_RECORD_ANY,
+    UserPermission.BILLING_USAGE_READ_ANY,
 ]);
 
 /** Whether a permission acts across companies, and so may only be held in Iveri's operator workspace. */

@@ -19,6 +19,12 @@ export interface ChatAppWebhook {
     url: string;
     events: ChatWebhookEvent[];
     isActive: boolean;
+    /**
+     * Until when the secret the last rotation replaced still signs beside the new one, or null when only one does.
+     * Every delivery meanwhile carries a `v1` for each, so a server still checking the old secret keeps accepting them.
+     * Ended early by `POST …/end-secret-overlap`.
+     */
+    previousSecretExpiresAt: Nullable<IsoDateTime>;
     createdAt: IsoDateTime;
     updatedAt: IsoDateTime;
 }
@@ -40,7 +46,8 @@ export interface UpdateChatAppWebhookRequest {
 
 /**
  * `POST /apps/:appId/webhooks` and `POST …/rotate-secret`. The only answers that hold the signing secret: Baasi does
- * not keep it, and after a rotation the old one stops signing at once.
+ * not keep it. After a rotation the old secret keeps signing beside the new one until `previousSecretExpiresAt` (a day,
+ * unless the deployment says otherwise), so the server can be moved over without refusing a delivery.
  */
 export interface CreatedChatAppWebhook extends ChatAppWebhook {
     /** `bwh_` and 32 random bytes in base64url. The HMAC key for `Baasi-Signature`. */
@@ -69,7 +76,8 @@ export type ChatAppWebhookDeliveriesPage = CursorPage<ChatAppWebhookDelivery>;
 
 /**
  * The body every webhook carries, signed with `Baasi-Signature: t=<unix seconds>,v1=<hex HMAC-SHA256 of
- * "<t>.<body>">`. Users are named by the app's own ids for them. `id` is stable across retries, so a server that has
+ * "<t>.<body>">`, with a second `v1=` for the replaced secret while a rotation overlaps: accept the request when any
+ * `v1` matches. Users are named by the app's own ids for them. `id` is stable across retries, so a server that has
  * seen it may answer 200 and do nothing.
  */
 export interface ChatWebhookPayload<TType extends ChatWebhookEvent = ChatWebhookEvent, TData = unknown> {

@@ -23,11 +23,24 @@ import {
     ChatRealtimeEvent,
     ChatReportReason,
     ChatReportTarget,
+    ChatRefusal,
+    ChatUsageMetric,
     type ChatLastMessagePreview,
     type EmbeddedChatParticipant,
 } from './index.js';
 
 describe('chat contract', () => {
+    it('meters an app under the names its plan limits', () => {
+        // Billing stores usage and a plan names its limits by these strings; renaming one makes every stored month and
+        // every limit read as a metric nobody reports.
+        expect(Object.values(ChatUsageMetric)).toEqual([
+            'chat.monthly-active-users',
+            'chat.messages',
+            'chat.stored-bytes',
+        ]);
+        expect(ChatRefusal.USAGE_LIMIT).toBe('usage-limit-reached');
+    });
+
     it('keeps the events a webhook can carry, under the names customers subscribe to', () => {
         // A customer's server switches on these strings; renaming one silently drops their events.
         expect(Object.values(ChatWebhookEvent)).toEqual(['message.created', 'report.created', 'person.sanctioned']);

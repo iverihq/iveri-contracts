@@ -2,6 +2,32 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.96.0 — A rotated signing secret keeps signing for a while
+
+**What changed.** `@iveri/contracts/conduit`: `Connection` gains a required `previousSigningSecretExpiresAt`, and
+`UpdateConnectionBody` an optional `previousSigningSecretValidForSeconds` (at most `MAX_SIGNING_SECRET_OVERLAP_SECONDS`,
+seven days). While an overlap lasts, a `stripe-v1` header carries one `v1=` per live secret, the newest first.
+`@iveri/contracts/chat`: `ChatAppWebhook` gains a required `previousSecretExpiresAt`.
+
+**Who is affected.** Whatever builds a `Connection` or a `ChatAppWebhook`: `conduit-api`, `chat-api`, and any fixture
+of one in a panel.
+
+**Moving across.** Set the new field to `null` where nothing was rotated.
+
+## 0.95.0 — Usage, plans and invoices for Baasi apps, and a request that names the company it acts for
+
+**What changed.** Two platform permissions, `billing:usage:record-any` and `billing:usage:read-any`, join
+`PLATFORM_PERMISSIONS`: a request names the company it acts for in `tenantId`, and only a credential in Iveri's operator
+workspace may hold them. A new entry point, `@iveri/contracts/billing`, carries `UsageSummary`, `UsagePlan`,
+`UsageLimits`, `UsageInvoice`, `RecordUsageRequest`, `AssignUsagePlanRequest`, `UsagePlanAssignment`,
+`BillingInvoiceStatus` and `USAGE_LIMIT_REACHED_REASON`. `@iveri/contracts/chat` gains `ChatUsageMetric`, `ChatAppUsage`
+and **`ChatRefusal.USAGE_LIMIT`**.
+
+**Who is affected.** An exhaustive map over `ChatRefusal` (a client translating every refusal) no longer compiles until it
+names the new member.
+
+**Moving across.** Give `usage-limit-reached` a string: the app's plan does not allow this this month.
+
 ## 0.89.0 — Baasi tells an app's server what happened, and pushes with the app's own keys
 
 **What changed.** `@iveri/contracts/chat` gains the webhook shapes (`ChatAppWebhook`, `CreateChatAppWebhookRequest`,

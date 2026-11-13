@@ -82,6 +82,16 @@ export interface Connection {
      */
     connectedAt: Nullable<IsoDateTime>;
 
+    /**
+     * Until when the signing secret this connection's last rotation replaced still signs beside the
+     * new one, or null when only one secret signs.
+     *
+     * Only an `hmac-signature` connection ever has one, and only after an update that replaced its
+     * `secret` with {@link UpdateConnectionBody.previousSigningSecretValidForSeconds}. Null once that
+     * moment has passed, so a reader never has to compare it with the clock.
+     */
+    previousSigningSecretExpiresAt: Nullable<IsoDateTime>;
+
     /** Stops *new* dispatches being accepted. Does not cancel ones already queued. */
     isActive: boolean;
 
@@ -148,6 +158,22 @@ export interface UpdateConnectionBody {
     credentials?: Nullable<Record<string, string>>;
     variables?: Nullable<Record<string, string>>;
     isActive?: boolean;
+
+    /**
+     * Keeps the `secret` this update replaces signing beside the new one for this many seconds,
+     * 1 to `MAX_SIGNING_SECRET_OVERLAP_SECONDS`. **`hmac-signature` connections only**, and
+     * only with a `credentials` object that changes the `secret`; anything else is refused.
+     *
+     * Omitted, the replaced secret stops signing at once, as it always has. A receiver still
+     * checking the old secret then refuses every request until it is updated, and those requests
+     * dead-letter on the 4xx. With an overlap, every request carries a `v1` for each secret, so a
+     * receiver holding either accepts it.
+     *
+     * **At most two secrets sign at once.** Rotating again during an overlap keeps the secret this
+     * update replaces and drops the older one. Ending an overlap early is
+     * `DELETE /api/v1/connections/:id/previous-signing-secret`.
+     */
+    previousSigningSecretValidForSeconds?: number;
 }
 
 /**
