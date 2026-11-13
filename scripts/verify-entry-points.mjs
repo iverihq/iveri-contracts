@@ -37,6 +37,7 @@ const ENTRY_POINTS = new Map([
     ['./mobility', 'MobilityServiceType'],
     ['./platform', 'IveriProduct'],
     ['./taxi', 'TaxiRideStatus'],
+    ['./delivery', 'DeliveryJobStatus'],
     ['./billing', 'BillingInvoiceStatus'],
 ]);
 
