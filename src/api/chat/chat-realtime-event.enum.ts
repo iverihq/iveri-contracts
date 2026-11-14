@@ -3,4 +3,6 @@ export enum ChatRealtimeEvent {
     CONVERSATION_UPDATED = 'chat.conversation.updated',
     CONVERSATION_TYPING = 'chat.conversation.typing',
     INBOX_UPDATED = 'chat.inbox.updated',
+    /** A call rang, was answered or ended. The frame names the call and its conversation; the client fetches the call. */
+    CALL_UPDATED = 'chat.call.updated',
 }

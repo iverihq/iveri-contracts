@@ -71,6 +71,11 @@ export interface ChatConversationSummary {
     /** Whether I can send here now. When false, `refusal` says why. */
     canSend: boolean;
     refusal: Nullable<ChatRefusal>;
+    /**
+     * Whether I can call here now: the same people who may send, in a conversation that takes calls. A group takes
+     * none yet, and a product's conversation only while the product allows it.
+     */
+    canCall: boolean;
     updatedAt: IsoDateTime;
 }
 

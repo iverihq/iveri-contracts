@@ -13,6 +13,8 @@ export interface ChatRealtimeFrame {
     seq: Nullable<number>;
     /** Who is typing. */
     userId: Nullable<UUID>;
+    /** The call a `chat.call.updated` frame is about. */
+    callId?: Nullable<UUID>;
 }
 
 /** `PUT /me/devices`. One row per installation; signing out removes it. */
@@ -23,4 +25,10 @@ export interface RegisterChatDeviceRequest {
     /** Omitted means `expo`, which is what every Iveri app holds. An app's own build may hold a raw APNs or FCM token. */
     tokenKind?: ChatPushTokenKind;
     locale?: Nullable<string>;
+    /**
+     * What rings this device for a call while the app is closed: an iOS PushKit VoIP token, or on Android the FCM
+     * registration token. Expo cannot deliver either kind of push, so it is sent straight to Apple or Google.
+     * Omitted leaves the stored one; null forgets it.
+     */
+    callPushToken?: Nullable<string>;
 }

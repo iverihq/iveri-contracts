@@ -16,6 +16,10 @@ import {
     CHAT_SOCKET_TICKET_TYPE,
     ChatAppConversationMode,
     CHAT_QUICK_REACTIONS,
+    ChatCallEndReason,
+    ChatCallKind,
+    ChatCallParticipantState,
+    ChatCallStatus,
     ChatCaseDecision,
     ChatConversationKind,
     ChatMessageKind,
@@ -25,7 +29,9 @@ import {
     ChatReportTarget,
     ChatRefusal,
     ChatUsageMetric,
+    type ChatCall,
     type ChatLastMessagePreview,
+    type OpenServerChatRequest,
     type EmbeddedChatParticipant,
 } from './index.js';
 
@@ -141,6 +147,66 @@ describe('chat contract', () => {
 
     it('names every realtime event under chat.', () => {
         for (const event of Object.values(ChatRealtimeEvent)) expect(event.startsWith('chat.')).toBe(true);
+    });
+
+    it('keeps the call vocabulary the notices and the clients read', () => {
+        // Each end reason is a different sentence in the conversation; renaming one leaves old notices unreadable.
+        expect(Object.values(ChatCallKind)).toEqual(['voice', 'video']);
+        expect(Object.values(ChatCallStatus)).toEqual(['ringing', 'active', 'ended']);
+        expect(Object.values(ChatCallEndReason)).toEqual([
+            'completed',
+            'missed',
+            'declined',
+            'cancelled',
+            'busy',
+            'failed',
+        ]);
+        expect(Object.values(ChatCallParticipantState)).toEqual(['ringing', 'joined', 'declined', 'missed', 'left']);
+        expect(ChatRealtimeEvent.CALL_UPDATED).toBe('chat.call.updated');
+    });
+
+    it('keeps a call to who, when and how it ended', () => {
+        // Baasi keeps none of a call's media, and the shape has nowhere to put any.
+        const call: Required<ChatCall> = {
+            id: '00000000-0000-4000-8000-000000000000',
+            conversationId: '00000000-0000-4000-8000-000000000001',
+            kind: ChatCallKind.VOICE,
+            status: ChatCallStatus.ENDED,
+            endReason: ChatCallEndReason.COMPLETED,
+            startedBy: '00000000-0000-4000-8000-000000000002',
+            participants: [],
+            ringExpiresAt: '2026-11-14T10:00:45.000Z',
+            answeredAt: '2026-11-14T10:00:05.000Z',
+            endedAt: '2026-11-14T10:04:00.000Z',
+            createdAt: '2026-11-14T10:00:00.000Z',
+        };
+        expect(Object.keys(call).sort()).toEqual([
+            'answeredAt',
+            'conversationId',
+            'createdAt',
+            'endReason',
+            'endedAt',
+            'id',
+            'kind',
+            'participants',
+            'ringExpiresAt',
+            'startedBy',
+            'status',
+        ]);
+    });
+
+    it('keeps calls out of what an app’s server can ask for', () => {
+        // Calls are not sold to other companies' apps yet; the field must not exist on their request.
+        const request: Required<OpenServerChatRequest> = {
+            context: { product: 'shop', type: 'order', id: '1' },
+            title: 'Order 1',
+            subtitle: null,
+            participants: [],
+            isGroup: false,
+            writableUntil: null,
+            link: null,
+        };
+        expect(Object.keys(request)).not.toContain('callable');
     });
 
     it('offers six quick reactions', () => {
