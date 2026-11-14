@@ -154,6 +154,14 @@ export interface UpdateMyChatSettingsRequest {
     isArchived?: boolean;
 }
 
+/**
+ * `POST /conversations/:id/typing`. The body is optional: no body, or `isTyping` absent, means started. A stop clears
+ * the server's start throttle, so the next start is passed on at once.
+ */
+export interface ChatTypingRequest {
+    isTyping?: boolean;
+}
+
 export interface ChatTypingResponse {
     accepted: boolean;
 }

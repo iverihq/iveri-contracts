@@ -13,6 +13,11 @@ export interface ChatRealtimeFrame {
     seq: Nullable<number>;
     /** Who is typing. */
     userId: Nullable<UUID>;
+    /**
+     * On a `chat.conversation.typing` frame, whether that person started or stopped. Absent means started, which is
+     * what every frame meant before stop frames existed.
+     */
+    isTyping?: boolean;
     /** The call a `chat.call.updated` frame is about. */
     callId?: Nullable<UUID>;
 }
