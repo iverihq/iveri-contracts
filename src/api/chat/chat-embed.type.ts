@@ -34,6 +34,11 @@ export interface OpenEmbeddedChatRequest {
     isGroup?: boolean;
     /** Sending ends here and reading stays. Omitted means until closed. */
     writableUntil?: Nullable<IsoDateTime>;
+    /**
+     * Whether its people may call each other, honoured only while it is writable. Sent on every `PUT`; omitted means
+     * false. Taxi allows it from a driver's assignment until the ride is over.
+     */
+    callable?: boolean;
     link?: Nullable<{ web?: Nullable<string>; app?: Nullable<string> }>;
 }
 
