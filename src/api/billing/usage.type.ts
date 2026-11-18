@@ -50,6 +50,32 @@ export interface UsageSummary {
     metrics: UsageMetricSummary[];
 }
 
+/** How much of one metric a company used in one month. */
+export interface UsageMonthMetric {
+    metric: string;
+    quantity: number;
+}
+
+/** One closed calendar month in UTC, its end exclusive, with every metric of the product used in it. */
+export interface UsageMonth {
+    periodStart: IsoDateTime;
+    periodEnd: IsoDateTime;
+    /** By metric name. Empty for a month with no usage, which is still listed. */
+    metrics: UsageMonthMetric[];
+}
+
+/**
+ * `GET /billing/usage/months?product=&months=` (a company's own) or `?tenantId=&product=&months=` (behind
+ * `billing:usage:read-any`): the months before the current one, newest first, `months` of them. **No plan and no
+ * limits**: the plan a company was on in a past month is not recorded, and today's would be read as that month's. What
+ * it was billed against is on that month's invoice.
+ */
+export interface UsageHistory {
+    tenantId: UUID;
+    product: IveriProduct;
+    months: UsageMonth[];
+}
+
 /** One line of an invoice, as it was when the invoice was issued. */
 export interface UsageInvoiceLine {
     description: string;

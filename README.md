@@ -267,6 +267,7 @@ Conduit's outbox.
   `localization:message:manage`, `localization:translate`, `localization:publish` and
   `localization:render` permissions.
 - Version `0.100.0` adds `notification:send-any`, the password-reset bodies and Conduit's usage metrics.
+- Version `0.101.0` adds `UsageHistory`, a company's closed months of a product by metric.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
   interface in the same release, and let `implements` prove they agree.
