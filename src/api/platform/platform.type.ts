@@ -36,12 +36,16 @@ export interface CreatePlatformTenantRequest {
 }
 
 /**
- * The new company and the owner's invitation. The token is shown to the operator once, to pass on, because no email
- * can be sent for a company from outside it yet.
+ * The new company and the owner's invitation. Identity emails the owner the link in the new company; the token comes
+ * back only when that email could not be sent, so the operator can pass the link on once, or where a local stack asks
+ * for it.
  */
 export interface CreatedPlatformTenant {
     tenant: PlatformTenant;
-    ownerInvitationToken: string;
+    /** True when the invitation email was handed to the notification service. */
+    isOwnerInvitationEmailSent: boolean;
+    /** Null once the email went out, unless the deployment returns invitation tokens for its own seeding. */
+    ownerInvitationToken: Nullable<string>;
 }
 
 /** Suspend or reactivate a company. The reason is required, because it is what the next operator reads. */

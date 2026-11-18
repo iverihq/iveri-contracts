@@ -1,3 +1,4 @@
+export * from './conduit-usage.type.js';
 export * from './capture.type.js';
 export * from './connect-attempt-status.enum.js';
 export * from './connect.type.js';

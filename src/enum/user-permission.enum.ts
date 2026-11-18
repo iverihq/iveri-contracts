@@ -446,6 +446,15 @@ export enum UserPermission {
     NOTIFICATION_SEND = 'notification:send',
 
     /**
+     * Submit a notification for a company the request names in `tenantId`, rather than the token's own. A platform
+     * permission: held only by a service credential in Iveri's operator workspace, so `iveri-identity-api` can email an
+     * invitation or a password reset for whichever company the person belongs to. The notification is stored in, and
+     * rendered for, the company it names; the template rule above still holds, so the holder can no more choose the
+     * words than a holder of `notification:send` can.
+     */
+    NOTIFICATION_SEND_ANY = 'notification:send-any',
+
+    /**
      * Read **your own** in-app inbox, and mark your own rows read.
      *
      * Scoped to the calling principal by the endpoint, not by this permission — there is no
@@ -905,6 +914,7 @@ export const PLATFORM_PERMISSIONS: readonly UserPermission[] = Object.freeze([
     UserPermission.PLATFORM_BACKOFFICE_READ,
     UserPermission.BILLING_USAGE_RECORD_ANY,
     UserPermission.BILLING_USAGE_READ_ANY,
+    UserPermission.NOTIFICATION_SEND_ANY,
 ]);
 
 /** Whether a permission acts across companies, and so may only be held in Iveri's operator workspace. */

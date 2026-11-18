@@ -2,6 +2,20 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.100.0 — Identity emails its own invitations and password resets, and Conduit is metered
+
+**What changed.** A platform permission, `notification:send-any`, joins `PLATFORM_PERMISSIONS`, and
+`SubmitNotificationBody` gains an optional `tenantId` behind it (option D of the cross-tenant memo).
+`@iveri/contracts/identity` gains `RequestPasswordResetBody` and `ConfirmPasswordResetBody`.
+`@iveri/contracts/conduit` gains `ConduitUsageMetric` and `ConduitUsage`. **`CreatedPlatformTenant.ownerInvitationToken`
+and `HrInvitation.invitationToken` are now nullable**, and `CreatedPlatformTenant` gains a required
+`isOwnerInvitationEmailSent`: identity now emails an invitation itself and returns the token only when it could not.
+
+**Who is affected.** `iveri-identity-api`, which builds a `CreatedPlatformTenant`; `iveri-backoffice-web`, which shows the
+owner's link; `hr-api`, which builds an `HrInvitation`; and anything that renders an invitation link from either.
+
+**Moving across.** Build a link only when the token is not null, and say the email was sent when it is.
+
 ## 0.96.0 — A rotated signing secret keeps signing for a while
 
 **What changed.** `@iveri/contracts/conduit`: `Connection` gains a required `previousSigningSecretExpiresAt`, and
