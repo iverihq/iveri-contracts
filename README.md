@@ -266,6 +266,7 @@ Conduit's outbox.
 - Version `0.18.0` adds the localization entry point and the `localization:read`,
   `localization:message:manage`, `localization:translate`, `localization:publish` and
   `localization:render` permissions.
+- Version `0.100.0` adds `notification:send-any`, the password-reset bodies and Conduit's usage metrics.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
   interface in the same release, and let `implements` prove they agree.

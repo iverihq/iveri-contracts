@@ -99,7 +99,8 @@ export interface HrImportRowResult {
 
 export interface HrInvitation {
     userId: UUID;
-    invitationToken: string;
+    /** Null when identity emailed the invitation itself, so there is nothing for HR to pass on. */
+    invitationToken: Nullable<string>;
     invitationExpiresAt: string;
     isEmailSent: boolean;
 }

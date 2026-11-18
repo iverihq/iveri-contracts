@@ -43,6 +43,29 @@ export interface AcceptInvitationBody {
     password: string;
 }
 
+/**
+ * `POST /auth/password-reset` — ask for a reset email. Always answered with a 202 and no body, whether or not the
+ * workspace or the address exist, so the route says nothing about who has an account.
+ */
+export interface RequestPasswordResetBody {
+    tenantSlug: string;
+    email: string;
+
+    /** The language of the email. Unset falls back to the workspace's source locale. */
+    localeCode?: Nullable<string>;
+}
+
+/**
+ * `POST /auth/password-reset/confirm` — set a new password from the emailed link. The token is single-use and short
+ * lived; using it signs the person out everywhere, because every refresh token they held is revoked.
+ */
+export interface ConfirmPasswordResetBody {
+    /** The workspace the link names. Resolves the tenant before the token is looked up within it. */
+    tenantSlug: string;
+    resetToken: string;
+    password: string;
+}
+
 /** Returned by `POST /auth/refresh`, and nested inside {@link AuthSession}. */
 export interface AuthTokens {
     /** Send as `Authorization: Bearer <accessToken>`. */

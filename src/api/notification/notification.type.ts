@@ -127,8 +127,15 @@ export interface SubmitNotificationBody {
 
     variables?: Nullable<Record<string, string | number>>;
 
-    /** Strongly recommended. Without one, a retried submit tells somebody the same thing twice. */
+    /** Strongly recommended. Without one, a retried submit tells somebody the same thing twice. Unique per company. */
     idempotencyKey?: Nullable<string>;
+
+    /**
+     * The company the notification is for, when it is not the token's own. Refused with a 403 unless the token holds
+     * `notification:send-any` and comes from Iveri's operator workspace; naming one's own company counts as naming one.
+     * The notification is stored in, rendered for and deduplicated within the company it names.
+     */
+    tenantId?: UUID;
 }
 
 export interface SubmitNotificationResponse {
