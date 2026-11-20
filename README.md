@@ -8,6 +8,12 @@ entry offers exactly `types` and `default`. The CommonJS build and the `typesVer
 gone, so a consumer resolves the subpaths under `moduleResolution` `nodenext` or `bundler` — and
 under Node 26 a CommonJS consumer still loads it, through `require`. See `CHANGELOG.md`.
 
+Release `0.106.0` adds `RealtimeResourceType.GYM_PERSON` (`gym.person`) and
+`RealtimeEventType.GYM_PERSON_UPDATED`: a gym member's or trainer's own room, keyed by their
+identity user id, so their apps learn at once that a conversation with the person they train with
+opened. A gateway on an older release refuses the event, so `iveri-realtime` takes this release
+before `gym-api` publishes it.
+
 Release `0.21.0` adds the shared realtime contract under `@iveri/contracts/realtime`: closed
 resource and event vocabularies, identifier-only publish messages, and short-lived subscription
 grants bound to one tenant, person and resource. It also separates permission to issue a grant
