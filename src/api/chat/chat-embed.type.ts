@@ -15,6 +15,12 @@ export interface EmbeddedChatParticipant {
     avatarUrl?: Nullable<string>;
     /** `request` puts it in their Requests until they accept, which is how Ezo's message requests work. */
     asRequest?: boolean;
+    /**
+     * Whether somebody arriving reads what was said before they came. Omitted means false: a newcomer starts at the
+     * current end. A shop sets it for a member of staff taking up an order's conversation, who has to read what the
+     * customer already asked. Read only when the participant arrives or comes back.
+     */
+    seesHistory?: boolean;
 }
 
 /**
