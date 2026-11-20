@@ -2,6 +2,17 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.102.0 — A gym member and their trainer can message each other
+
+**What changed.** `GymBooking` and `GymMyBooking` in `@iveri/contracts/gym` gain a required
+`chatConversationId: Nullable<UUID>`: the Baasi conversation between a member and the trainer of a personal session.
+It is filled only for one of those two people asking (the member's own bookings, the trainer's roster), and is null
+for a class.
+
+**Who is affected.** `gym-api`, which builds both, and any test fixture in the gym apps that types one.
+
+**Moving across.** Set it, or `null` where there is no conversation to offer.
+
 ## 0.100.0 — Identity emails its own invitations and password resets, and Conduit is metered
 
 **What changed.** A platform permission, `notification:send-any`, joins `PLATFORM_PERMISSIONS`, and
