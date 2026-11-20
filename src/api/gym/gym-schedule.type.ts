@@ -99,11 +99,6 @@ export interface GymMemberBooking {
     spotNumber: Nullable<number>;
     waitlistPosition: Nullable<number>;
     session: GymSession;
-    /**
-     * The Baasi conversation between the member and the session's trainer, on a personal session only, and only for
-     * one of those two people: the member asking about their own bookings, or that trainer in the panel.
-     */
-    chatConversationId: Nullable<UUID>;
 }
 
 export interface GymSessionDetail extends GymSession {
