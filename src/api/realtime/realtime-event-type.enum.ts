@@ -40,4 +40,11 @@ export enum RealtimeEventType {
     SOCIAL_ACTIVITY_UPDATED = 'social.activity.updated',
     /** Somebody came through a branch's door or a class changed, so staff screens refetch. */
     GYM_BRANCH_UPDATED = 'gym.branch.updated',
+
+    /**
+     * Something a member or a trainer reads about themselves changed, such as the conversation with
+     * the person they train with opening, so their bookings or sessions refetch. Carried on the
+     * person, while the version is that of whatever moved.
+     */
+    GYM_PERSON_UPDATED = 'gym.person.updated',
 }

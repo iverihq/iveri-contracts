@@ -18,4 +18,11 @@ export enum RealtimeResourceType {
      */
     SOCIAL_MEMBER = 'social.member',
     GYM_BRANCH = 'gym.branch',
+
+    /**
+     * One person's own room at a gym, a member or a trainer, keyed by their identity user id. They
+     * subscribe to themselves, the one thing they can name before a conversation with their trainer
+     * or member exists, and the events on it say what of their own became stale.
+     */
+    GYM_PERSON = 'gym.person',
 }
