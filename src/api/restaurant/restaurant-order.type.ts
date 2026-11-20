@@ -68,6 +68,11 @@ export interface RestaurantOrder {
     completedAt: IsoDateTime | null;
     cancelledAt: IsoDateTime | null;
     cancelReason: string | null;
+    /**
+     * The Baasi conversation between the diner and the restaurant's staff, once one is open: only an order a signed-in
+     * diner placed for takeaway or delivery has one, never a table's. Staff take it up with `POST /orders/:id/chat`.
+     */
+    chatConversationId: UUID | null;
     version: number;
 }
 

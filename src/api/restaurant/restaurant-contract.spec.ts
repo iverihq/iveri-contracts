@@ -11,6 +11,7 @@ import {
     RestaurantPaymentMethod,
     RestaurantResourceStatus,
     RestaurantServiceRequestKind,
+    type RestaurantOrderChatStaff,
 } from './index.js';
 
 describe('restaurant contract', () => {
@@ -45,5 +46,20 @@ describe('restaurant contract', () => {
 
     it('carries the fasting mark a Georgian menu needs', () => {
         expect(Object.values(RestaurantDietaryTag)).toContain('lenten');
+    });
+
+    it('names who answers diners without an email, a phone or a role', () => {
+        const staff: RestaurantOrderChatStaff = {
+            items: [
+                {
+                    userId: '00000000-0000-4000-8000-000000000001',
+                    displayName: 'Nino Beridze',
+                    isMe: true,
+                    joinedAt: '2026-11-21T10:00:00.000Z',
+                },
+            ],
+        };
+
+        expect(Object.keys(staff.items[0]).sort()).toEqual(['displayName', 'isMe', 'joinedAt', 'userId']);
     });
 });

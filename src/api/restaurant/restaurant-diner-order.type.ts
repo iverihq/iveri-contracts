@@ -106,6 +106,12 @@ export interface RestaurantDinerOrder {
     canPay: boolean;
     /** Whether the person who placed it can still say how it was. */
     canReview: boolean;
+    /**
+     * The Baasi conversation with the restaurant about this order, for the diner who placed it while signed in, once it
+     * is open. Null on a guest's order, on a link followed without the account, and before it opens. It stays set after
+     * the order ends, because the two can still read it.
+     */
+    chatConversationId: UUID | null;
 }
 
 export interface RestaurantOrderPlaced {
