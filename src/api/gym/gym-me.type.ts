@@ -111,6 +111,11 @@ export interface GymMyBooking {
     canCancel: boolean;
     /** Cancelling now would keep what the booking cost. */
     isLateCancel: boolean;
+    /**
+     * The Baasi conversation with this session's trainer, on a personal session once one is open; null for a class.
+     * It stays set after the training ends, because the two can still read it.
+     */
+    chatConversationId: Nullable<UUID>;
 }
 
 export interface CreateMyGymPersonalSessionRequest {

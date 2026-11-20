@@ -227,8 +227,16 @@ describe('chat contract', () => {
             label: 'Passenger',
             avatarUrl: null,
             asRequest: false,
+            seesHistory: false,
         };
-        expect(Object.keys(participant).sort()).toEqual(['asRequest', 'avatarUrl', 'displayName', 'label', 'userId']);
+        expect(Object.keys(participant).sort()).toEqual([
+            'asRequest',
+            'avatarUrl',
+            'displayName',
+            'label',
+            'seesHistory',
+            'userId',
+        ]);
     });
 
     it.each(['ana', 'ana.k', 'a_b', 'nino2024'])('accepts the handle %s', (handle) => {
