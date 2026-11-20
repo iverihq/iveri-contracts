@@ -2,6 +2,18 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.105.0 — A diner and the restaurant's staff can message each other about an order
+
+**What changed.** `RestaurantOrder` and `RestaurantDinerOrder` in `@iveri/contracts/restaurant` gain a required
+`chatConversationId: UUID | null`: the Baasi conversation about a takeaway or delivery order a signed-in diner placed.
+`RestaurantOrderChat`, `RestaurantOrderChatStanding`, `RestaurantOrderChatStaffMember` and `RestaurantOrderChatStaff`
+are the shapes of the staff routes under `/orders/chat` and `/orders/:orderId/chat`.
+
+**Who is affected.** `restaurant-api`, which builds both orders, and any test fixture in the restaurant apps that types
+one.
+
+**Moving across.** Set it, or `null` where there is no conversation to offer.
+
 ## 0.104.0 — Calls in groups
 
 **What changed.** `ChatCall` gains three required fields: `isGroup`, `title` (the group's title in a group call, null

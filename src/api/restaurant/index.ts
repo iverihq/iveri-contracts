@@ -11,6 +11,7 @@ export * from './restaurant-floor.type.js';
 export * from './restaurant-kitchen.type.js';
 export * from './restaurant-line-status.enum.js';
 export * from './restaurant-menu.type.js';
+export * from './restaurant-order-chat.type.js';
 export * from './restaurant-order-payment-status.enum.js';
 export * from './restaurant-order-source.enum.js';
 export * from './restaurant-order-status.enum.js';
