@@ -31,6 +31,19 @@ export interface ChatCall {
     /** Set once the call has ended, and only then. */
     endReason: Nullable<ChatCallEndReason>;
     startedBy: UUID;
+    /**
+     * A call in a group: it rang everybody who could be rung, anybody in the group may join it while it lasts, and
+     * leaving it does not end it for the others. A call between two people is not.
+     */
+    isGroup: boolean;
+    /** The group's title in a group call, so a ring can say where it comes from; null between two people. */
+    title: Nullable<string>;
+    /** How many people may be in it at once: 2 between two people, the group call cap in a group. */
+    maxParticipants: number;
+    /**
+     * Everybody it rang and everybody who joined. In a group call somebody who joins late is added, and one the call
+     * did not ring (they muted the group, or it was too large to ring) appears only once they join.
+     */
     participants: ChatCallParticipant[];
     /** When an unanswered call stops ringing and becomes missed. */
     ringExpiresAt: IsoDateTime;
@@ -58,7 +71,10 @@ export interface ChatCallJoin {
     expiresAt: IsoDateTime;
 }
 
-/** `GET /conversations/:conversationId/calls/current`: the call ringing or under way there, if any. */
+/**
+ * `GET /conversations/:conversationId/calls/current`: the call ringing or under way there, if any. Between two people
+ * only a call I am in; in a group any live call, so a member it did not ring can see it and join.
+ */
 export interface ChatCurrentCall {
     call: Nullable<ChatCall>;
 }

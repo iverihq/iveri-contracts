@@ -16,10 +16,12 @@ export enum ChatRefusal {
     SUSPENDED = 'suspended',
     ATTACHMENT_REFUSED = 'attachment-refused',
     REQUEST_PENDING = 'request-pending',
-    /** This conversation takes no calls: a group, a product's conversation that does not allow them, or an app's. */
+    /** This conversation takes no calls: a product's conversation that does not allow them, or an app's. */
     CALLS_OFF = 'calls-off',
     /** The call has ended, or this person is not in it. */
     CALL_UNAVAILABLE = 'call-unavailable',
+    /** A group call already has as many people in it as it takes. */
+    CALL_FULL = 'call-full',
     /**
      * The app's plan does not allow it this month: a new user over the monthly-active-user limit, or a message over the
      * message limit. The value is `USAGE_LIMIT_REACHED_REASON` from `@iveri/contracts/billing`, and the details name the

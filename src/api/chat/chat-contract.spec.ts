@@ -174,6 +174,9 @@ describe('chat contract', () => {
             status: ChatCallStatus.ENDED,
             endReason: ChatCallEndReason.COMPLETED,
             startedBy: '00000000-0000-4000-8000-000000000002',
+            isGroup: false,
+            title: null,
+            maxParticipants: 2,
             participants: [],
             ringExpiresAt: '2026-11-14T10:00:45.000Z',
             answeredAt: '2026-11-14T10:00:05.000Z',
@@ -187,11 +190,14 @@ describe('chat contract', () => {
             'endReason',
             'endedAt',
             'id',
+            'isGroup',
             'kind',
+            'maxParticipants',
             'participants',
             'ringExpiresAt',
             'startedBy',
             'status',
+            'title',
         ]);
     });
 

@@ -2,6 +2,18 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.104.0 — Calls in groups
+
+**What changed.** `ChatCall` gains three required fields: `isGroup`, `title` (the group's title in a group call, null
+between two people) and `maxParticipants`. `ChatRefusal` gains `CALL_FULL`, refused when a group call already holds
+as many people as it takes. `CALLS_OFF` no longer covers every group: a group's people may call.
+
+**Who is affected.** `chat-api`, which builds a `ChatCall`, and any test fixture that builds one by hand
+(`@iveri/chat-kit`'s).
+
+**Moving across.** Set the three fields; a call between two people is `isGroup: false`, `title: null`,
+`maxParticipants: 2`.
+
 ## 0.102.0 — A gym member and their trainer can message each other
 
 **What changed.** `GymBooking` and `GymMyBooking` in `@iveri/contracts/gym` gain a required
