@@ -83,6 +83,11 @@ export interface GymBooking {
     /** Null unless waitlisted. 1 is next. */
     waitlistPosition: Nullable<number>;
     membershipId: UUID;
+    /**
+     * The Baasi conversation between this member and the session's trainer, on a personal session only and only
+     * for the trainer asking: null for a class, for a desk employee who is not that trainer, and before one is open.
+     */
+    chatConversationId: Nullable<UUID>;
     createdAt: IsoDateTime;
     updatedAt: IsoDateTime;
 }
@@ -94,6 +99,11 @@ export interface GymMemberBooking {
     spotNumber: Nullable<number>;
     waitlistPosition: Nullable<number>;
     session: GymSession;
+    /**
+     * The Baasi conversation between the member and the session's trainer, on a personal session only, and only for
+     * one of those two people: the member asking about their own bookings, or that trainer in the panel.
+     */
+    chatConversationId: Nullable<UUID>;
 }
 
 export interface GymSessionDetail extends GymSession {
