@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
     ClinicAppointmentStatus,
+    ClinicDepositStatus,
     ClinicLeadKind,
     ClinicLeadStatus,
     ClinicPaymentMethod,
@@ -31,7 +32,11 @@ describe('clinic contract', () => {
     });
 
     it('keeps the payment method wire values', () => {
-        expect(Object.values(ClinicPaymentMethod)).toEqual(['cash', 'card', 'transfer', 'course', 'bonus']);
+        expect(Object.values(ClinicPaymentMethod)).toEqual(['cash', 'card', 'transfer', 'course', 'bonus', 'online']);
+    });
+
+    it('keeps the deposit wire values', () => {
+        expect(Object.values(ClinicDepositStatus)).toEqual(['not_required', 'pending', 'paid', 'failed', 'expired']);
     });
 
     it('keeps the clinical record wire values', () => {

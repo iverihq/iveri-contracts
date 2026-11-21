@@ -45,6 +45,11 @@ export interface ClinicTreatment {
     /** The shortest gap a client may leave between sessions, or `null` when any gap is safe. */
     minDaysBetweenSessions: Nullable<number>;
     isBookableOnline: boolean;
+    /**
+     * What a client pays online to hold a time, in minor units of `currency`, or `null` for none.
+     * A visit costing less is asked for its whole price. Reception's bookings are never asked.
+     */
+    depositMinor: Nullable<number>;
     status: ClinicResourceStatus;
     options: ClinicTreatmentOption[];
     content: ClinicTreatmentContent;
@@ -75,6 +80,7 @@ export interface CreateClinicTreatmentRequest {
     requiredDeviceType?: Nullable<string>;
     minDaysBetweenSessions?: Nullable<number>;
     isBookableOnline?: boolean;
+    depositMinor?: Nullable<number>;
     options: CreateClinicTreatmentOptionRequest[];
     content?: ClinicTreatmentContent;
 }
@@ -87,6 +93,7 @@ export interface UpdateClinicTreatmentRequest {
     requiredDeviceType?: Nullable<string>;
     minDaysBetweenSessions?: Nullable<number>;
     isBookableOnline?: boolean;
+    depositMinor?: Nullable<number>;
     status?: ClinicResourceStatus;
     content?: ClinicTreatmentContent;
 }

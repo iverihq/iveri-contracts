@@ -3,6 +3,8 @@ export * from './clinic-appointment.type.js';
 export * from './clinic-client.type.js';
 export * from './clinic-consent-form.type.js';
 export * from './clinic-course.type.js';
+export * from './clinic-deposit-status.enum.js';
+export * from './clinic-deposit.type.js';
 export * from './clinic-device.type.js';
 export * from './clinic-lead-kind.enum.js';
 export * from './clinic-lead-status.enum.js';

@@ -3,6 +3,7 @@ import type { Nullable } from '../../type/nil.type.js';
 import type { UUID } from '../../type/uuid.type.js';
 
 import type { ClinicAppointmentStatus } from './clinic-appointment-status.enum.js';
+import type { ClinicDepositStatus } from './clinic-deposit-status.enum.js';
 import type { LocalizedText } from './localized-text.type.js';
 
 /** One option as it was when the appointment was booked. A later price change does not touch it. */
@@ -36,6 +37,13 @@ export interface ClinicAppointment {
     /** How much a promotion took off, as it stood when this was booked. */
     discountMinor: number;
     promotionName: Nullable<LocalizedText>;
+    /** Whether an online deposit holds this visit, and where it stands. */
+    depositStatus: ClinicDepositStatus;
+    /** What was asked online, in minor units of `currency`. Zero when nothing was. */
+    depositMinor: number;
+    /** Until when the slot is held for an unpaid deposit. */
+    depositExpiresAt: Nullable<IsoDateTime>;
+    depositPaidAt: Nullable<IsoDateTime>;
     lines: ClinicAppointmentLine[];
     note: Nullable<string>;
     createdAt: IsoDateTime;
