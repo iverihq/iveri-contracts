@@ -5,6 +5,7 @@ import type { UUID } from '../../type/uuid.type.js';
 import type { ChatImage } from './chat-attachment.type.js';
 import type { ChatConversationKind } from './chat-conversation-kind.enum.js';
 import type { ChatMessageKind } from './chat-message-kind.enum.js';
+import type { ChatPinnedMessage } from './chat-message.type.js';
 import type { ChatParticipantRole } from './chat-participant-role.enum.js';
 import type { ChatParticipantStatus } from './chat-participant-status.enum.js';
 import type { ChatPersonCard } from './chat-person.type.js';
@@ -63,11 +64,15 @@ export interface ChatConversationSummary {
     lastMessage: Nullable<ChatLastMessagePreview>;
     lastSeq: number;
     unreadCount: number;
+    /** Unread messages that name me with `@`, stopping at 99 like the unread count. */
+    unreadMentionCount: number;
     /** Waiting for me to accept it. */
     isRequest: boolean;
     mutedUntil: Nullable<IsoDateTime>;
     isPinned: boolean;
     isArchived: boolean;
+    /** A group where only its owners and admins write. Everybody else reads, reacts and joins its calls. */
+    onlyAdminsCanSend: boolean;
     /** Whether I can send here now. When false, `refusal` says why. */
     canSend: boolean;
     refusal: Nullable<ChatRefusal>;
@@ -103,6 +108,12 @@ export interface ChatConversation extends ChatConversationSummary {
     closedAt: Nullable<IsoDateTime>;
     /** A group's invitation code, shown to its owner and admins. */
     inviteCode: Nullable<string>;
+    /** What a group is for, written by its owners and admins. Null when nobody wrote one, and outside groups. */
+    description: Nullable<string>;
+    /** The pinned messages I can see, the latest pinned first, at most `CHAT_PINNED_MESSAGE_LIMIT`. */
+    pinnedMessages: ChatPinnedMessage[];
+    /** Whether I may pin and unpin messages here: a group's owners and admins, anybody who may send elsewhere. */
+    canPinMessages: boolean;
 }
 
 export interface ChatInboxPage {
@@ -134,6 +145,9 @@ export interface UpdateGroupChatRequest {
     title?: string;
     /** An uploaded photo attachment. `null` removes the photograph. */
     avatarAttachmentId?: Nullable<UUID>;
+    /** `null` or an empty text removes it. At most `CHAT_GROUP_DESCRIPTION_MAX_LENGTH` characters. */
+    description?: Nullable<string>;
+    onlyAdminsCanSend?: boolean;
 }
 
 /** Exactly one of the two lists, as with {@link StartDirectChatRequest}. */

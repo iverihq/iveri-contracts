@@ -22,6 +22,12 @@ export interface ChatReplyPreview {
     isDeleted: boolean;
 }
 
+/** Somebody a message names with `@`, under the name this conversation shows them by. */
+export interface ChatMention {
+    userId: UUID;
+    displayName: string;
+}
+
 export interface ChatReactionSummary {
     emoji: string;
     count: number;
@@ -46,6 +52,13 @@ export interface ChatMessage {
     replyTo: Nullable<ChatReplyPreview>;
     attachments: ChatAttachment[];
     reactions: ChatReactionSummary[];
+    /**
+     * The people this message names with `@`, each still in the conversation when it was sent. The body carries
+     * `@` and the name as typed; a client draws each `@displayName` it finds here as a mention.
+     */
+    mentions: ChatMention[];
+    /** Set while the message is pinned at the top of its conversation. */
+    pinnedAt: Nullable<IsoDateTime>;
     isOwn: boolean;
     editedAt: Nullable<IsoDateTime>;
     isDeleted: boolean;
@@ -67,10 +80,29 @@ export interface SendChatMessageRequest {
     body?: Nullable<string>;
     replyToMessageId?: Nullable<UUID>;
     attachmentIds?: UUID[];
+    /**
+     * The people the body names with `@`. Anybody not present in the conversation is dropped, never refused, so a
+     * name somebody left with does not fail the send. At most `CHAT_MENTIONS_PER_MESSAGE`.
+     */
+    mentionUserIds?: UUID[];
 }
 
 export interface EditChatMessageRequest {
     body: string;
+    /** Replaces the message's mentions. Omitted keeps them as they were. */
+    mentionUserIds?: UUID[];
+}
+
+/** A pinned message as the bar over a conversation draws it. */
+export interface ChatPinnedMessage {
+    id: UUID;
+    seq: number;
+    senderName: Nullable<string>;
+    kind: ChatMessageKind;
+    excerpt: Nullable<string>;
+    pinnedAt: IsoDateTime;
+    /** Who pinned it, under the name this conversation shows them by. */
+    pinnedByName: Nullable<string>;
 }
 
 export interface ReactToChatMessageRequest {

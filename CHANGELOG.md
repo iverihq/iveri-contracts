@@ -2,7 +2,7 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
-## 0.108.0 — An Ezo post can carry a short video
+## 0.109.0 — An Ezo post can carry a short video
 
 **What changed.** In `@iveri/contracts/social`, `SocialPost` gains a required `video: SocialVideo | null`, and
 `SocialCaseEvidence` a required `videos: SocialCaseVideo[]`. New: `SocialVideoState`, `SocialVideo`,
@@ -14,6 +14,22 @@ Breaking changes and how to move across them. Additions are described in the REA
 over `SocialRefusal` that has to name every member.
 
 **Moving across.** A post with no video sends `video: null`; evidence with none sends `videos: []`.
+## 0.108.0 — Mentions, pinned messages, group descriptions and a call history in Baasi
+
+**What changed.** `ChatMessage` gains two required fields: `mentions` (the people it names with `@`) and `pinnedAt`.
+`ChatConversationSummary` gains `unreadMentionCount` and `onlyAdminsCanSend`; `ChatConversation` gains `description`,
+`pinnedMessages` and `canPinMessages`. `ChatRefusal` gains `ADMINS_ONLY` and `MESSAGE_PIN_LIMIT`. New:
+`ChatMention`, `ChatPinnedMessage`, `ChatCallDirection`, `ChatCallHistoryEntry`, `ChatCallHistoryPage`,
+`ChatCallHistoryQuery`, and the limits `CHAT_MENTIONS_PER_MESSAGE`, `CHAT_PINNED_MESSAGE_LIMIT` and
+`CHAT_GROUP_DESCRIPTION_MAX_LENGTH`. `SendChatMessageRequest` and `EditChatMessageRequest` take an optional
+`mentionUserIds`; `UpdateGroupChatRequest` an optional `description` and `onlyAdminsCanSend`.
+
+**Who is affected.** `chat-api`, which builds every one of these, and any test fixture that builds a message or a
+conversation by hand (`@iveri/chat-kit`'s).
+
+**Moving across.** A message with no mentions is `mentions: []`, `pinnedAt: null`; a conversation is
+`unreadMentionCount: 0`, `onlyAdminsCanSend: false`, `description: null`, `pinnedMessages: []`,
+`canPinMessages` as its people may send.
 
 ## 0.107.0 — A clinic can ask for a deposit online
 
