@@ -18,3 +18,5 @@ export * from './social-refusal.enum.js';
 export * from './social-report-reason.enum.js';
 export * from './social-report-target.enum.js';
 export * from './social-story.type.js';
+export * from './social-video-state.enum.js';
+export * from './social-video.type.js';

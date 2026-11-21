@@ -10,6 +10,7 @@ import type { SocialMemberCard } from './social-member.type.js';
 import type { SocialModerationReason } from './social-moderation-reason.enum.js';
 import type { SocialReportReason } from './social-report-reason.enum.js';
 import type { SocialReportTarget } from './social-report-target.enum.js';
+import type { SocialVideoState } from './social-video-state.enum.js';
 
 export interface CreateSocialReportRequest {
     targetType: SocialReportTarget;
@@ -40,7 +41,24 @@ export interface CreateSocialAppealRequest {
 export interface SocialCaseEvidence {
     text: Nullable<string>;
     imageUrls: string[];
+    /** A reported video's poster only. Playing it goes through `SocialCaseVideoView`, which is logged. */
+    videos: SocialCaseVideo[];
     createdAt: Nullable<IsoDateTime>;
+}
+
+export interface SocialCaseVideo {
+    id: UUID;
+    state: SocialVideoState;
+    width: number;
+    height: number;
+    durationMs: number;
+    posterUrl: Nullable<string>;
+}
+
+/** The address of a reported video, handed out once per request and written to the access log. */
+export interface SocialCaseVideoView {
+    url: string;
+    expiresAt: IsoDateTime;
 }
 
 export interface SocialCaseSummary {

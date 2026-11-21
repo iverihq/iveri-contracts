@@ -2,6 +2,18 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.109.0 — An Ezo post can carry a short video
+
+**What changed.** In `@iveri/contracts/social`, `SocialPost` gains a required `video: SocialVideo | null`, and
+`SocialCaseEvidence` a required `videos: SocialCaseVideo[]`. New: `SocialVideoState`, `SocialVideo`,
+`SocialVideoUpload`, `SocialCaseVideo`, `SocialCaseVideoView`, `SOCIAL_VIDEO_MIME_TYPES`,
+`SOCIAL_LIMITS.VIDEO_BYTES_MAX` and `VIDEO_SECONDS_MAX`, and four `SocialRefusal` members (`video-unreadable`,
+`video-too-large`, `video-too-long`, `post-media-mixed`).
+
+**Who is affected.** `social-api`, which builds both shapes; the social apps' post and case fixtures; and any `switch`
+over `SocialRefusal` that has to name every member.
+
+**Moving across.** A post with no video sends `video: null`; evidence with none sends `videos: []`.
 ## 0.108.0 — Mentions, pinned messages, group descriptions and a call history in Baasi
 
 **What changed.** `ChatMessage` gains two required fields: `mentions` (the people it names with `@`) and `pinnedAt`.

@@ -4,12 +4,15 @@ import type { UUID } from '../../type/uuid.type.js';
 
 import type { SocialImage } from './social-image.type.js';
 import type { SocialMemberCard } from './social-member.type.js';
+import type { SocialVideo } from './social-video.type.js';
 
 export interface SocialPost {
     id: UUID;
     author: SocialMemberCard;
     caption: Nullable<string>;
     images: SocialImage[];
+    /** A post carries photographs or one video, never both. */
+    video: Nullable<SocialVideo>;
     commentsDisabled: boolean;
     likeCount: number;
     commentCount: number;
@@ -20,6 +23,7 @@ export interface SocialPost {
     editedAt: Nullable<IsoDateTime>;
 }
 
+/** A photograph or a video upload. A post names up to ten photographs or exactly one video. */
 export interface CreateSocialPostMedia {
     id: UUID;
     altText?: Nullable<string>;
