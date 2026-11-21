@@ -8,6 +8,10 @@ entry offers exactly `types` and `default`. The CommonJS build and the `typesVer
 gone, so a consumer resolves the subpaths under `moduleResolution` `nodenext` or `bundler` — and
 under Node 26 a CommonJS consumer still loads it, through `require`. See `CHANGELOG.md`.
 
+Release `0.111.0` adds a gym trainer's time off to `@iveri/contracts/gym`: `GymTrainerTimeOff`, the sessions
+the trainer still holds inside it (`GymTrainerTimeOffSession`), `CreateGymTrainerTimeOffRequest` and
+`ListGymTrainerTimeOffQuery`. Additions only.
+
 Release `0.106.0` adds `RealtimeResourceType.GYM_PERSON` (`gym.person`) and
 `RealtimeEventType.GYM_PERSON_UPDATED`: a gym member's or trainer's own room, keyed by their
 identity user id, so their apps learn at once that a conversation with the person they train with

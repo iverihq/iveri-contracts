@@ -40,5 +40,6 @@ export * from './gym-session-kind.enum.js';
 export * from './gym-session-status.enum.js';
 export * from './gym-signature-method.enum.js';
 export * from './gym-staff.type.js';
+export * from './gym-trainer-time-off.type.js';
 export * from './gym-training.type.js';
 export * from './gym-waiver.type.js';
