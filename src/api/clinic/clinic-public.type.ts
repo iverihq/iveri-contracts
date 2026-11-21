@@ -71,6 +71,11 @@ export interface PublicTreatment {
     currency: string;
     minDaysBetweenSessions: Nullable<number>;
     isBookableOnline: boolean;
+    /**
+     * What booking online asks to be paid first, or `null` when nothing is. A visit costing less is
+     * asked for its whole price.
+     */
+    depositMinor: Nullable<number>;
     options: PublicTreatmentOption[];
     promotion: Nullable<PublicTreatmentPromotion>;
     content: ClinicTreatmentContent;
