@@ -27,6 +27,7 @@ export interface ClinicPayment {
     note: Nullable<string>;
     /** How much of this can still be given back. Always zero on a refund. */
     refundableMinor: number;
+    /** Who took it at the desk, or `null` for a deposit paid online, which nobody recorded by hand. */
     recordedByName: Nullable<string>;
     createdAt: IsoDateTime;
 }
@@ -91,6 +92,8 @@ export interface ClinicTakingsLine {
     cashMinor: number;
     cardMinor: number;
     transferMinor: number;
+    /** Deposits paid online when a visit was booked. Money taken, and never in the drawer. */
+    onlineMinor: number;
     netMinor: number;
     refundedMinor: number;
     courseRedeemedMinor: number;

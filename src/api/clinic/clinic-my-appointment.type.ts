@@ -4,6 +4,7 @@ import type { UUID } from '../../type/uuid.type.js';
 
 import type { ClinicAppointmentStatus } from './clinic-appointment-status.enum.js';
 import type { ClinicAppointmentLine } from './clinic-appointment.type.js';
+import type { ClinicDepositStatus } from './clinic-deposit-status.enum.js';
 import type { ClinicScreeningAnswerRequest, SignClinicConsentRequest } from './clinic-record.type.js';
 import type { LocalizedText } from './localized-text.type.js';
 
@@ -21,6 +22,13 @@ export interface MyClinicAppointment {
     totalMinor: number;
     discountMinor: number;
     promotionName: Nullable<LocalizedText>;
+    /** Whether an online deposit holds this visit, and where it stands. */
+    depositStatus: ClinicDepositStatus;
+    /** What was asked online, in minor units of `currency`. Zero when nothing was. */
+    depositMinor: number;
+    /** Until when the slot is held for an unpaid deposit. */
+    depositExpiresAt: Nullable<IsoDateTime>;
+    depositPaidAt: Nullable<IsoDateTime>;
     lines: ClinicAppointmentLine[];
     note: Nullable<string>;
     /** Whether the clinic's rules still let this client cancel it themselves. */

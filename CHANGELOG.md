@@ -19,6 +19,20 @@ conversation by hand (`@iveri/chat-kit`'s).
 `unreadMentionCount: 0`, `onlyAdminsCanSend: false`, `description: null`, `pinnedMessages: []`,
 `canPinMessages` as its people may send.
 
+## 0.107.0 — A clinic can ask for a deposit online
+
+**What changed.** In `@iveri/contracts/clinic`, `ClinicAppointment` and `MyClinicAppointment` gain four required fields:
+`depositStatus` (the new `ClinicDepositStatus`), `depositMinor`, `depositExpiresAt` and `depositPaidAt`.
+`ClinicTreatment` and `PublicTreatment` gain a required `depositMinor: number | null`, and the treatment requests an
+optional one. `ClinicTakingsLine` gains a required `onlineMinor`, and `ClinicPaymentMethod` gains `online`, a deposit a
+client paid on the bank's page, whose ledger line has no `recordedByName`. `MyClinicDeposit` is the shape of a client's
+own deposit route.
+
+**Who is affected.** `clinic-api`, which builds all of them; the clinic apps' fixtures; and any `switch` over
+`ClinicPaymentMethod` that has to name every member.
+
+**Moving across.** A visit with no deposit is `not_required`, `0`, `null`, `null`. A treatment with none is `null`.
+
 ## 0.105.0 — A diner and the restaurant's staff can message each other about an order
 
 **What changed.** `RestaurantOrder` and `RestaurantDinerOrder` in `@iveri/contracts/restaurant` gain a required
