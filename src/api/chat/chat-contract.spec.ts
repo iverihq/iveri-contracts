@@ -16,6 +16,10 @@ import {
     CHAT_SOCKET_TICKET_TYPE,
     ChatAppConversationMode,
     CHAT_QUICK_REACTIONS,
+    CHAT_MENTIONS_PER_MESSAGE,
+    CHAT_PINNED_MESSAGE_LIMIT,
+    CHAT_GROUP_DESCRIPTION_MAX_LENGTH,
+    ChatCallDirection,
     ChatCallEndReason,
     ChatCallKind,
     ChatCallParticipantState,
@@ -36,6 +40,19 @@ import {
 } from './index.js';
 
 describe('chat contract', () => {
+    it('keeps the group refusals and limits clients translate and draw against', () => {
+        // A client switches on these strings to say why it cannot send or pin; renaming one shows a generic failure.
+        expect(ChatRefusal.ADMINS_ONLY).toBe('admins-only');
+        expect(ChatRefusal.MESSAGE_PIN_LIMIT).toBe('message-pin-limit');
+        expect(CHAT_PINNED_MESSAGE_LIMIT).toBe(10);
+        expect(CHAT_MENTIONS_PER_MESSAGE).toBe(50);
+        expect(CHAT_GROUP_DESCRIPTION_MAX_LENGTH).toBe(500);
+    });
+
+    it('names a call in the history from my side of it', () => {
+        expect(Object.values(ChatCallDirection)).toEqual(['outgoing', 'incoming']);
+    });
+
     it('meters an app under the names its plan limits', () => {
         // Billing stores usage and a plan names its limits by these strings; renaming one makes every stored month and
         // every limit read as a metric nobody reports.

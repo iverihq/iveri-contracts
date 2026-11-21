@@ -11,6 +11,10 @@ export enum ChatRefusal {
     NETWORK_ONLY = 'network-only',
     NO_PROFILE = 'no-profile',
     PIN_LIMIT = 'pin-limit',
+    /** The conversation already holds as many pinned messages as it takes. */
+    MESSAGE_PIN_LIMIT = 'message-pin-limit',
+    /** Only the group's owners and admins write here. */
+    ADMINS_ONLY = 'admins-only',
     LAST_OWNER = 'last-owner',
     INVITATION_EXPIRED = 'invitation-expired',
     SUSPENDED = 'suspended',
