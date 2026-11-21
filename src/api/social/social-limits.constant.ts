@@ -14,6 +14,9 @@ export const SOCIAL_LIMITS = {
     APPEAL_STATEMENT_MAX: 2000,
     MODERATION_NOTE_MAX: 2000,
     IMAGE_BYTES_MAX: 15 * 1024 * 1024,
+    VIDEO_BYTES_MAX: 100 * 1024 * 1024,
+    /** A longer video is refused, never cut short. */
+    VIDEO_SECONDS_MAX: 60,
     MINIMUM_AGE: 16,
 } as const;
 
@@ -22,3 +25,9 @@ export const SOCIAL_HANDLE_PATTERN = /^[a-z0-9](?:[a-z0-9._]*[a-z0-9])?$/;
 
 /** The version of the terms a new member accepts. A placeholder until the real terms exist. */
 export const SOCIAL_TERMS_VERSION = '2026-11-draft';
+
+/**
+ * What a file picker offers for a video. Only a hint for the picker: the API decides by decoding,
+ * never by the type a browser or phone reports.
+ */
+export const SOCIAL_VIDEO_MIME_TYPES = ['video/mp4', 'video/quicktime', 'video/webm', 'video/x-matroska'] as const;

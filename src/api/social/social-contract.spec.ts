@@ -9,6 +9,7 @@ import {
     SocialModerationReason,
     SocialReportReason,
     SocialReportTarget,
+    SocialVideoState,
 } from './index.js';
 
 describe('social contract', () => {
@@ -35,6 +36,10 @@ describe('social contract', () => {
 
     it('keeps a moderation notice in the activity kinds', () => {
         expect(Object.values(SocialActivityKind)).toContain('moderation-notice');
+    });
+
+    it('keeps the video states', () => {
+        expect(Object.values(SocialVideoState)).toEqual(['processing', 'ready', 'failed']);
     });
 
     it.each(['ana', 'ana.k', 'a_b', 'nino2024', 'a1b'])('accepts the handle %s', (handle) => {

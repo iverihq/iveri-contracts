@@ -20,6 +20,11 @@ export enum SocialRefusal {
     IMAGE_UNREADABLE = 'image-unreadable',
     IMAGE_TOO_LARGE = 'image-too-large',
     MEDIA_UNAVAILABLE = 'media-unavailable',
+    VIDEO_UNREADABLE = 'video-unreadable',
+    VIDEO_TOO_LARGE = 'video-too-large',
+    VIDEO_TOO_LONG = 'video-too-long',
+    /** A post carries photographs or one video, never both and never two videos. */
+    POST_MEDIA_MIXED = 'post-media-mixed',
     POST_EMPTY = 'post-empty',
     COMMENTS_DISABLED = 'comments-disabled',
     CANNOT_FOLLOW_SELF = 'cannot-follow-self',
