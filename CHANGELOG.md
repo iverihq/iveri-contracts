@@ -2,6 +2,23 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.108.0 — Mentions, pinned messages, group descriptions and a call history in Baasi
+
+**What changed.** `ChatMessage` gains two required fields: `mentions` (the people it names with `@`) and `pinnedAt`.
+`ChatConversationSummary` gains `unreadMentionCount` and `onlyAdminsCanSend`; `ChatConversation` gains `description`,
+`pinnedMessages` and `canPinMessages`. `ChatRefusal` gains `ADMINS_ONLY` and `MESSAGE_PIN_LIMIT`. New:
+`ChatMention`, `ChatPinnedMessage`, `ChatCallDirection`, `ChatCallHistoryEntry`, `ChatCallHistoryPage`,
+`ChatCallHistoryQuery`, and the limits `CHAT_MENTIONS_PER_MESSAGE`, `CHAT_PINNED_MESSAGE_LIMIT` and
+`CHAT_GROUP_DESCRIPTION_MAX_LENGTH`. `SendChatMessageRequest` and `EditChatMessageRequest` take an optional
+`mentionUserIds`; `UpdateGroupChatRequest` an optional `description` and `onlyAdminsCanSend`.
+
+**Who is affected.** `chat-api`, which builds every one of these, and any test fixture that builds a message or a
+conversation by hand (`@iveri/chat-kit`'s).
+
+**Moving across.** A message with no mentions is `mentions: []`, `pinnedAt: null`; a conversation is
+`unreadMentionCount: 0`, `onlyAdminsCanSend: false`, `description: null`, `pinnedMessages: []`,
+`canPinMessages` as its people may send.
+
 ## 0.105.0 — A diner and the restaurant's staff can message each other about an order
 
 **What changed.** `RestaurantOrder` and `RestaurantDinerOrder` in `@iveri/contracts/restaurant` gain a required

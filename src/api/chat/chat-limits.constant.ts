@@ -7,6 +7,15 @@ export const CHAT_GROUP_MAX_MEMBERS = 256;
 /** The longest group title. */
 export const CHAT_GROUP_TITLE_MAX_LENGTH = 80;
 
+/** The longest group description. */
+export const CHAT_GROUP_DESCRIPTION_MAX_LENGTH = 500;
+
+/** How many people one message can name with `@`. */
+export const CHAT_MENTIONS_PER_MESSAGE = 50;
+
+/** How many messages one conversation can hold pinned at once. */
+export const CHAT_PINNED_MESSAGE_LIMIT = 10;
+
 /** How long after sending a message its author may still change it. */
 export const CHAT_EDIT_WINDOW_HOURS = 48;
 
