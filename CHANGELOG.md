@@ -2,6 +2,16 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.112.0 — A clinic visit says when it was cancelled
+
+**What changed.** In `@iveri/contracts/clinic`, `ClinicAppointment` and `MyClinicAppointment` gain a required
+`cancelledAt: Nullable<IsoDateTime>`, set when a visit is cancelled by anybody or released by a deposit that went unpaid.
+
+**Who is affected.** `clinic-api`, which builds both shapes, and any fixture that builds a visit by hand in the clinic
+apps.
+
+**Moving across.** A visit that has not been cancelled sends `cancelledAt: null`. A deposit is late only when
+`depositPaidAt` is after `cancelledAt`; a visit paid and then cancelled is not.
 ## 0.109.0 — An Ezo post can carry a short video
 
 **What changed.** In `@iveri/contracts/social`, `SocialPost` gains a required `video: SocialVideo | null`, and

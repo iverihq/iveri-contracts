@@ -44,6 +44,11 @@ export interface ClinicAppointment {
     /** Until when the slot is held for an unpaid deposit. */
     depositExpiresAt: Nullable<IsoDateTime>;
     depositPaidAt: Nullable<IsoDateTime>;
+    /**
+     * When the visit was cancelled, by anybody or by an unpaid deposit releasing it. A deposit paid after this landed on
+     * a visit that was no longer happening.
+     */
+    cancelledAt: Nullable<IsoDateTime>;
     lines: ClinicAppointmentLine[];
     note: Nullable<string>;
     createdAt: IsoDateTime;
