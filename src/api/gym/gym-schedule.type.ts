@@ -6,6 +6,7 @@ import type { LocalizedText } from '../clinic/localized-text.type.js';
 import type { GymBookingStatus } from './gym-booking-status.enum.js';
 import type { GymMediaImage } from './gym-common.type.js';
 import type { GymResourceStatus } from './gym-resource-status.enum.js';
+import type { GymSessionCancelledBy } from './gym-session-cancelled-by.enum.js';
 import type { GymSessionKind } from './gym-session-kind.enum.js';
 import type { GymSessionStatus } from './gym-session-status.enum.js';
 
@@ -65,7 +66,13 @@ export interface GymSession {
     bookedCount: number;
     waitlistCount: number;
     status: GymSessionStatus;
+    /** What a person typed when calling the session off. Null when nobody did, as when its one place was given up. */
     cancelReason: Nullable<string>;
+    /**
+     * Who gave up a personal session's one place, which called it off. Null on a session still on and on one the gym
+     * called off as a whole, which carries `cancelReason`. Clients translate it; they never match reason text.
+     */
+    cancelledBy: Nullable<GymSessionCancelledBy>;
     templateId: Nullable<UUID>;
     createdAt: IsoDateTime;
     updatedAt: IsoDateTime;

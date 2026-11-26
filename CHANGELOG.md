@@ -2,6 +2,17 @@
 
 Breaking changes and how to move across them. Additions are described in the README.
 
+## 0.113.0 — A gym session says who gave up its one place
+
+**What changed.** In `@iveri/contracts/gym`, `GymSession` (and so `GymSessionDetail` and `GymMemberBooking.session`)
+gains a required `cancelledBy: Nullable<GymSessionCancelledBy>`, with the new enum `GymSessionCancelledBy`
+(`member`, `gym`). It is set when giving up a personal session's one place called the session off. `cancelReason` is
+now only what a person typed when calling a session off, and is null in that case.
+
+**Who is affected.** `gym-api`, which builds the shape, and any fixture that builds a session by hand in the gym apps.
+
+**Moving across.** A session nobody gave up sends `cancelledBy: null`. A client shows `cancelledBy` in its own words
+and never matches the English text `gym-api` used to write into `cancelReason`.
 ## 0.112.0 — A clinic visit says when it was cancelled
 
 **What changed.** In `@iveri/contracts/clinic`, `ClinicAppointment` and `MyClinicAppointment` gain a required
