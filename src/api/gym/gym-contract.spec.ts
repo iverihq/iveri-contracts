@@ -10,6 +10,7 @@ import {
     GymMembershipStatus,
     GymPaymentMethod,
     GymResourceStatus,
+    GymSessionCancelledBy,
     GymSessionKind,
 } from './index.js';
 
@@ -63,6 +64,10 @@ describe('gym contract', () => {
 
     it('keeps a class and a personal session in one table', () => {
         expect(Object.values(GymSessionKind).sort()).toEqual(['class', 'personal']);
+    });
+
+    it('keeps who can give up a personal session, which clients translate', () => {
+        expect(Object.values(GymSessionCancelledBy).sort()).toEqual(['gym', 'member']);
     });
 
     it('keeps the ways of paying', () => {

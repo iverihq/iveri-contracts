@@ -36,6 +36,7 @@ export * from './gym-report.type.js';
 export * from './gym-resource-status.enum.js';
 export * from './gym-room.type.js';
 export * from './gym-schedule.type.js';
+export * from './gym-session-cancelled-by.enum.js';
 export * from './gym-session-kind.enum.js';
 export * from './gym-session-status.enum.js';
 export * from './gym-signature-method.enum.js';
