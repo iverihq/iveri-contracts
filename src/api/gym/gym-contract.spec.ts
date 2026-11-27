@@ -60,7 +60,7 @@ describe('gym contract', () => {
             'no-show',
             'waitlisted',
         ]);
-        expect(Object.values(GymBookingRefusal)).toHaveLength(11);
+        expect(Object.values(GymBookingRefusal)).toHaveLength(12);
     });
 
     it('keeps the other refusals clients translate, none sharing a value with booking or the door', () => {
