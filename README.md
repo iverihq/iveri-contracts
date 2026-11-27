@@ -299,6 +299,8 @@ Conduit's outbox.
   exist on npm.)
 - Version `0.120.0` adds `chat:embed:manage-any` and an optional `tenantId` on the embed requests, so HR opens every
   company's conversations from its operator-workspace key.
+- Version `0.122.0` adds `TaxiRefusal` and `DeliveryRefusal`, the refusals taxi-api and delivery-api name in
+  `details.reason`.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
   interface in the same release, and let `implements` prove they agree.
