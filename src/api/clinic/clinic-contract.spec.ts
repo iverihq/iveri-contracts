@@ -8,6 +8,7 @@ import {
     ClinicPaymentMethod,
     ClinicRecordAccessAction,
     ClinicRecordMethod,
+    ClinicRefusal,
     ClinicResourceStatus,
 } from './index.js';
 
@@ -37,6 +38,15 @@ describe('clinic contract', () => {
 
     it('keeps the deposit wire values', () => {
         expect(Object.values(ClinicDepositStatus)).toEqual(['not_required', 'pending', 'paid', 'failed', 'expired']);
+    });
+
+    it('keeps the refusal reasons a client translates', () => {
+        expect(Object.values(ClinicRefusal)).toEqual([
+            'time-taken',
+            'not-booked',
+            'session-gap',
+            'specialist-ineligible',
+        ]);
     });
 
     it('keeps the clinical record wire values', () => {

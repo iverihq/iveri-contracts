@@ -24,6 +24,7 @@ export * from './clinic-promotion.type.js';
 export * from './clinic-public.type.js';
 export * from './clinic-record-access-action.enum.js';
 export * from './clinic-record-method.enum.js';
+export * from './clinic-refusal.enum.js';
 export * from './clinic-record.type.js';
 export * from './clinic-resource-status.enum.js';
 export * from './clinic-review-status.enum.js';
