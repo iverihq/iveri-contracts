@@ -230,6 +230,7 @@ describe('chat contract', () => {
             link: null,
         };
         expect(Object.keys(request)).not.toContain('callable');
+        expect(Object.keys(request)).not.toContain('tenantId');
     });
 
     it('offers six quick reactions', () => {
