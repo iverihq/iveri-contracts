@@ -42,8 +42,6 @@ export enum GymRefusal {
     PROMO_INVALID = 'promo-invalid',
     /** The member already has an app account, so there is nothing to invite. */
     MEMBER_HAS_ACCOUNT = 'member-has-account',
-    /** Somebody else's account has already used that invitation code. */
-    INVITE_USED = 'invite-used',
     /** This account already belongs to a member of this gym. */
     ALREADY_A_MEMBER = 'already-a-member',
     /** The email confirmation link is too old; a new one is sent from the account. */

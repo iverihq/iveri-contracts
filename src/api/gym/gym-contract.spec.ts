@@ -84,7 +84,6 @@ describe('gym contract', () => {
             'just-scanned',
             'promo-invalid',
             'member-has-account',
-            'invite-used',
             'already-a-member',
             'link-expired',
             'waiver-signed',
