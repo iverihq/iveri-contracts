@@ -286,7 +286,7 @@ Conduit's outbox.
   `localization:render` permissions.
 - Version `0.100.0` adds `notification:send-any`, the password-reset bodies and Conduit's usage metrics.
 - Version `0.101.0` adds `UsageHistory`, a company's closed months of a product by metric.
-- Version `0.118.0` adds Conduit's route test: `RouteTestResult`, `TestRouteBody`, `RouteCriterion` and
+- Version `0.119.0` adds Conduit's route test: `RouteTestResult`, `TestRouteBody`, `RouteCriterion` and
   `RouteCriterionMiss`.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
