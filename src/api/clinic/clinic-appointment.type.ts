@@ -68,3 +68,12 @@ export interface CreateClinicAppointmentRequest {
 export interface ChangeClinicAppointmentStatusRequest {
     status: ClinicAppointmentStatus;
 }
+
+/**
+ * Another time, and perhaps another specialist, for a visit the desk is moving. The same visit stays: its consent, its
+ * answers, anything paid and the price agreed.
+ */
+export interface RescheduleClinicAppointmentRequest {
+    startsAt: IsoDateTime;
+    staffMemberId: UUID;
+}
