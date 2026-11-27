@@ -53,6 +53,7 @@ export * from './hr-probation-outcome.enum.js';
 export * from './hr-probation.type.js';
 export * from './hr-referral-outcome.enum.js';
 export * from './hr-referral.type.js';
+export * from './hr-refusal.enum.js';
 export * from './hr-report.type.js';
 export * from './hr-resource-status.enum.js';
 export * from './hr-review-cycle-status.enum.js';

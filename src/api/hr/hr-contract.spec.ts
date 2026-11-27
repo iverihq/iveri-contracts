@@ -8,6 +8,7 @@ import {
     HrLeaveLedgerKind,
     HrLeaveRequestStatus,
     HrReferralOutcome,
+    HrRefusal,
     HrWorkPlace,
 } from './index.js';
 
@@ -26,6 +27,15 @@ describe('hr contract', () => {
             'taken',
             'returned',
         ]);
+    });
+
+    it('keeps the refusals clients translate, each value once and in kebab case', () => {
+        const values = Object.values(HrRefusal);
+
+        expect(new Set(values).size).toBe(values.length);
+        expect(values.every((value) => /^[a-z]+(-[a-z]+)*$/.test(value))).toBe(true);
+        expect(HrRefusal.LICENCE_SEATS).toBe('licence-seats');
+        expect(HrRefusal.TIME_OFF_OVERLAP).toBe('time-off-overlap');
     });
 
     it('keeps the work place wire values', () => {
