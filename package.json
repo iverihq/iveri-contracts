@@ -92,6 +92,10 @@
       "types": "./dist/api/billing/index.d.ts",
       "default": "./dist/api/billing/index.js"
     },
+    "./commerce": {
+      "types": "./dist/api/commerce/index.d.ts",
+      "default": "./dist/api/commerce/index.js"
+    },
     "./package.json": "./package.json"
   },
   "sideEffects": false,
