@@ -28,6 +28,11 @@ export interface EmbeddedChatParticipant {
  * two replicas and a reassignment land on one conversation, and participants are reconciled.
  */
 export interface OpenEmbeddedChatRequest {
+    /**
+     * The company the conversation is for, when it is not the token's own. A 403 unless the token holds
+     * `chat:embed:manage-any` and comes from Iveri's operator workspace; naming your own company counts as naming one.
+     */
+    tenantId?: UUID;
     context: { product: string; type: string; id: string };
     title: string;
     subtitle?: Nullable<string>;
@@ -55,10 +60,26 @@ export interface OpenEmbeddedChatResponse {
 
 /** A notice from the product: a translation key in the `chat-kit` namespace and its variables. */
 export interface PostEmbeddedSystemMessageRequest {
+    /** As on `OpenEmbeddedChatRequest`: the company the conversation was opened for, behind `chat:embed:manage-any`. */
+    tenantId?: UUID;
     key: string;
     variables?: Record<string, string>;
     /** So a retried notice is posted once. */
     idempotencyKey: UUID;
+}
+
+/** `POST /embed/conversations/:id/close`. An empty body closes one in the token's own company. */
+export interface CloseEmbeddedChatRequest {
+    /** As on `OpenEmbeddedChatRequest`: the company the conversation was opened for, behind `chat:embed:manage-any`. */
+    tenantId?: UUID;
+}
+
+/** `GET /embed/conversations`: the context to look up, and the company it is in as on `OpenEmbeddedChatRequest`. */
+export interface EmbeddedChatReferenceQuery {
+    tenantId?: UUID;
+    product: string;
+    type: string;
+    id: string;
 }
 
 export interface EmbeddedChatReference {

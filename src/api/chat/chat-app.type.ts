@@ -91,8 +91,11 @@ export type ServerChatParticipant = Omit<EmbeddedChatParticipant, 'userId'> & { 
  * `PUT /server/conversations`: the embed request, with each participant named by the app's own id for them rather
  * than a Baasi id.
  */
-/** Calls are not offered to other companies' apps yet, so an app's server cannot ask for them. */
-export type OpenServerChatRequest = Omit<OpenEmbeddedChatRequest, 'participants' | 'callable'> & {
+/**
+ * Calls are not offered to other companies' apps yet, so an app's server cannot ask for them; and an app is one
+ * company, so its server names no other.
+ */
+export type OpenServerChatRequest = Omit<OpenEmbeddedChatRequest, 'participants' | 'callable' | 'tenantId'> & {
     participants: ServerChatParticipant[];
 };
 
