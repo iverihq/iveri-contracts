@@ -21,6 +21,7 @@ export * from './restaurant-payment-method.enum.js';
 export * from './restaurant-profile.type.js';
 export * from './restaurant-promotion.type.js';
 export * from './restaurant-public.type.js';
+export * from './restaurant-refusal.enum.js';
 export * from './restaurant-reservation-source.enum.js';
 export * from './restaurant-reservation-status.enum.js';
 export * from './restaurant-reservation.type.js';

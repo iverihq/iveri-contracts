@@ -9,6 +9,7 @@ import {
     RestaurantOrderSource,
     RestaurantOrderStatus,
     RestaurantPaymentMethod,
+    RestaurantRefusal,
     RestaurantResourceStatus,
     RestaurantServiceRequestKind,
     type RestaurantOrderChatStaff,
@@ -61,5 +62,41 @@ describe('restaurant contract', () => {
         };
 
         expect(Object.keys(staff.items[0]).sort()).toEqual(['displayName', 'isMe', 'joinedAt', 'userId']);
+    });
+
+    it('keeps the refusals clients translate', () => {
+        expect(Object.values(RestaurantRefusal)).toEqual([
+            'dish-unavailable',
+            'channel-closed',
+            'online-payment-unavailable',
+            'sign-in-to-pay',
+            'below-delivery-minimum',
+            'closed-now',
+            'time-unavailable',
+            'closed-at-time',
+            'out-of-delivery-range',
+            'branch-closed',
+            'order-not-payable',
+            'payment-page-failed',
+            'review-too-early',
+            'already-reviewed',
+            'bookings-off',
+            'party-too-large',
+            'booking-time-unavailable',
+            'table-taken',
+            'no-table-fits',
+            'booking-finished',
+            'booking-moved-on',
+            'order-finished',
+            'order-moved-on',
+            'not-in-kitchen',
+            'bill-closed',
+            'more-than-owing',
+            'refund-exceeds-payment',
+            'bill-orders-open',
+            'bill-money-owing',
+            'unpublish-first',
+            'setup-incomplete',
+        ]);
     });
 });
