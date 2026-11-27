@@ -8,6 +8,12 @@ entry offers exactly `types` and `default`. The CommonJS build and the `typesVer
 gone, so a consumer resolves the subpaths under `moduleResolution` `nodenext` or `bundler` — and
 under Node 26 a CommonJS consumer still loads it, through `require`. See `CHANGELOG.md`.
 
+Release `0.117.0` adds `RealtimeResourceType.CLINIC_LOCATION` (`clinic.location`) and
+`RealtimeEventType.CLINIC_LOCATION_UPDATED`: one clinic branch's room, which reception's calendar
+follows so a visit booked, moved or settled at the desk next to it shows at once. The event names the
+branch and nothing else. A gateway on an older release refuses the event, so `iveri-realtime` takes
+this release before `clinic-api` publishes it.
+
 Release `0.111.0` adds a gym trainer's time off to `@iveri/contracts/gym`: `GymTrainerTimeOff`, the sessions
 the trainer still holds inside it (`GymTrainerTimeOffSession`), `CreateGymTrainerTimeOffRequest` and
 `ListGymTrainerTimeOffQuery`. Additions only.

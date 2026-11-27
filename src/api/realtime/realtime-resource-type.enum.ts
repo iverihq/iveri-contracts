@@ -25,4 +25,10 @@ export enum RealtimeResourceType {
      * or member exists, and the events on it say what of their own became stale.
      */
     GYM_PERSON = 'gym.person',
+
+    /**
+     * One branch of a clinic, which `clinic-api` calls a location. Reception follows it while its calendar is open, and
+     * the events on it name the branch and nothing about who is booked or when.
+     */
+    CLINIC_LOCATION = 'clinic.location',
 }
