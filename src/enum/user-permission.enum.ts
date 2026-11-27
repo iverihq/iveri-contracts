@@ -202,6 +202,14 @@ export enum UserPermission {
     /** Place an order on a shopper's behalf. Does not permit any catalog change. */
     COMMERCE_ORDER_CREATE = 'commerce:order:create',
 
+    // ── Shopper saved products ──────────────────────────────────────────────
+    //
+    // Its own grant rather than another use of `commerce:order:*`: a saved list is not an order, and
+    // that pair was kept narrow on purpose. Only the shopfront's key needs it. **No merchant route
+    // reads it**: which shopper saved what is the shopper's, not a marketing list.
+    /** Read and change the products a shopper saved, scoped to that shopper by the caller. */
+    COMMERCE_SAVED_MANAGE = 'commerce:saved:manage',
+
     // ══ iveri-messaging-api ═════════════════════════════════════════════════
 
     /** Read tenant message and provider-neutral delivery records. */
