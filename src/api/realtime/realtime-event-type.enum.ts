@@ -47,4 +47,11 @@ export enum RealtimeEventType {
      * person, while the version is that of whatever moved.
      */
     GYM_PERSON_UPDATED = 'gym.person.updated',
+
+    /**
+     * A visit at a clinic's branch was booked, moved, changed status, had its deposit settle or release it, or had
+     * money recorded against it, so reception's calendar for that branch refetches. Carried on the branch (the clinic
+     * calls it a location), while the version is that of whatever moved.
+     */
+    CLINIC_LOCATION_UPDATED = 'clinic.location.updated',
 }

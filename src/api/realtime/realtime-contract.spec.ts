@@ -20,6 +20,7 @@ describe('shared realtime contract', () => {
         [RealtimeResourceType.SOCIAL_MEMBER, 'social.member'],
         [RealtimeResourceType.GYM_BRANCH, 'gym.branch'],
         [RealtimeResourceType.GYM_PERSON, 'gym.person'],
+        [RealtimeResourceType.CLINIC_LOCATION, 'clinic.location'],
     ])('pins resource type %s', (member, value) => {
         expect(member).toBe(value);
     });
@@ -36,6 +37,7 @@ describe('shared realtime contract', () => {
         [RealtimeEventType.SOCIAL_ACTIVITY_UPDATED, 'social.activity.updated'],
         [RealtimeEventType.GYM_BRANCH_UPDATED, 'gym.branch.updated'],
         [RealtimeEventType.GYM_PERSON_UPDATED, 'gym.person.updated'],
+        [RealtimeEventType.CLINIC_LOCATION_UPDATED, 'clinic.location.updated'],
     ])('pins event type %s', (member, value) => {
         expect(member).toBe(value);
     });
