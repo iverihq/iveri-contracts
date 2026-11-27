@@ -286,8 +286,9 @@ Conduit's outbox.
   `localization:render` permissions.
 - Version `0.100.0` adds `notification:send-any`, the password-reset bodies and Conduit's usage metrics.
 - Version `0.101.0` adds `UsageHistory`, a company's closed months of a product by metric.
-- Version `0.119.0` adds Conduit's route test: `RouteTestResult`, `TestRouteBody`, `RouteCriterion` and
-  `RouteCriterionMiss`.
+- Version `0.121.0` adds Conduit's route test: `RouteTestResult`, `TestRouteBody`, `RouteCriterion` and
+  `RouteCriterionMiss`. (Tagged first as `v0.119.0`, which npm refused once 0.120.0 was out; 0.119.0 does not
+  exist on npm.)
 - Version `0.120.0` adds `chat:embed:manage-any` and an optional `tenantId` on the embed requests, so HR opens every
   company's conversations from its operator-workspace key.
 - Widening a type is minor; narrowing it is major.
