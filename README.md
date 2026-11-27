@@ -286,6 +286,7 @@ Conduit's outbox.
   `localization:render` permissions.
 - Version `0.100.0` adds `notification:send-any`, the password-reset bodies and Conduit's usage metrics.
 - Version `0.101.0` adds `UsageHistory`, a company's closed months of a product by metric.
+- Version `0.122.0` adds `RestaurantRefusal`, the restaurant refusals a client says in the reader's language.
 - Version `0.121.0` adds Conduit's route test: `RouteTestResult`, `TestRouteBody`, `RouteCriterion` and
   `RouteCriterionMiss`. (Tagged first as `v0.119.0`, which npm refused once 0.120.0 was out; 0.119.0 does not
   exist on npm.)
