@@ -154,7 +154,9 @@ Inspect mode: `Endpoint`, `CaptureSummary`/`CaptureDetail`, `Provider` with its
 `SignatureManifest`/`HandshakeManifest`, `Replay`, `SignatureDiagnostic`.
 
 Gateway mode: `Destination`, `Route` with its `HeaderMatcher`/`BodyMatcher`, `Delivery` and
-`DeliveryAttempt`.
+`DeliveryAttempt`. A route test — would this route have matched this capture? — answers a
+`RouteTestResult` of `RouteCriterionResult`s, with `RouteCriterion` and `RouteCriterionMiss`
+saying which criterion and why it missed; `TestRouteBody` asks it of criteria not saved yet.
 
 Plus the request bodies for each, and the seven enums they are built from — `SignatureVerdict`,
 `SignatureAlgorithm`, `SignatureEncoding`, `SignatureHeaderScheme`, `HandshakeKind`,
@@ -284,6 +286,8 @@ Conduit's outbox.
   `localization:render` permissions.
 - Version `0.100.0` adds `notification:send-any`, the password-reset bodies and Conduit's usage metrics.
 - Version `0.101.0` adds `UsageHistory`, a company's closed months of a product by metric.
+- Version `0.119.0` adds Conduit's route test: `RouteTestResult`, `TestRouteBody`, `RouteCriterion` and
+  `RouteCriterionMiss`.
 - Version `0.120.0` adds `chat:embed:manage-any` and an optional `tenantId` on the embed requests, so HR opens every
   company's conversations from its operator-workspace key.
 - Widening a type is minor; narrowing it is major.
