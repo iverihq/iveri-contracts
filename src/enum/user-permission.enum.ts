@@ -856,6 +856,14 @@ export enum UserPermission {
     /** Open, reconcile and close conversations about something in a product. Held by that product's service key. */
     CHAT_EMBED_MANAGE = 'chat:embed:manage',
 
+    /**
+     * Open, reconcile and close embedded conversations for a company the request names in `tenantId`, rather than the
+     * token's own. A platform permission: held only by a service credential in Iveri's operator workspace, so a product
+     * sold to many companies (HR) keeps every company's conversations from one key. The conversation is filed in, and
+     * its participants are people of, the company it names.
+     */
+    CHAT_EMBED_MANAGE_ANY = 'chat:embed:manage-any',
+
     /** See the moderation queue and what a report copied. Every read of a conversation is logged. */
     CHAT_MODERATION_READ = 'chat:moderation:read',
 
@@ -923,6 +931,7 @@ export const PLATFORM_PERMISSIONS: readonly UserPermission[] = Object.freeze([
     UserPermission.BILLING_USAGE_RECORD_ANY,
     UserPermission.BILLING_USAGE_READ_ANY,
     UserPermission.NOTIFICATION_SEND_ANY,
+    UserPermission.CHAT_EMBED_MANAGE_ANY,
 ]);
 
 /** Whether a permission acts across companies, and so may only be held in Iveri's operator workspace. */
