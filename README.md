@@ -8,7 +8,7 @@ entry offers exactly `types` and `default`. The CommonJS build and the `typesVer
 gone, so a consumer resolves the subpaths under `moduleResolution` `nodenext` or `bundler` — and
 under Node 26 a CommonJS consumer still loads it, through `require`. See `CHANGELOG.md`.
 
-Release `0.122.0` adds `@iveri/contracts/commerce` with `CommerceRefusal`: the shop's refusals a person can act on,
+Release `0.124.0` adds `@iveri/contracts/commerce` with `CommerceRefusal`: the shop's refusals a person can act on,
 sent as `details.reason` so the merchant panel, the shop's website and its app say them in the reader's language.
 `saved-full` keeps the value `commerce-api` already sent. The shopfront passes on only the six a shopper meets
 (`out-of-stock`, `not-for-sale`, `mixed-currency`, `not-awaiting-payment`, `not-cancellable`, `saved-full`), never a
