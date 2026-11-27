@@ -236,6 +236,10 @@ What a company running a taxi service reads in its own panel: `TaxiRideStatus`, 
   report sums quoted fares of completed rides, never earnings: nothing settles a fare yet.
 - **A day's totals are the rides requested on it**, so `completed` can never exceed `requested`, and the panel names the
   time zone the days were cut in.
+- **`TaxiRefusal` is the refusals a passenger or driver can act on**, sent as `details.reason` (`quote-expired`,
+  `not-cancellable`, `ride-moved-on`, `not-assigned-driver`, `schedule-window` with `minLeadMinutes` and `maxDays`,
+  `places-full` with `limit`, `place-name-taken`). A client says each in its reader's language and shows the API's
+  English for a reason it does not know.
 
 ### `api/delivery/` → `@iveri/contracts/delivery`
 
@@ -246,6 +250,9 @@ daily totals (`DeliveryDailyReport`).
 
 - **A job the company asked for itself has no sender** (`senderUserId: null`), as a shop shipping its own orders does;
   it is on the board and in the totals, and in nobody's row of the senders list.
+- **`DeliveryRefusal` is the refusals a sender or courier can act on**, sent as `details.reason` (`quote-expired`,
+  `not-cancellable`, `job-moved-on`, `not-assigned-courier`, and for a proof photo `photo-too-large` with
+  `maxMegabytes`, `photo-format`, `photo-unreadable`, `photo-limit` with `limit`, `photo-retry`).
 - **Proof is a yes or no and the recipient's name.** The photograph is private evidence and is never in these shapes.
 - **`expired` folds quote-expired into no courier found, and `failed` stays apart**, because a refused request is a
   fault on Iveri's side rather than the company's.

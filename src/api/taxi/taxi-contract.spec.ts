@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { TaxiRideStatus } from './index.js';
+import { TaxiRefusal, TaxiRideStatus } from './index.js';
 
 describe('taxi contract', () => {
     it('keeps the ride status wire values', () => {
@@ -13,6 +13,18 @@ describe('taxi contract', () => {
             'completed',
             'cancelled',
             'expired',
+        ]);
+    });
+
+    it('keeps the refusal wire values clients translate', () => {
+        expect(Object.values(TaxiRefusal).sort()).toEqual([
+            'not-assigned-driver',
+            'not-cancellable',
+            'place-name-taken',
+            'places-full',
+            'quote-expired',
+            'ride-moved-on',
+            'schedule-window',
         ]);
     });
 });
