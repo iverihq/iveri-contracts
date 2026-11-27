@@ -32,6 +32,7 @@ export * from './gym-profile.type.js';
 export * from './gym-promo-code.type.js';
 export * from './gym-public.type.js';
 export * from './gym-record-kind.enum.js';
+export * from './gym-refusal.enum.js';
 export * from './gym-report.type.js';
 export * from './gym-resource-status.enum.js';
 export * from './gym-room.type.js';

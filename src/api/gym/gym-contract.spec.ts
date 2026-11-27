@@ -9,6 +9,7 @@ import {
     GymEntryKind,
     GymMembershipStatus,
     GymPaymentMethod,
+    GymRefusal,
     GymResourceStatus,
     GymSessionCancelledBy,
     GymSessionKind,
@@ -60,6 +61,37 @@ describe('gym contract', () => {
             'waitlisted',
         ]);
         expect(Object.values(GymBookingRefusal)).toHaveLength(11);
+    });
+
+    it('keeps the other refusals clients translate, none sharing a value with booking or the door', () => {
+        expect(Object.values(GymRefusal)).toEqual([
+            'trainer-away',
+            'trainer-not-working',
+            'trainer-no-personal',
+            'time-taken',
+            'trainer-other-branch',
+            'session-started',
+            'capacity-below-booked',
+            'time-off-overlap',
+            'plan-off-sale',
+            'plan-overlap',
+            'freeze-at-desk',
+            'freeze-not-current',
+            'freeze-days-exceeded',
+            'freeze-overlap',
+            'refund-exceeds-payment',
+            'branch-closed',
+            'just-scanned',
+            'promo-invalid',
+            'member-has-account',
+            'already-a-member',
+            'link-expired',
+            'waiver-signed',
+        ]);
+
+        const others = new Set<string>([...Object.values(GymBookingRefusal), ...Object.values(GymCheckInRefusal)]);
+
+        expect(Object.values(GymRefusal).filter((value) => others.has(value))).toEqual([]);
     });
 
     it('keeps a class and a personal session in one table', () => {
