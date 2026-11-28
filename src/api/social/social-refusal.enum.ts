@@ -20,6 +20,8 @@ export enum SocialRefusal {
     IMAGE_UNREADABLE = 'image-unreadable',
     IMAGE_TOO_LARGE = 'image-too-large',
     MEDIA_UNAVAILABLE = 'media-unavailable',
+    /** Where photographs and videos are kept cannot be reached just now, so an upload did not go through. */
+    STORAGE_UNAVAILABLE = 'storage-unavailable',
     VIDEO_UNREADABLE = 'video-unreadable',
     VIDEO_TOO_LARGE = 'video-too-large',
     VIDEO_TOO_LONG = 'video-too-long',
