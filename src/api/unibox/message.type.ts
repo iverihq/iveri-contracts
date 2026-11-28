@@ -7,6 +7,7 @@ import type { MessageAuthorType } from './message-author-type.enum.js';
 import type { MessageContentType } from './message-content-type.enum.js';
 import type { MessageDirection } from './message-direction.enum.js';
 import type { MessageStatus } from './message-status.enum.js';
+import type { UniboxSystemNote } from './unibox-system-note.type.js';
 
 /** A file attached to a message. Media is referenced by provider URL until `iveri-files-api` exists. */
 export interface MessageAttachment {
@@ -53,6 +54,14 @@ export interface Message {
 
     /** The text, or a caption on a media message. Null when there was none. */
     text: Nullable<string>;
+
+    /**
+     * What a line `unibox-api` wrote itself says, as data a client words in the reader's language.
+     *
+     * Set only on a system note (`authorType` `system`, `direction` `internal`), and null on every message a person
+     * wrote. A system note from before this field existed is null too, and its `text` is all there is.
+     */
+    systemNote: Nullable<UniboxSystemNote>;
 
     attachments: MessageAttachment[];
 

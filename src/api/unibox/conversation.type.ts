@@ -6,6 +6,7 @@ import type { UUID } from '../../type/uuid.type.js';
 import type { ChannelPlatform } from './channel-platform.enum.js';
 import type { ConversationStatus } from './conversation-status.enum.js';
 import type { Message } from './message.type.js';
+import type { UniboxSystemNote } from './unibox-system-note.type.js';
 
 /**
  * One thread between a tenant and a contact, on one channel.
@@ -51,6 +52,12 @@ export interface Conversation {
 
     /** First ~200 characters of the last message, for the list. Null on an empty conversation. */
     lastMessagePreview: Nullable<string>;
+
+    /**
+     * The last message's `systemNote` when the last message is a line `unibox-api` wrote itself, so the list can word it
+     * in the reader's language instead of showing the English preview. Null otherwise.
+     */
+    lastMessageSystemNote: Nullable<UniboxSystemNote>;
 
     /** Sorts the inbox. Null only for a conversation created before its first message. */
     lastMessageAt: Nullable<IsoDateTime>;
