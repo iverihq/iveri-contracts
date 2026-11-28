@@ -39,4 +39,9 @@ export enum CommerceRefusal {
     NOT_PACKED = 'not-packed',
     /** This shop is not set up to send couriers. */
     COURIERS_OFF = 'couriers-off',
+    /**
+     * The order, or its shipment, cannot make that move from where it is now, usually because somebody else moved it
+     * first; `details.currentStatus` says where it is (merchant only).
+     */
+    ORDER_MOVED_ON = 'order-moved-on',
 }
