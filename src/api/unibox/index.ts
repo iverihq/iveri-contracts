@@ -13,3 +13,4 @@ export * from './realtime-event.enum.js';
 export * from './realtime.type.js';
 export * from './team.type.js';
 export * from './unibox-refusal.enum.js';
+export * from './unibox-system-note.type.js';
