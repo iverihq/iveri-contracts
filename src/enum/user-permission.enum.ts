@@ -519,6 +519,22 @@ export enum UserPermission {
      */
     REALTIME_EVENT_PUBLISH = 'realtime:event:publish',
 
+    /**
+     * Issue a subscription grant for a company the request names in `tenantId`, rather than the token's own. A platform
+     * permission: held only by a service credential in Iveri's operator workspace, so a product sold to many companies
+     * (the clinic) admits each company's own people to that company's rooms from one key. Held beside
+     * {@link UserPermission.REALTIME_SUBSCRIPTION_GRANT_ISSUE}, which still opens the route; the grant is bound to the
+     * company it names, so it admits nobody to another company's rooms.
+     */
+    REALTIME_SUBSCRIPTION_GRANT_ISSUE_ANY = 'realtime:subscription-grant:issue-any',
+
+    /**
+     * Publish an identifier-only resource change into a company the request names in `tenantId`, rather than the
+     * token's own. A platform permission, held beside {@link UserPermission.REALTIME_EVENT_PUBLISH} only by a service
+     * credential in Iveri's operator workspace, so one key announces every company's changes in that company's rooms.
+     */
+    REALTIME_EVENT_PUBLISH_ANY = 'realtime:event:publish-any',
+
     // ══ iveri-mobility-api ══════════════════════════════════════════════════
 
     /** Read worker profiles and operational availability inside the caller's tenant. */
@@ -932,6 +948,8 @@ export const PLATFORM_PERMISSIONS: readonly UserPermission[] = Object.freeze([
     UserPermission.BILLING_USAGE_READ_ANY,
     UserPermission.NOTIFICATION_SEND_ANY,
     UserPermission.CHAT_EMBED_MANAGE_ANY,
+    UserPermission.REALTIME_SUBSCRIPTION_GRANT_ISSUE_ANY,
+    UserPermission.REALTIME_EVENT_PUBLISH_ANY,
 ]);
 
 /** Whether a permission acts across companies, and so may only be held in Iveri's operator workspace. */

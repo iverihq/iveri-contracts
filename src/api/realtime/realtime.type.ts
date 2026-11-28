@@ -27,10 +27,15 @@ export const REALTIME_GRANT_ISSUER = 'iveri-realtime';
 /**
  * Requested by an owning API only after it has authorized a person to read the resource.
  *
- * `tenantId` is absent: it comes from the API's service token. The grant is bound to
- * `subjectId`, so copying one to another authenticated socket does not authorize that socket.
+ * The tenant normally comes from the API's service token. The grant is bound to `subjectId`, so
+ * copying one to another authenticated socket does not authorize that socket.
  */
 export interface IssueRealtimeSubscriptionGrantBody {
+    /**
+     * The company the grant admits a person into, when it is not the token's own. Accepted only from a token holding
+     * `realtime:subscription-grant:issue-any` issued in Iveri's operator workspace; anything else naming one is a 403.
+     */
+    tenantId?: UUID;
     subjectId: UUID;
     resourceType: RealtimeResourceType;
     resourceId: UUID;
@@ -60,11 +65,15 @@ export interface RealtimeSubscriptionGrantClaims {
 /**
  * A product service's best-effort change notification.
  *
- * The tenant comes from the authenticated service principal and is intentionally absent here.
- * `idempotencyKey` makes an HTTP retry harmless; no domain data or location coordinates travel
- * over this channel.
+ * The tenant normally comes from the authenticated service principal. `idempotencyKey` makes an
+ * HTTP retry harmless; no domain data or location coordinates travel over this channel.
  */
 export interface PublishRealtimeEventBody {
+    /**
+     * The company whose rooms hear the change, when it is not the token's own. Accepted only from a token holding
+     * `realtime:event:publish-any` issued in Iveri's operator workspace; anything else naming one is a 403.
+     */
+    tenantId?: UUID;
     idempotencyKey: UUID;
     resourceType: RealtimeResourceType;
     resourceId: UUID;

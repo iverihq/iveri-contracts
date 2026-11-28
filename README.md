@@ -306,6 +306,9 @@ Conduit's outbox.
   exist on npm.)
 - Version `0.120.0` adds `chat:embed:manage-any` and an optional `tenantId` on the embed requests, so HR opens every
   company's conversations from its operator-workspace key.
+- Version `0.126.0` adds `realtime:event:publish-any` and `realtime:subscription-grant:issue-any` and an optional
+  `tenantId` on the realtime publish and grant requests, so the clinic announces every company's calendar changes from
+  its operator-workspace key.
 - Widening a type is minor; narrowing it is major.
 - Under `api/`, the contract follows the service: add the field to the service's DTO and to the
   interface in the same release, and let `implements` prove they agree.
