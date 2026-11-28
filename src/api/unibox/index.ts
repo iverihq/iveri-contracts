@@ -12,3 +12,4 @@ export * from './message.type.js';
 export * from './realtime-event.enum.js';
 export * from './realtime.type.js';
 export * from './team.type.js';
+export * from './unibox-refusal.enum.js';

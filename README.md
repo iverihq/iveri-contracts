@@ -184,6 +184,12 @@ one person, and only that person or a service on their behalf can send through i
 `ConversationStatus`, `MessageDirection`, `MessageAuthorType`, `MessageStatus`,
 `MessageContentType`.
 
+- **`UniboxRefusal` is the refusals an agent can act on**, sent as `details.reason` (`channel-inactive`,
+  `status-not-allowed` with `currentStatus` and `requestedStatus`, `snooze-in-past`, `shortcut-taken`,
+  `team-name-taken`, `channel-key-taken`, `send-rate-limited` and `rate-limited` with `retryAfterSeconds`,
+  `dispatch-refused`, `dispatch-unavailable`). `unibox-web` says each in its reader's language and shows the API's
+  English for a reason it does not know.
+
 ### `api/unibox-ai/` → `@iveri/contracts/unibox-ai`
 
 The authenticated agent-runtime boundary: bounded conversation context, the handoff-aware agent
@@ -299,6 +305,7 @@ Conduit's outbox.
   `localization:render` permissions.
 - Version `0.100.0` adds `notification:send-any`, the password-reset bodies and Conduit's usage metrics.
 - Version `0.101.0` adds `UsageHistory`, a company's closed months of a product by metric.
+- The next minor adds `UniboxRefusal` and `SocialRefusal.STORAGE_UNAVAILABLE` (`storage-unavailable`).
 - Version `0.123.0` adds `HrRefusal`, the HR refusals a client says in the reader's language.
 - Version `0.122.0` adds `RestaurantRefusal`, the restaurant refusals a client says in the reader's language.
 - Version `0.121.0` adds Conduit's route test: `RouteTestResult`, `TestRouteBody`, `RouteCriterion` and
