@@ -305,6 +305,7 @@ Conduit's outbox.
   `localization:render` permissions.
 - Version `0.100.0` adds `notification:send-any`, the password-reset bodies and Conduit's usage metrics.
 - Version `0.101.0` adds `UsageHistory`, a company's closed months of a product by metric.
+- Version `0.128.0` adds `CommerceRefusal.ORDER_MOVED_ON` (`order-moved-on`), a stale order or shipment status change.
 - Version `0.127.0` adds `UniboxRefusal` and `SocialRefusal.STORAGE_UNAVAILABLE` (`storage-unavailable`).
 - Version `0.123.0` adds `HrRefusal`, the HR refusals a client says in the reader's language.
 - Version `0.122.0` adds `RestaurantRefusal`, the restaurant refusals a client says in the reader's language.
