@@ -21,6 +21,7 @@ describe('commerce contract', () => {
             'fulfillment-exists',
             'not-packed',
             'couriers-off',
+            'order-moved-on',
         ]);
     });
 });
