@@ -46,6 +46,13 @@ export enum UserPermission {
      */
     PROFILE_READ = 'profile:read',
 
+    /**
+     * Read the public profile of somebody in a company the request names in `tenantId`, rather than the token's own. A
+     * platform permission: held only by a service credential in Iveri's operator workspace, beside `profile:read`, so a
+     * product sold to many companies names each company's people in the conversations it opens for them.
+     */
+    PROFILE_READ_ANY = 'profile:read-any',
+
     // ── Membership ──────────────────────────────────────────────────────────
     MEMBERSHIP_READ = 'membership:read',
     /** Suspend or reactivate someone's access without deleting their account. */
@@ -948,6 +955,7 @@ export const PLATFORM_PERMISSIONS: readonly UserPermission[] = Object.freeze([
     UserPermission.BILLING_USAGE_READ_ANY,
     UserPermission.NOTIFICATION_SEND_ANY,
     UserPermission.CHAT_EMBED_MANAGE_ANY,
+    UserPermission.PROFILE_READ_ANY,
     UserPermission.REALTIME_SUBSCRIPTION_GRANT_ISSUE_ANY,
     UserPermission.REALTIME_EVENT_PUBLISH_ANY,
 ]);
